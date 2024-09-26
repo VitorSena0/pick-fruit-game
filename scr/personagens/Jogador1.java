@@ -1,5 +1,4 @@
 import java.awt.Graphics;
-import java.util.Iterator;
 
 
 public class Jogador1{
@@ -9,8 +8,8 @@ public class Jogador1{
 	protected int i = 0;
 	
 	public Jogador1() {
-		this.x = 10;
-		this.y = 10;
+		this.x = (int) (Math.random()*800);
+		this.y = (int) (Math.random()*800);
 		this.width = 50;
 		this.heigth = 50;
 	}
@@ -19,16 +18,16 @@ public class Jogador1{
 	}
 	
 	public void moveUp() {
-		y -= 10;
+		y -= 50;
 	}
 	public void moveDown() {
-		y += 10;
+		y += 50;
 	}
 	public void moveRight() {
-		x += 10;
+		x += 50;
 	}
 	public void moveLeft() {
-		x -= 10;
+		x -= 50;
 	}
 	
 	public int getX() {

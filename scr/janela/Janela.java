@@ -1,12 +1,18 @@
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
 public class Janela extends JPanel implements KeyListener {
 	private Jogador1 player;
 	private Fruta fruta1;
+	private Pedra[] pedras = new Pedra[10];
+	private Arvore[] arvores = new Arvore[15];
+	 private Set<String> PosicoesUsadas = new HashSet<>();
 	private boolean podeMover = true;
 	
 	public Janela() {
@@ -14,7 +20,34 @@ public class Janela extends JPanel implements KeyListener {
 		addKeyListener(this);
 		player = new Jogador1();
 		fruta1 = new Fruta();
+
+		for (int i = 0; i < pedras.length; i++) {
+            int[] posicao = generateRandomPosition();
+            pedras[i] = new Pedra(posicao[0], posicao[1]);
+        }
+        for (int i = 0; i < arvores.length; i++) {
+            int[] posicao = generateRandomPosition();
+            arvores[i] = new Arvore(posicao[0], posicao[1], "");
+        }
 	}
+
+	public int[] generateRandomPosition() {
+        Random random = new Random();
+        int x, y;
+        String key;
+
+        do {
+            x = random.nextInt(800);  // Gera um múltiplo de 10 para a posição X
+            y = random.nextInt(800); // Gera um múltiplo de 10 para a posição Y
+            key = x + "," + y;  // Cria uma chave única para a posição (ex: "100,200")
+        } while (PosicoesUsadas.contains(key)); // Verifica se a posição já foi usada
+
+        // Adiciona a nova posição ao conjunto
+        PosicoesUsadas.add(key);
+
+        // Retorna a posição
+        return new int[]{x, y};
+    }
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -51,6 +84,15 @@ public class Janela extends JPanel implements KeyListener {
 		super.paintComponent(g);
 		player.load(g);
 		fruta1.load(g);
+		// Desenha as pedras
+        for (Pedra pedra : pedras) {
+            pedra.load(g);
+        }
+
+        // Desenha as árvores
+        for (Arvore arvore : arvores) {
+            arvore.load(g);
+        }
 	}
 	
 	public void colision() {
