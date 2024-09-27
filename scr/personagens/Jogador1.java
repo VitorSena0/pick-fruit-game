@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.util.*;
 
 
 public class Jogador1{
@@ -6,10 +7,13 @@ public class Jogador1{
 	private int width, heigth;
 	private Fruta frutas[] = new Fruta[10];
 	protected int i = 0;
+	private Random aleatorio = new Random();
 	
 	public Jogador1() {
-		this.x = (int) (Math.random()*800);
-		this.y = (int) (Math.random()*800);
+		this.x = aleatorio.nextInt(6) * 800/6;
+		this.y = aleatorio.nextInt(6) * 800/6;
+		x+= (800/6)/2 -25;
+		y+= (800/6)/2 -25;
 		this.width = 50;
 		this.heigth = 50;
 	}
@@ -18,16 +22,16 @@ public class Jogador1{
 	}
 	
 	public void moveUp() {
-		y -= 50;
+		y -= 800/6;
 	}
 	public void moveDown() {
-		y += 50;
+		y += 800/6;
 	}
 	public void moveRight() {
-		x += 50;
+		x += 800/6;
 	}
 	public void moveLeft() {
-		x -= 50;
+		x -= 800/6;
 	}
 	
 	public int getX() {

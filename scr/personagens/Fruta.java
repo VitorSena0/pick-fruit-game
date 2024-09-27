@@ -1,14 +1,22 @@
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Fruta {
     private int x;
     private int y;
     private String nome = "maracuja";
     private boolean visivel = true; // Novo campo para visibilidade
+    private Random aleatorio = new Random();
+    private int cellSize = 800 / 6; // Tamanho da célula
 
     public Fruta() {
-        this.x = (int)(Math.random()*800);
-        this.y = (int)(Math.random()*800);
+        // Gera posição em múltiplos do tamanho da célula
+        this.x = aleatorio.nextInt(6) * cellSize;
+        this.y = aleatorio.nextInt(6) * cellSize;
+
+        // Ajusta a posição para o centro da célula
+        this.x += cellSize / 2 - 5; // -5 para centralizar o círculo de tamanho 10
+        this.y += cellSize / 2 - 5; // -5 para centralizar o círculo de tamanho 10
     }
     
     public void load(Graphics g) {
