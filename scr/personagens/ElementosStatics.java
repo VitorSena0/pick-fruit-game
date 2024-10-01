@@ -1,32 +1,13 @@
 import java.awt.Graphics;
 
 public abstract class ElementosStatics {
-    int posicaoX;
-    int posicaoY;
+    protected int posicaoX;  // Corrigir para protected para acesso em subclasses
+    protected int posicaoY;  // Corrigir para protected para acesso em subclasses
 
-    public ElementosStatics(int posicaoX, int posicaoY){
+    public ElementosStatics(int posicaoX, int posicaoY) {
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
     }
-    public void load(Graphics g){
 
-    }
-
-    public int getPosicaoX() {
-        return posicaoX;
-    }
-
-    public void setPosicaoX(int posicaoX) {
-        this.posicaoX = posicaoX;
-    }
-
-    public int getPosicaoY() {
-        return posicaoY;
-    }
-
-    public void setPosicaoY(int posicaoY) {
-        this.posicaoY = posicaoY;
-    }
-
-    
+    public abstract void load(Graphics g);  // Tornar o método abstrato para que as subclasses implementem
 }
