@@ -20,7 +20,7 @@ public class Fruta {
         String key;
 
         // Gera a posição em múltiplos do tamanho da célula
-        do {
+      //  do {
             this.x = aleatorio.nextInt(dimensao) * tamanhoMapa;
             this.y = aleatorio.nextInt(dimensao) * tamanhoMapa;
 
@@ -28,10 +28,10 @@ public class Fruta {
             this.x = Math.min(this.x, (dimensao - 1) * tamanhoMapa);
             this.y = Math.min(this.y, (dimensao - 1) * tamanhoMapa);
 
-            key = x + "," + y;
-        } while (posicoesOcupadas.contains(key)); // Verifica se a posição já foi usada
+          //  key = x + "," + y;
+        //} while (posicoesOcupadas.contains(key)); // Verifica se a posição já foi usada
 
-        posicoesOcupadas.add(key); // Adiciona a posição da fruta às posições ocupadas
+        //posicoesOcupadas.add(key); // Adiciona a posição da fruta às posições ocupadas
         ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "frutaPixelart.png");
         this.imagem = referencia.getImage();
     }

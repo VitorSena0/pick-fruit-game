@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Jogador1{
 	private int x,y;
 	private int width, heigth;
-	private Fruta frutas[] = new Fruta[99];
+	private Fruta frutas[] = new Fruta[10];
 	protected int i = 0;
 	private Random aleatorio = new Random();
 	private Image imagem;
@@ -23,8 +23,8 @@ public class Jogador1{
 		//y+= (this.tamanhoMapa)/2 -25;
         ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "player1Pixelart.png");
         this.imagem = referencia.getImage();
-		this.width = 10;
-		this.heigth = 10;
+		this.width = dimensao + 10;
+		this.heigth = dimensao + 10;
 	}
 	public void load(Graphics g) {
 	    int tamanho = (int) (this.tamanhoMapa * 0.8); // Ajusta o tamanho para 80% da célula
