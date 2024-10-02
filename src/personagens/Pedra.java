@@ -10,7 +10,7 @@ public class Pedra extends ElementosStatics{
     public Pedra(int posicaoX, int posicaoY, int dimensao) {
         super(posicaoX, posicaoY);
         this.dimensao = dimensao; // Atribui o tamanho da célula
-        ImageIcon referencia = new ImageIcon("res\\rochaPixelArt.png");
+        ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "rochaPixelArt.png");
         this.imagem = referencia.getImage();
     }
 

@@ -16,23 +16,25 @@ public class Janela extends JPanel implements KeyListener {
     private Arvore[] arvores = new Arvore[15];
     private Set<String> PosicoesUsadas = new HashSet<>();
     private boolean podeMover = true;
-    private int dimensao = 5;
+    private int dimensao = 15;
+    private int proporcaoTelaJogo = 600;
     private Image gramaImage;
+    private int cellSize;
     
     public Janela() {
+    	this.cellSize = ( proporcaoTelaJogo/ dimensao);
         setFocusable(true);
         addKeyListener(this);
-        player = new Jogador1(this.dimensao);
-        fruta1 = new Fruta(this.dimensao);
+        player = new Jogador1(this.dimensao, this.cellSize);
+        fruta1 = new Fruta(this.dimensao, this.cellSize, PosicoesUsadas);
 
         // Carrega a imagem da grama
-        ImageIcon gramaIcon = new ImageIcon("res\\gramaPixelart(1).png");
+        ImageIcon gramaIcon = new ImageIcon("res"+ System.getProperty("file.separator") +"gramaPixelart(1).png");
         if (gramaIcon.getImageLoadStatus() != MediaTracker.COMPLETE) {
             System.out.println("Erro ao carregar a imagem da grama.");
         }
         gramaImage = gramaIcon.getImage();
 
-        int cellSize = 800 / dimensao;
 
         // Inicializa as pedras e árvores com posições aleatórias e ajusta o tamanho delas
         for (int i = 0; i < pedras.length; i++) {
@@ -47,25 +49,21 @@ public class Janela extends JPanel implements KeyListener {
 
     public int[] generateRandomPosition() {
         Random random = new Random();
-        int cellSize = 800 / dimensao;
         int x, y;
         String key;
-    
+
+        // Gera coordenadas em múltiplos do tamanho da célula
         do {
             x = random.nextInt(dimensao) * cellSize;
             y = random.nextInt(dimensao) * cellSize;
-    
-            // Ajusta para centralizar o objeto, considerando o novo tamanho
-            x += cellSize / 2 - (cellSize / 2);
-            y += cellSize / 2 - (cellSize / 2);
-    
             key = x + "," + y;
         } while (PosicoesUsadas.contains(key)); // Verifica se a posição já foi usada
-    
+
         PosicoesUsadas.add(key);
-    
+
         return new int[]{x, y};
     }
+
     
 
     @Override
@@ -103,12 +101,12 @@ public class Janela extends JPanel implements KeyListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int cellSize = 800 / dimensao;
+        int cellSize = this.proporcaoTelaJogo / dimensao;
     
         // Desenha a grama no fundo
-        for (int i = 0; i < 800; i += cellSize) {
-            for (int a = 0; a < 800; a += cellSize) {
-                g.drawImage(gramaImage, a, i, cellSize, cellSize, this);
+        for (int i = 0; i < this.proporcaoTelaJogo; i += cellSize) {
+            for (int a = 0; a < this.proporcaoTelaJogo; a += cellSize) {
+                g.drawImage(gramaImage, a+ cellSize, i + cellSize, cellSize, cellSize, this);
             }
         }
     
@@ -132,18 +130,27 @@ public class Janela extends JPanel implements KeyListener {
     
 
     public void colision() {
-        int playerWidth = 50; // Largura do jogador
-        int playerHeight = 50; // Altura do jogador
-        int frutaSize = 10; // Tamanho da fruta
+        int playerWidth = player.getWidth();
+        int playerHeight = player.getHeigth();
+        int frutaSize = (int) (cellSize * 0.8); // Tamanho da fruta proporcional à célula
 
-        boolean xOverlap = (player.getX() < fruta1.getX() + frutaSize) && (player.getX() + playerWidth > fruta1.getX());
-        boolean yOverlap = (player.getY() < fruta1.getY() + frutaSize) && (player.getY() + playerHeight > fruta1.getY());
+        // Calcula o centro da fruta para garantir que a verificação de colisão seja precisa
+        int frutaCenterX = fruta1.getX() + (cellSize - frutaSize) / 2;
+        int frutaCenterY = fruta1.getY() + (cellSize - frutaSize) / 2;
 
+        // Verifica se há sobreposição nas coordenadas X e Y
+        boolean xOverlap = (player.getX() + cellSize < frutaCenterX + frutaSize + cellSize) && (player.getX() + playerWidth + cellSize > frutaCenterX + cellSize);
+        boolean yOverlap = (player.getY() + cellSize < frutaCenterY + frutaSize + cellSize) && (player.getY() + cellSize + playerHeight > frutaCenterY + cellSize);
+
+        // Se houver sobreposição em ambos os eixos, o jogador coletou a fruta
         if (xOverlap && yOverlap) {
             player.catouFruta(fruta1);
             fruta1.setVisivel(false);
-            fruta1 = new Fruta(dimensao);
+            fruta1 = new Fruta(this.dimensao, this.cellSize, PosicoesUsadas); // Gera uma nova fruta em uma posição válida
             System.out.println(player.frutasColetadas());
         }
     }
+
+
+
 }
