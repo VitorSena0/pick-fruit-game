@@ -6,6 +6,8 @@ public class Arvore extends ElementosStatics{
     private String peDeFruta;
     private Image imagem;
     private int dimensao;
+    private int x;
+    private int y;
 
     public Arvore(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {
         super(posicaoX, posicaoY);
@@ -22,4 +24,14 @@ public class Arvore extends ElementosStatics{
 
         g.drawImage(imagem, posicaoX - offset, posicaoY - offset, tamanho, tamanho, null);
     }
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+    
+    
 }

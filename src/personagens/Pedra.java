@@ -6,6 +6,7 @@ public class Pedra extends ElementosStatics{
 	
 	private Image imagem;
     private int dimensao;
+    private int x, y;
     
     public Pedra(int posicaoX, int posicaoY, int dimensao) {
         super(posicaoX, posicaoY);
@@ -21,4 +22,14 @@ public class Pedra extends ElementosStatics{
 
         g.drawImage(imagem, posicaoX - offset, posicaoY - offset, size, size, null);
     }
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+    
+    
 }
