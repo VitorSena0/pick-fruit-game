@@ -1,9 +1,12 @@
 package controle_view;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.AccessDeniedException;
 import java.util.LinkedHashMap;
 
 import javax.swing.*;
@@ -16,9 +19,10 @@ public class EscolherArquivo extends EstadoView {
 	private JTextField textField;
 	private JButton botaoProximo;
 	private JButton botaoVoltar;
+	private JTextArea msgErro;
 	private String caminho;
 	EscolherArquivo() {
-		setBounds(313, 272, 239, 100);
+		setBounds(313, 233, 239, 139);
 		setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Digite o caminho do arquivo");
@@ -32,9 +36,19 @@ public class EscolherArquivo extends EstadoView {
 		add(textField);
 		textField.setColumns(10);
 		
+		msgErro = new JTextArea();
+		msgErro.setForeground(new Color(255, 0, 0));
+		msgErro.setWrapStyleWord(true);
+		msgErro.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		msgErro.setLineWrap(true);
+		msgErro.setBounds(10, 67, 219, 31);
+		msgErro.setEditable(false);
+		msgErro.setOpaque(false);
+		add(msgErro);
+		
 		botaoProximo = new JButton("Próximo");
 		botaoProximo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoProximo.setBounds(130, 69, 99, 21);
+		botaoProximo.setBounds(130, 108, 99, 21);
 		botaoProximo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -49,7 +63,7 @@ public class EscolherArquivo extends EstadoView {
 		
 		botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoVoltar.setBounds(10, 69, 99, 21);
+		botaoVoltar.setBounds(10, 108, 99, 21);
 		botaoVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -77,15 +91,35 @@ public class EscolherArquivo extends EstadoView {
 			    		  parametrosSimples.put(tupla[0], Integer.parseInt(tupla[1]));
 			    	  }
 			    	  else {
-			    		  throw new Exception("formato inválido");
+			    		  throw new Exception("arquivo com formato inválido");
 			    	  }
 			    	  linha = lerArq.readLine();
 			      }
 			      lerArq.close();
-			      return new TelaTerreno(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"), parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1], parametrosCompostos.get("laranja")[0], parametrosCompostos.get("laranja")[1], parametrosCompostos.get("abacate")[0], parametrosCompostos.get("abacate")[1], parametrosCompostos.get("coco")[0], parametrosCompostos.get("coco")[1], parametrosCompostos.get("acerola")[0], parametrosCompostos.get("acerola")[1], parametrosCompostos.get("amora")[0], parametrosCompostos.get("amora")[1], parametrosCompostos.get("goiaba")[0], parametrosCompostos.get("goiaba")[1], parametrosSimples.get("dimensao"));
+			      int elementos = parametrosCompostos.get("laranja")[0] + parametrosCompostos.get("abacate")[0] + parametrosCompostos.get("coco")[0] + parametrosCompostos.get("acerola")[0] + parametrosCompostos.get("amora")[0] + parametrosCompostos.get("goiaba")[0] + parametrosSimples.get("pedras");
+			      int posicoes = parametrosSimples.get("dimensao")*parametrosSimples.get("dimensao");
+			      if (parametrosCompostos.get("maracuja")[1] > parametrosCompostos.get("maracuja")[0]) {
+			    	  throw new Exception("arquivo com formato inválido");
+			      }
+			      else if (parametrosSimples.get("bichadas") < 0 || parametrosSimples.get("bichadas") > 100) {
+			    	  throw new Exception("arquivo com formato inválido");
+			      }
+			      else if (elementos >= posicoes) {
+			    	  throw new Exception("arquivo com formato inválido");
+			      }
+			      return new TelaTerreno(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"), parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1], parametrosCompostos.get("laranja")[0], parametrosCompostos.get("laranja")[1], parametrosCompostos.get("abacate")[0], parametrosCompostos.get("abacate")[1], parametrosCompostos.get("coco")[0], parametrosCompostos.get("coco")[1], parametrosCompostos.get("acerola")[0], parametrosCompostos.get("acerola")[1], parametrosCompostos.get("amora")[0], parametrosCompostos.get("amora")[1], parametrosCompostos.get("goiaba")[0], parametrosCompostos.get("goiaba")[1], parametrosSimples.get("bichadas"));
 			}
 			catch (Exception e) {
 				mudarEstado = false;
+				if (e.getClass().equals(FileNotFoundException.class)) {
+					msgErro.setText("Erro: arquivo não encontrado");
+				}
+				else if (e.getClass().equals(AccessDeniedException.class)) {
+					msgErro.setText("Erro: acesso ao arquivo negado");
+				}
+				else {
+					msgErro.setText("Erro: arquivo com formato provavelmente invalido");
+				}
 				return this;
 			}
 		}

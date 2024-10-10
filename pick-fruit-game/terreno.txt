@@ -1,11 +1,11 @@
-dimensao 6
+dimensao 4
 pedras 8
-maracuja 4 3
-laranja 2 3
-abacate 2 2
+maracuja 4 2
+laranja 1 1
+abacate 1 1
 coco 1 1
 acerola 1 1
 amora 1 1
 goiaba 1 1
-bichadas 45
-mochila 10
+bichadas 22
+mochila 11
