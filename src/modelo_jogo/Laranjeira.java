@@ -1,14 +1,12 @@
 package modelo_jogo;
+
+import personagens.Arvore;
+
 public class Laranjeira extends Arvore {
-	public Fruta gerarFruta(boolean bichada, boolean ouro) {
-		Fruta fruto = null;
-		if(ouro)
-			fruto = new Maracuja(coordenadaX, coordenadaY, bichada);
-		else
-			fruto = new Laranja(coordenadaX, coordenadaY, bichada);
-		return fruto;
-	}
-	Laranjeira(int x, int y) {
-		super(x, y);
-	}
+
+    public Laranjeira(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {
+        super(posicaoX, posicaoY, peDeFruta, dimensao);
+        //TODO Auto-generated constructor stub
+    }
+	
 }

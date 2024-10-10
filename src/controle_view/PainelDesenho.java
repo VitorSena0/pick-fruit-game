@@ -4,6 +4,12 @@ import java.awt.*;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.io.*;
+
+/**
+ * A classe PainelDesenho é um painel personalizado que permite desenhar uma imagem
+ * na tela com coordenadas e dimensões especificadas. Fornece métodos para alterar as propriedades 
+ * da imagem, como posição, tamanho e visibilidade.
+ */
 public class PainelDesenho extends JPanel{
 	private Image imagem;
 	private int coordenadaX;
@@ -11,6 +17,10 @@ public class PainelDesenho extends JPanel{
 	private int largura;
 	private int altura;
 	
+	/**
+ * Construtor padrão da classe PainelDesenho.
+ * Inicializa o painel com valores padrão para coordenadas e dimensões.
+ */
 	public PainelDesenho() {
 		imagem = null;
 		coordenadaX = 0;
@@ -21,6 +31,16 @@ public class PainelDesenho extends JPanel{
 		setVisible(true);
 	}
 	
+
+	     /**
+     * Construtor que permite definir as coordenadas, dimensões e o caminho da imagem.
+     * 
+     * @param x A coordenada X do painel.
+     * @param y A coordenada Y do painel.
+     * @param largura A largura do painel.
+     * @param altura A altura do painel.
+     * @param caminho O caminho para a imagem a ser carregada.
+     */
 	public PainelDesenho(int x, int y, int largura, int altura, String caminho) {
 		coordenadaX = (x >= 0) ? x : coordenadaX;
 		coordenadaY = (y >= 0) ? y : coordenadaY;
@@ -59,6 +79,16 @@ public class PainelDesenho extends JPanel{
         }
 		repaint();
 	}
+
+	    /**
+     * Define os atributos do painel, como coordenadas, dimensões e imagem.
+     * 
+     * @param x A coordenada X do painel.
+     * @param y A coordenada Y do painel.
+     * @param largura A largura do painel.
+     * @param altura A altura do painel.
+     * @param caminho O caminho da imagem a ser carregada.
+     */
 	public void setAtributos(int x, int y, int largura, int altura, String caminho) {
 		coordenadaX = (x >= 0) ? x : coordenadaX;
 		coordenadaY = (y >= 0) ? y : coordenadaY;
@@ -70,6 +100,12 @@ public class PainelDesenho extends JPanel{
 	public void mudarVisibilidade(boolean visivel) {
 		setVisible(visivel);
 	}
+
+	    /**
+     * Método que sobrescreve o paintComponent para desenhar a imagem no painel.
+     * 
+     * @param g O contexto gráfico onde a imagem será desenhada.
+     */
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

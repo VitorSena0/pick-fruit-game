@@ -1,14 +1,16 @@
 package modelo_jogo;
+
+import personagens.Arvore;
+import personagens.Fruta;
+
 public class Amoreira extends Arvore {
-	public Fruta gerarFruta(boolean bichada, boolean ouro) {
-		Fruta fruto = null;
-		if(ouro)
-			fruto = new Maracuja(coordenadaX, coordenadaY, bichada);
-		else
-			fruto = new Amora(coordenadaX, coordenadaY, bichada);
-		return fruto;
+	public Amoreira(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {
+		super(posicaoX, posicaoY, peDeFruta, dimensao);
+		//TODO Auto-generated constructor stub
 	}
-	Amoreira(int x, int y) {
-		super(x, y);
+
+	public Fruta gerarFruta(boolean bichada, boolean ouro) {
+		return null;
+		// TODO: Implement method logic
 	}
 }

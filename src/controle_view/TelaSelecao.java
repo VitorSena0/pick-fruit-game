@@ -4,11 +4,28 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
+
+/**
+ * A classe {@code TelaSelecao} representa a tela de seleção do jogo "Cata Fruta".
+ * Nesta tela, o usuário pode escolher entre carregar um arquivo de terreno ou inserir
+ * configurações de terreno manualmente.
+ * 
+ * <p>A tela contém opções de seleção apresentadas como botões de rádio, além de botões
+ * para navegar entre as telas.</p>
+ */
 public class TelaSelecao extends EstadoView {
+
+		  /**
+     * Enumeração que representa as opções disponíveis na tela de seleção.
+     */
 	private enum opcao {
 		ARQUIVO,
 		CONFIGURACOES
 	}
+
+		/**
+     * Enumeração que representa os botões disponíveis na tela de seleção.
+     */
 	private enum botao {
 		VOLTAR,
 		PROXIMO
@@ -19,6 +36,11 @@ public class TelaSelecao extends EstadoView {
 	private JButton botaoVoltar;
 	private JRadioButton opcaoArquivo;
 	private JRadioButton opcaoConfiguracoes;
+
+	/**
+     * Construtor da classe {@code TelaSelecao}. Inicializa a interface gráfica
+     * da tela de seleção, incluindo as opções de seleção e os botões de navegação.
+     */
 	TelaSelecao() {
 		mudarEstado = false;
 		
@@ -77,6 +99,18 @@ public class TelaSelecao extends EstadoView {
 		lblNewLabel_2.setBounds(10, 10, 219, 23);
 		add(lblNewLabel_2);
 	}
+
+		 /**
+     * Este método determina o próximo estado da aplicação com base na seleção do usuário.
+     * Se o usuário escolher voltar, o método retorna uma nova instância da classe 
+     * {@link TelaInicial}. Se o usuário selecionar a opção de carregar um arquivo, 
+     * o método retorna uma nova instância da classe {@link EscolherArquivo}. 
+     * Se a opção de configurações for selecionada, retorna uma nova instância da 
+     * classe {@link TelaConfiguracoes}. Se nenhuma mudança de estado ocorrer, 
+     * retorna a tela atual.
+     * 
+     * @return Uma instância de {@link EstadoView} que representa o próximo estado da aplicação.
+     */
 	@Override
 	public EstadoView proximoEstado() {
 		if (mudarEstado && botaoSelecionado == botao.VOLTAR) {

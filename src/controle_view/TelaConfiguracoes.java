@@ -1,4 +1,5 @@
 package controle_view;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,13 +8,27 @@ import java.io.PrintWriter;
 
 import javax.swing.*;
 
+/**
+ * A classe TelaConfiguracoes é responsável pela criação da interface gráfica onde o usuário pode
+ * definir as configurações do terreno do jogo. O usuário pode inserir diversos parâmetros como 
+ * dimensão do terreno, número de árvores e frutas, e a probabilidade de frutas bichadas.
+ * 
+ * Essa classe herda de EstadoView e implementa uma lógica de transição entre diferentes estados
+ * da aplicação, incluindo a navegação para a próxima tela, o salvamento das configurações em um arquivo 
+ * de texto e a possibilidade de voltar para a tela anterior.
+ */
+
 public class TelaConfiguracoes extends EstadoView {
+	    /**
+     * Enumeração dos botões disponíveis na interface: VOLTAR, SALVAR e PROXIMO.
+     */
 	private enum botao {
 		VOLTAR,
 		SALVAR,
 		PROXIMO
 	}
 	private JTextField campoBichada;
+	private JTextField campoMochila;
 	private JTextField campoDimensao;
 	private JTextField campoPedras;
 	private JTextField campoMaracujas;
@@ -31,11 +46,18 @@ public class TelaConfiguracoes extends EstadoView {
 	private JTextField campoGoiabeiras;
 	private JTextField campoGoiabas;
 	
+	private JTextArea mensagem;
+	
 	private botao botaoSelecionado;
 	
 	private JButton botaoVoltar;
 	private JButton botaoSalvar;
 	private JButton botaoProximo;
+
+	    /**
+     * Construtor da classe TelaConfiguracoes. 
+     * Responsável pela criação e posicionamento dos componentes gráficos na tela.
+     */
 	TelaConfiguracoes() {
 		setBounds(255, 10, 348, 595);
 		setLayout(null);
@@ -235,9 +257,30 @@ public class TelaConfiguracoes extends EstadoView {
 		campoMaracujasChao.setBounds(294, 286, 40, 19);
 		add(campoMaracujasChao);
 		
+		JLabel lblNewLabel_12_1 = new JLabel("Mochila");
+		lblNewLabel_12_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_12_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_12_1.setBounds(10, 316, 203, 23);
+		add(lblNewLabel_12_1);
+		
+		campoMochila = new JTextField();
+		campoMochila.setColumns(10);
+		campoMochila.setBounds(223, 316, 115, 19);
+		add(campoMochila);
+		
+		mensagem = new JTextArea();
+		mensagem.setForeground(new Color(255, 0, 0));
+		mensagem.setWrapStyleWord(true);
+		mensagem.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		mensagem.setLineWrap(true);
+		mensagem.setBounds(10, 346, 219, 31);
+		mensagem.setEditable(false);
+		mensagem.setOpaque(false);
+		add(mensagem);
+		
 		botaoProximo = new JButton("Próximo");
 		botaoProximo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoProximo.setBounds(265, 316, 79, 21);
+		botaoProximo.setBounds(265, 376, 79, 21);
 		botaoProximo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -249,7 +292,7 @@ public class TelaConfiguracoes extends EstadoView {
 		
 		botaoSalvar = new JButton("Salvar Configurações");
 		botaoSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoSalvar.setBounds(104, 316, 146, 21);
+		botaoSalvar.setBounds(104, 376, 146, 21);
 		botaoSalvar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -261,7 +304,7 @@ public class TelaConfiguracoes extends EstadoView {
 		
 		botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoVoltar.setBounds(10, 316, 79, 21);
+		botaoVoltar.setBounds(10, 376, 79, 21);
 		botaoVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -271,9 +314,31 @@ public class TelaConfiguracoes extends EstadoView {
 		});
 		add(botaoVoltar);
 	}
+	/**
+ * Este método determina o próximo estado da aplicação com base no botão selecionado
+ * e nos dados inseridos pelo usuário nos campos de texto da interface gráfica.
+ *
+ * <p>Se o botão "PROXIMO" for selecionado, o método tenta obter os valores dos campos de texto,
+ * convertê-los em inteiros e, em seguida, cria uma nova instância da classe {@link TelaTerreno}
+ * com esses valores. Caso ocorra uma exceção durante a conversão, o estado não é alterado e o
+ * método retorna a tela atual.</p>
+ *
+ * <p>Se o botão "SALVAR" for selecionado, o método realiza a mesma conversão de valores,
+ * mas em vez de mudar para a próxima tela, ele grava as informações em um arquivo de texto
+ * chamado "terreno.txt". Novamente, se ocorrer uma exceção, o estado não é alterado.</p>
+ *
+ * <p>Se o botão "VOLTAR" for selecionado, o método retorna uma nova instância da classe
+ * {@link TelaSelecao}.</p>
+ *
+ * @return Uma instância de {@link EstadoView} que representa o próximo estado da aplicação,
+ *         que pode ser a tela de terreno, a tela inicial ou a tela de seleção, dependendo
+ *         do botão pressionado. Se houver um erro, retorna a tela atual.
+ */
 	@Override
 	public EstadoView proximoEstado() {
 		if (mudarEstado && botaoSelecionado == botao.PROXIMO) {
+			boolean erroMapeado = false;
+			String mensagemErro = "";
 			try {
 				int dimensao = Integer.parseInt(campoDimensao.getText());
 				int pedras = Integer.parseInt(campoPedras.getText());
@@ -292,14 +357,44 @@ public class TelaConfiguracoes extends EstadoView {
 				int maracujas = Integer.parseInt(campoMaracujas.getText());
 				int maracujasChao = Integer.parseInt(campoMaracujasChao.getText());
 				int pBichadas = Integer.parseInt(campoBichada.getText());
+				int elementos = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras + pedras;
+				int posicoes = dimensao*dimensao;
+				if (maracujasChao > maracujas) {
+			    	  erroMapeado = true;
+			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
+			    	  throw new Exception();
+			      }
+			      else if (pBichadas < 0 || pBichadas > 100) {
+			    	  erroMapeado = true;
+			    	  mensagemErro = "Erro: probabilidade dever ser entre 0 e 100";
+			    	  throw new Exception();
+			      }
+			      else if (elementos >= posicoes) {
+			    	  erroMapeado = true;
+			    	  mensagemErro = "Erro: número de pedras e árvores muito grande, deve haver pelo menos uma célula de grama";
+			    	  throw new Exception();
+			      }
 				return new TelaTerreno(dimensao, pedras, maracujas, maracujasChao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, pBichadas);
 			}
 			catch (Exception e) {
 				mudarEstado = false;
+				mensagem.setForeground(new Color(255, 0, 0));
+				if (e.getClass().equals(NumberFormatException.class)) {
+					mensagem.setText("Erro: parâmetro inválido, todos os parâmetros devem ser números inteiros");
+				}
+				else if (erroMapeado) {
+					mensagem.setText(mensagemErro);
+				}
+				else {
+					mensagem.setText("Erro: não foi possível salvar as configurações");
+				}
 				return this;
 			}
 		}
 		else if (mudarEstado && botaoSelecionado == botao.SALVAR) {
+			mudarEstado = false;
+			boolean erroMapeado = false;
+			String mensagemErro = "";
 			try {
 				int dimensao = Integer.parseInt(campoDimensao.getText());
 				int pedras = Integer.parseInt(campoPedras.getText());
@@ -318,6 +413,24 @@ public class TelaConfiguracoes extends EstadoView {
 				int maracujas = Integer.parseInt(campoMaracujas.getText());
 				int maracujasChao = Integer.parseInt(campoMaracujasChao.getText());
 				int pBichadas = Integer.parseInt(campoBichada.getText());
+				int mochila = Integer.parseInt(campoMochila.getText());
+				int elementos = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras + pedras;
+				int posicoes = dimensao*dimensao;
+				if (maracujasChao > maracujas) {
+			    	  erroMapeado = true;
+			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
+			    	  throw new Exception();
+			      }
+			      else if (pBichadas < 0 || pBichadas > 100) {
+			    	  erroMapeado = true;
+			    	  mensagemErro = "Erro: probabilidade dever ser entre 0 e 100";
+			    	  throw new Exception();
+			      }
+			      else if (elementos >= posicoes) {
+			    	  erroMapeado = true;
+			    	  mensagemErro = "Erro: número de pedras e árvores muito grande, deve haver pelo menos uma célula de grama";
+			    	  throw new Exception();
+			      }
 				FileWriter arq = new FileWriter("terreno.txt");
 			    PrintWriter gravarArq = new PrintWriter(arq);
 			    gravarArq.println("dimensao " + dimensao);
@@ -330,12 +443,24 @@ public class TelaConfiguracoes extends EstadoView {
 			    gravarArq.println("amora " + amoeira + " " + amoras);
 			    gravarArq.println("goiaba " + goiabeiras + " " + goiabas);
 			    gravarArq.println("bichadas " + pBichadas);
-			    gravarArq.println("mochila " + 10);
+			    gravarArq.println("mochila " + mochila);
 			    arq.close();
-			    return new TelaInicial();
+			    mensagem.setForeground(new Color(0, 0, 0));
+			    mensagem.setText("Configurações salvas com sucesso em terreno.txt");
+			    return this;
 			}
 			catch (Exception e) {
 				mudarEstado = false;
+				mensagem.setForeground(new Color(255, 0, 0));
+				if (e.getClass().equals(NumberFormatException.class)) {
+					mensagem.setText("Erro: parâmetro inválido, todos os parâmetros devem ser números inteiros");
+				}
+				else if (erroMapeado) {
+					mensagem.setText(mensagemErro);
+				}
+				else {
+					mensagem.setText("Erro: não foi possível salvar as configurações");
+				}
 				return this;
 			}
 		}

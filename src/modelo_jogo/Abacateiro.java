@@ -2,15 +2,10 @@ package modelo_jogo;
 import personagens.Arvore;
 import personagens.Fruta;
 public class Abacateiro extends Arvore {
-	public Fruta gerarFruta(boolean bichada, boolean ouro) {
-		Fruta fruto = null;
-		if(ouro)
-			fruto = new Maracuja(bichada);
-		else
-			fruto = new Abacate(coordenadaX, coordenadaY, bichada);
-		return fruto;
+
+	public Abacateiro(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {
+		super(posicaoX, posicaoY, peDeFruta, dimensao);
+		//TODO Auto-generated constructor stub
 	}
-	Abacateiro(int x, int y) {
-		super(x, y);
-	}
+	
 }

@@ -1,14 +1,12 @@
 package modelo_jogo;
+
+import personagens.Arvore;
+
 public class Pe_de_Acerola extends Arvore {
-	public Fruta gerarFruta(boolean bichada, boolean ouro) {
-		Fruta fruto = null;
-		if(ouro)
-			fruto = new Maracuja(coordenadaX, coordenadaY, bichada);
-		else
-			fruto = new Acerola(coordenadaX, coordenadaY, bichada);
-		return fruto;
-	}
-	Pe_de_Acerola(int x, int y) {
-		super(x, y);
-	}
+
+    public Pe_de_Acerola(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {
+        super(posicaoX, posicaoY, peDeFruta, dimensao);
+        //TODO Auto-generated constructor stub
+    }
+	
 }

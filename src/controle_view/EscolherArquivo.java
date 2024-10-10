@@ -7,7 +7,18 @@ import java.io.FileReader;
 import java.util.LinkedHashMap;
 
 import javax.swing.*;
+
+/**
+ * A classe EscolherArquivo é responsável por criar a interface gráfica que permite ao usuário
+ * digitar o caminho de um arquivo e prosseguir com a leitura do arquivo.
+ * Estende EstadoView e possui dois botões para voltar ou avançar, além de um campo de texto
+ * para entrada do caminho do arquivo.
+ */
 public class EscolherArquivo extends EstadoView {
+	    /**
+     * Enumeração representando os botões da interface.
+     * Pode ser VOLTAR ou PROXIMO.
+     */
 	private enum botao {
 		VOLTAR,
 		PROXIMO
@@ -17,6 +28,10 @@ public class EscolherArquivo extends EstadoView {
 	private JButton botaoProximo;
 	private JButton botaoVoltar;
 	private String caminho;
+	    /**
+     * Construtor da classe EscolherArquivo.
+     * Inicializa os componentes da interface e define os eventos de clique dos botões.
+     */
 	EscolherArquivo() {
 		setBounds(313, 272, 239, 100);
 		setLayout(null);
@@ -59,6 +74,15 @@ public class EscolherArquivo extends EstadoView {
 		});
 		add(botaoVoltar);
 	}
+	
+    /**
+     * Método responsável por determinar o próximo estado da aplicação com base nas ações do usuário.
+     * Se o botão "Próximo" for clicado, o método tenta ler o arquivo cujo caminho foi fornecido,
+     * processa os dados e retorna um novo estado com esses dados.
+     * Se o botão "Voltar" for clicado, retorna para o estado anterior.
+     *
+     * @return O próximo estado da aplicação, ou este estado caso ocorra algum erro na leitura do arquivo.
+     */
 	@Override
 	public EstadoView proximoEstado() {
 		if (mudarEstado && botaoSelecionado == botao.PROXIMO) {
