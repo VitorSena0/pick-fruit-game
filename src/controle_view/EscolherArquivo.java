@@ -33,23 +33,23 @@ public class EscolherArquivo extends EstadoView {
      * Inicializa os componentes da interface e define os eventos de clique dos botões.
      */
 	EscolherArquivo() {
-		setBounds(313, 272, 239, 100);
+		setBounds(313, 272, 986, 732);
 		setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Digite o caminho do arquivo");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setBounds(10, 5, 219, 23);
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_3.setBounds(35, 0, 319, 43);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 18));
 		add(lblNewLabel_3);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 38, 219, 19);
+		textField.setBounds(30, 38, 319, 29);
 		add(textField);
 		textField.setColumns(10);
 		
 		botaoProximo = new JButton("Próximo");
 		botaoProximo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoProximo.setBounds(130, 69, 99, 21);
+		botaoProximo.setBounds(205, 89, 99, 21);
 		botaoProximo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -64,7 +64,7 @@ public class EscolherArquivo extends EstadoView {
 		
 		botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoVoltar.setBounds(10, 69, 99, 21);
+		botaoVoltar.setBounds(85, 89, 99, 21);
 		botaoVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

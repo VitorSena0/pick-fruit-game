@@ -1,9 +1,7 @@
 package controle_view;
 import java.awt.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import java.io.*;
 
 /**
  * A classe PainelDesenho é um painel personalizado que permite desenhar uma imagem

@@ -59,7 +59,7 @@ public class TelaConfiguracoes extends EstadoView {
      * Responsável pela criação e posicionamento dos componentes gráficos na tela.
      */
 	TelaConfiguracoes() {
-		setBounds(255, 10, 348, 595);
+		setBounds(355, 310, 986, 732);
 		setLayout(null);
 		
 		mudarEstado = false;

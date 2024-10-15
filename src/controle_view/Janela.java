@@ -9,7 +9,9 @@ import java.util.Random;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import java.util.Arrays;
 
+import dados.DadosInterface;
 import modelo_jogo.Coco;
 import personagens.Arvore;
 import personagens.Fruta;
@@ -44,32 +46,36 @@ public class Janela extends JPanel implements KeyListener {
     private Pedra[] pedras; // Pedras
     private Arvore[] arvores; // Árvores
     private Set<String> PosicoesUsadas = new HashSet<>(); // Posições usadas
-    private boolean podeMover = true; // Flag para controlar a movimentação
+    private boolean podeMoverJogador1 = true; // Flag para controlar a movimentação
+    private boolean podeMoverJogador2 = true; // Flag para controlar a movimentação
     private int dimensao; // Dimensão do jogo
     private int proporcaoTelaJogo; // Proporção da tela do jogo
     private Image gramaImage; // Imagem da grama
     private int cellSize; // Tamanho da célula
     private Set<String> posicoesPedras = new HashSet<>(); // Posições das pedras
     private Set<String> posicoesArvores = new HashSet<>(); // Posições das árvores
-    
+    private DadosInterface dados; // Interface de dados
     
     /**
      * Construtor da classe Janela.
      * Inicializa o painel de jogo com a dimensão e o tamanho da célula.
      * Também cria e configura o jogador, a fruta, as pedras e as árvores.
      */
-    public Janela(int proporcaoTelaJogo,int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas) {
+    public Janela(int proporcaoTelaJogo,int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, DadosInterface dados) {
         this.dimensao = dimensao; // Define a dimensão do jogo
         this.pedras = new Pedra[pedras]; // Inicializa o array de pedras
         this.proporcaoTelaJogo = proporcaoTelaJogo; // Define a proporção da tela do jogo
         this.arvores = new Arvore[laranjeiras + abacateiros + coqueiros + pesDeAcerola + amoeiras + goiabeiras]; // Inicializa o array de árvores
         this.frutasChao = new Fruta[maracujas_chao + laranjas + abacates + cocos + acerolas + amoras + goiabas]; // Inicializa o array de frutas
         this.cellSize = (proporcaoTelaJogo / dimensao); // Calcula o tamanho da célula
+        this.dados = dados; // Define a interface de dados
+        
         setFocusable(true); // Permite que o painel tenha foco para eventos de teclado
         addKeyListener(this); // Adiciona o KeyListener ao painel
         requestFocusInWindow(); // Solicita foco para o JPanel
         player = new Jogador(this.dimensao, this.cellSize, 1); // Cria um novo jogador
         player2 = new Jogador(this.dimensao, this.cellSize, 2); // Cria um novo jogador
+        dados.setJogadores(player,player2);
         //coco = new Coco(this.dimensao, this.cellSize, PosicoesUsadas); // Gera uma nova fruta em uma posição válida
         for (int i = 0; i < frutasChao.length; i++) {
             frutasChao[i] = new Coco(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
@@ -122,68 +128,68 @@ public class Janela extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-
-        
-        if (!podeMover) {
+        int listaKeysPlayer1[] = {37, 38, 39, 40}; // Setas do teclado
+        int listaKeysPlayer2[] = {65, 68, 83, 87}; // WASD
+        if ((!podeMoverJogador1 || !podeMoverJogador2) && !dados.isPrimeiraJogada()) {
             return; // Se não pode mover, sai imediatamente
         }
-
+        
+        if(player.getQtdMovimentos() > 1 || player2.getQtdMovimentos() > 1){
+            dados.setBotaoEnabled(false);
+        }else{
+            dados.setBotaoEnabled(true);
+        }
         // Movimentação do Jogador 1
-        if(key == KeyEvent.VK_UP || key == KeyEvent.VK_DOWN || key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT){
+        if (podeMoverJogador1 && player.getQtdMovimentos() > 0 && Arrays.stream(listaKeysPlayer1).anyMatch(i -> i == key)) {
             switch (key) {
                 case KeyEvent.VK_UP -> player.moveUp();
                 case KeyEvent.VK_DOWN -> player.moveDown();
                 case KeyEvent.VK_LEFT -> player.moveLeft();
                 case KeyEvent.VK_RIGHT -> player.moveRight();
             }
-         // Depuração para verificar as frutas coletadas do jogador 1
-        for (Fruta coco : player.getFrutas()) {
-            if (coco != null) {
-                System.out.println(coco.getNomeFruta());
-            } else {
-                System.out.println("Fruta é nula.");
-                break;
+            podeMoverJogador1 = false; // Desabilita a movimentação até a liberação da tecla
+            repaint();
+        }
+    
+        // Movimentação do Jogador 2
+        if (podeMoverJogador2 && player2.getQtdMovimentos() > 0 && (Arrays.stream(listaKeysPlayer2).anyMatch(i -> i == key))) {
+            switch (key) {
+                case KeyEvent.VK_W -> player2.moveUp();
+                case KeyEvent.VK_S -> player2.moveDown();
+                case KeyEvent.VK_A -> player2.moveLeft();
+                case KeyEvent.VK_D -> player2.moveRight();
             }
-        }   
-        repaint();
+            podeMoverJogador2 = false; // Desabilita a movimentação até a liberação da tecla
+            repaint();
         }
-            // Movimentação do Jogador 2
-        if(key == KeyEvent.VK_W || key == KeyEvent.VK_S || key == KeyEvent.VK_A || key == KeyEvent.VK_D){
-        switch (key) {
-            case KeyEvent.VK_W -> player2.moveUp();
-            case KeyEvent.VK_S -> player2.moveDown();
-            case KeyEvent.VK_A -> player2.moveLeft();
-            case KeyEvent.VK_D -> player2.moveRight();
-        }
-        // Depuração para verificar as frutas coletadas do jogador 2
-        for (Fruta coco : player2.getFrutas()) {
-            if (coco != null) {
-                System.out.println(coco.getNomeFruta());
-            } else {
-                System.out.println("Fruta é nula.");
-                break;
-            }
-        }
-        repaint();
-    }
-
-       // System.out.println(PosicoesUsadas);
-       // System.out.println(PosicoesUsadas.size());
-
-
-        podeMover = false; // Define como falso após qualquer movimento
-        colision();
+        
+        colision(); // Verifica colisões após a movimentação
         repaint();
     }
 
     /*
      * Método chamado quando uma tecla é liberada.
+     * Ele avalia se o jogador ainda tem movimentos disponíveis e reativa a movimentação.
      * @param e O evento de teclado gerado
      * @see KeyEvent
      */
     @Override
     public void keyReleased(KeyEvent e) {
-        podeMover = true;
+        int key = e.getKeyCode();
+        int listaKeysPlayer1[] = {37, 38, 39, 40};
+        int listaKeysPlayer2[] = {65, 68, 83, 87};
+    
+        // Reativa o movimento quando a tecla do Jogador 1 é liberada
+        if (Arrays.stream(listaKeysPlayer1).anyMatch(i -> i == key) && player.getQtdMovimentos() > 0) {
+            podeMoverJogador1 = true;
+            podeMoverJogador2 = false;
+        }
+    
+        // Reativa o movimento quando a tecla do Jogador 2 é liberada
+        if (Arrays.stream(listaKeysPlayer2).anyMatch(i -> i == key) && player2.getQtdMovimentos() > 0) {
+            podeMoverJogador2 = true;
+            podeMoverJogador1 = false;
+        }
     }
 
     @Override
@@ -269,27 +275,5 @@ public class Janela extends JPanel implements KeyListener {
                 }
             }
         }
-        // int jogadorWidth = jogador.getWidth();
-        // int jogadorHeight = jogador.getHeigth();
-        // int frutaSize = (int) (cellSize * 0.8); // Tamanho da fruta proporcional à célula
-
-        // // Calcula o centro da fruta
-        // int frutaCenterX = coco.getX() + (cellSize - frutaSize) / 2;
-        // int frutaCenterY = coco.getY() + (cellSize - frutaSize) / 2;
-
-        // // Verifica se há sobreposição nas coordenadas X e Y
-        // boolean xOverlap = (jogador.getX() + cellSize < frutaCenterX + frutaSize + cellSize) && 
-        //                    (jogador.getX() + jogadorWidth + cellSize > frutaCenterX + cellSize);
-        // boolean yOverlap = (jogador.getY() + cellSize < frutaCenterY + frutaSize + cellSize) && 
-        //                    (jogador.getY() + cellSize + jogadorHeight > frutaCenterY + cellSize);
-
-        // // Se houver sobreposição em ambos os eixos, o jogador coletou a fruta
-        // if (xOverlap && yOverlap) {
-        //     jogador.catouFruta(coco);
-        //     coco.setVisivel(false, this.PosicoesUsadas);
-        //     coco = new Coco(this.dimensao, this.cellSize, PosicoesUsadas); // Gera uma nova fruta em uma posição válida
-        //     System.out.println(nomeJogador + ": " + jogador.frutasColetadas());
-        // }
     }
-
 }

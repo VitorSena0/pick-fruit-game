@@ -1,6 +1,5 @@
 package modelo_jogo;
 import personagens.Arvore;
-import personagens.Fruta;
 public class Abacateiro extends Arvore {
 
 	public Abacateiro(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {

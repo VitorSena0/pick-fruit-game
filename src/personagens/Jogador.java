@@ -67,12 +67,19 @@ public class Jogador{
     private int dimensaoGrid;
 
     /**
+     * A quantidade de movimentos realizados pelo jogador.
+     */
+    private int qtdMovimentos;
+
+    /**
      * Construtor da classe {@code Jogador}. Inicializa o jogador com uma posição aleatória no mapa e carrega
      * a imagem correspondente ao tipo de jogador.
      *
      * @param dimensao O tamanho do terreno.
      * @param dimensaoGrid O tamanho da célula do terreno.
      * @param tipoJogador O tipo de jogador, 1 para "player1" e 2 para "player2".
+     * @param posicoesOcupadas Conjunto de posições ocupadas no terreno.
+     * @param qtdMovimentos A quantidade de movimentos realizados pelo jogador com base nos dados.
      */
 	
 	public Jogador(int dimensao,int dimensaoGrid, int tipoJogador) {
@@ -109,6 +116,7 @@ public class Jogador{
     public void moveUp() {
         if (y - dimensaoGrid >= 0) { // Verifica se não ultrapassa o limite superior
             y -= dimensaoGrid;
+            this.decrementarMovimento();
         }
     }
 
@@ -119,6 +127,7 @@ public class Jogador{
     public void moveDown() {
         if (y + dimensaoGrid < dimensao * dimensaoGrid) { // Verifica se não ultrapassa o limite inferior
             y += dimensaoGrid;
+            this.decrementarMovimento();
         }
     }
 
@@ -129,6 +138,7 @@ public class Jogador{
     public void moveLeft() {
         if (x - dimensaoGrid >= 0) { // Verifica se não ultrapassa o limite esquerdo
             x -= dimensaoGrid;
+            this.decrementarMovimento();
         }
     }
 
@@ -139,6 +149,7 @@ public class Jogador{
     public void moveRight() {
         if (x + dimensaoGrid < dimensao * dimensaoGrid) { // Verifica se não ultrapassa o limite direito
             x += dimensaoGrid;
+            this.decrementarMovimento();
         }
     }
 	
@@ -215,6 +226,28 @@ public class Jogador{
      */
     public int frutasColetadas() {
         return qtdFrutasColetadas;
+    }
+
+    /**
+     * Retorna a quantidade de movimentos realizados pelo jogador.
+     *
+     * @return O número de movimentos realizados.
+     */
+    public void setQtdMovimentos(int qtdMovimentos){
+    	this.qtdMovimentos = qtdMovimentos;
+    }
+
+    /**
+     * Retorna a quantidade de movimentos realizados pelo jogador.
+     *
+     * @return O número de movimentos realizados.
+     */
+    public int getQtdMovimentos(){
+    	return this.qtdMovimentos;
+    }
+
+    private void decrementarMovimento(){
+        this.setQtdMovimentos(this.getQtdMovimentos() - 1);
     }
 
 }
