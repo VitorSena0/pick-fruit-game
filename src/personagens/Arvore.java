@@ -30,6 +30,8 @@ public class Arvore extends ElementosStatics{
 
     public Arvore(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {
         super(posicaoX, posicaoY);
+        this.x = posicaoX;
+        this.y = posicaoY;
         this.peDeFruta = peDeFruta;
         this.dimensao = dimensao; // Atribui o tamanho da célula
         ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "arvorePixelart.png");

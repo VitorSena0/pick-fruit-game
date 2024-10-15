@@ -31,6 +31,8 @@ public class Pedra extends ElementosStatics{
      */
     public Pedra(int posicaoX, int posicaoY, int dimensao) {
         super(posicaoX, posicaoY);
+        this.x = posicaoX;
+        this.y = posicaoY;
         this.dimensao = dimensao; // Atribui o tamanho da célula
         ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "rochaPixelArt.png");
         this.imagem = referencia.getImage();
@@ -63,6 +65,12 @@ public class Pedra extends ElementosStatics{
 	public int getY() {
 		return y;
 	}
+
+    public int getDimensao() {
+        return dimensao;
+    }
+
+
     
     
 }
