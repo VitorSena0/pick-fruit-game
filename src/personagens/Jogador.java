@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.*;
 import javax.swing.ImageIcon;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 
 /**
  * A classe {@code Jogador} representa o personagem controlado pelo jogador no jogo "Cata Fruta".
@@ -71,6 +72,16 @@ public class Jogador{
      */
     private int qtdMovimentos;
 
+    // Define uma interface funcional simples para o movimento.
+    interface MoveAction {
+        int move();
+    }
+
+    /**
+     * Os movimentos possíveis do jogador.
+     */
+    private MoveAction[] movements;
+
     /**
      * Construtor da classe {@code Jogador}. Inicializa o jogador com uma posição aleatória no mapa e carrega
      * a imagem correspondente ao tipo de jogador.
@@ -92,6 +103,13 @@ public class Jogador{
         this.imagem = referencia.getImage();
 		this.width = dimensao + 1;
 		this.heigth = dimensao + 1;
+
+        movements = new MoveAction[]{ // Não mexer na ordem dos movimentos
+            this::moveLeft,
+            this::moveUp,
+            this::moveDown,
+            this::moveRight
+        };
 	}
 
 	 /**
@@ -113,49 +131,68 @@ public class Jogador{
      * Move o jogador para cima, se ele não ultrapassar os limites do mapa.
      */
 
-    public void moveUp() {
+    public int moveUp() {
         if (y - dimensaoGrid >= 0) { // Verifica se não ultrapassa o limite superior
             y -= dimensaoGrid;
-            this.decrementarMovimento();
+            this.decrementarMovimento(1);
             System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
+            return 1;
         }
+        return 0;
     }
 
 	 /**
      * Move o jogador para baixo, se ele não ultrapassar os limites do mapa.
      */
 
-    public void moveDown() {
+    public int moveDown() {
         if (y + dimensaoGrid < dimensao * dimensaoGrid) { // Verifica se não ultrapassa o limite inferior
             y += dimensaoGrid;
-            this.decrementarMovimento();
+            this.decrementarMovimento(1);
             System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
+            return 1;
         }
+        return 0;
     }
 
 	/**
      * Move o jogador para a esquerda, se ele não ultrapassar os limites do mapa.
      */
 
-    public void moveLeft() {
+    public int moveLeft() {
         if (x - dimensaoGrid >= 0) { // Verifica se não ultrapassa o limite esquerdo
             x -= dimensaoGrid;
-            this.decrementarMovimento();
+            this.decrementarMovimento(1);
             System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
+            return 1;
         }
+        return 0;
     }
 
 	 /**
      * Move o jogador para a direita, se ele não ultrapassar os limites do mapa.
      */
 
-    public void moveRight() {
+    public int moveRight() {
         if (x + dimensaoGrid < dimensao * dimensaoGrid) { // Verifica se não ultrapassa o limite direito
             x += dimensaoGrid;
-            this.decrementarMovimento();
+            this.decrementarMovimento(1);
             System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
+            return 1;
         }
+        return 0;
     }
+
+        // Método para chamar um movimento usando o índice do vetor.
+        public int move(int direcao) {
+            if (direcao >= 0 && direcao < movements.length) {
+               return movements[direcao].move();
+                
+            } else {
+                System.out.println("Movimento inválido.");
+                return -1;
+            }
+        }
 	
 	 /**
      * Retorna a posição x do jogador.
@@ -250,8 +287,8 @@ public class Jogador{
     	return this.qtdMovimentos;
     }
 
-    public void decrementarMovimento(){
-        this.setQtdMovimentos(this.getQtdMovimentos() - 1);
+    public void decrementarMovimento(int qtd){
+        this.setQtdMovimentos(this.getQtdMovimentos() - qtd);
     }
 
 }
