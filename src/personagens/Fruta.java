@@ -17,7 +17,6 @@ public abstract class Fruta {
     protected int y;
     protected boolean visivel = true; // Novo campo para visibilidade
     protected Random aleatorio = new Random();
-    protected Image imagem;
     protected int dimensaoGrid;
 
     /**
@@ -47,8 +46,7 @@ public abstract class Fruta {
         } while (posicoesOcupadas.contains(key)); // Verifica se a posição está ocupada
 
         posicoesOcupadas.add(key); // Adiciona a posição da fruta às posições ocupadas
-        ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "frutaPixelart.png");
-        this.imagem = referencia.getImage();
+
     }
   /**
      * Método abstrato para carregar a fruta na tela. As subclasses devem fornecer sua própria implementação.

@@ -135,7 +135,6 @@ public class Jogador{
         if (y - dimensaoGrid >= 0) { // Verifica se não ultrapassa o limite superior
             y -= dimensaoGrid;
             this.decrementarMovimento(1);
-            System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
             return 1;
         }
         return 0;
@@ -149,7 +148,6 @@ public class Jogador{
         if (y + dimensaoGrid < dimensao * dimensaoGrid) { // Verifica se não ultrapassa o limite inferior
             y += dimensaoGrid;
             this.decrementarMovimento(1);
-            System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
             return 1;
         }
         return 0;
@@ -163,7 +161,6 @@ public class Jogador{
         if (x - dimensaoGrid >= 0) { // Verifica se não ultrapassa o limite esquerdo
             x -= dimensaoGrid;
             this.decrementarMovimento(1);
-            System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
             return 1;
         }
         return 0;
@@ -177,7 +174,6 @@ public class Jogador{
         if (x + dimensaoGrid < dimensao * dimensaoGrid) { // Verifica se não ultrapassa o limite direito
             x += dimensaoGrid;
             this.decrementarMovimento(1);
-            System.out.println("Agora o" + tipoJogador + " tem " + qtdMovimentos + " movimentos");
             return 1;
         }
         return 0;

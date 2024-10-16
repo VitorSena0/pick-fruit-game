@@ -1,5 +1,7 @@
 package modelo_jogo;
 import java.util.Set;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 import personagens.Fruta;
 
@@ -8,10 +10,13 @@ import java.awt.Graphics;
 public class Coco extends Fruta{
 
     private int bichada;
+    private Image imagem;
 
    public Coco(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
     super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
     this.bichada = bichada; // Inicializa a variável de instância
+    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "coco.png");
+    this.imagem = referencia.getImage();
 }
 
     @Override

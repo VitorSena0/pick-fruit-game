@@ -11,7 +11,14 @@ import java.util.Random;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import modelo_jogo.Abacate;
+import modelo_jogo.Acerola;
+import modelo_jogo.Amora;
 import modelo_jogo.Coco;
+import modelo_jogo.Goiaba;
+import modelo_jogo.Laranja;
+import modelo_jogo.Maracuja;
 import personagens.Arvore;
 import personagens.Fruta;
 import personagens.Jogador;
@@ -76,13 +83,10 @@ public class Janela extends JPanel implements KeyListener {
         player2 = new Jogador(this.dimensao, this.cellSize, 2); // Cria um novo jogador
         dados.setJogadores(player,player2);
         //coco = new Coco(this.dimensao, this.cellSize, PosicoesUsadas); // Gera uma nova fruta em uma posição válida
-        for (int i = 0; i < frutasChao.length; i++) {
-            frutasChao[i] = new Coco(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
-        }
+        armazenaFrutas(maracujas_chao, laranjas, abacates, cocos, acerolas, amoras, goiabas, probabidade_bichadas);
         // Carrega a imagem da grama
         ImageIcon gramaIcon = new ImageIcon("res" + System.getProperty("file.separator") + "gramaPixelart(1).png");
         if (gramaIcon.getImageLoadStatus() != MediaTracker.COMPLETE) {
-            System.out.println("Erro ao carregar a imagem da grama.");
         }
         gramaImage = gramaIcon.getImage();
 
@@ -120,6 +124,46 @@ public class Janela extends JPanel implements KeyListener {
     }
 
     /*
+     * Método para armazenar as frutas no array de frutas.
+     * @param i O índice da fruta no array
+     * @param frutas O array de frutas
+     * @param maracujas A quantidade de maracujás
+     * @param laranjas A quantidade de laranjas
+     * @param abacates A quantidade de abacates
+     * @param cocos A quantidade de cocos
+     * @param acerolas A quantidade de acerolas
+     * @param amoras A quantidade de amoras
+     * @param goiabas A quantidade de goiabas
+     * @param probabidade_bichadas A probabilidade de bichadas
+     */
+    public void armazenaFrutas(int maracujas, int laranjas, int abacates, int cocos, int acerolas, int amoras, int goiabas, int probabidade_bichadas) {
+        for(int i = 0; i < frutasChao.length; i++){
+            if(cocos > 0){
+                frutasChao[i] = new Coco(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
+                cocos--;
+            }else if(maracujas > 0){
+                frutasChao[i] = new Maracuja(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
+                maracujas--;
+            }else if(laranjas > 0){
+                frutasChao[i] = new Laranja(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
+                laranjas--;
+            }else if(abacates > 0){
+                frutasChao[i] = new Abacate(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
+                abacates--;
+            }else if(acerolas > 0){
+                frutasChao[i] = new Acerola(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
+                acerolas--;
+            }else if(amoras > 0){
+                frutasChao[i] = new Amora(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
+                amoras--;
+            }else if(goiabas > 0){
+                frutasChao[i] = new Goiaba(this.dimensao, this.cellSize, PosicoesUsadas, probabidade_bichadas); // Gera uma nova fruta em uma posição válida
+                goiabas--;
+            }
+        }
+    }
+
+    /*
      * Método chamado quando uma tecla é pressionada.
      * @param e O evento de teclado gerado
      * @see KeyEvent
@@ -145,7 +189,6 @@ public class Janela extends JPanel implements KeyListener {
          */
         if (podeMoverJogador1 && player.getQtdMovimentos() > 0 && Arrays.stream(listaKeysPlayer1).anyMatch(i -> i == key)) {
             if(verificarColisaoComPedra(player, "Player 1", listaKeysPlayer1, key) == 2){
-                System.out.println("Player 1: " + player.getQtdMovimentos());
                 return;
             }
                 
@@ -202,14 +245,16 @@ public class Janela extends JPanel implements KeyListener {
         if (Arrays.stream(listaKeysPlayer1).anyMatch(i -> i == key) && player.getQtdMovimentos() > 0) {
             podeMoverJogador1 = true;
             podeMoverJogador2 = false;
+            System.out.println("Jogador 1: " + player.getQtdMovimentos() + " movimentos restantes.");
         }
     
         // Reativa o movimento quando a tecla do Jogador 2 é liberada
         if (Arrays.stream(listaKeysPlayer2).anyMatch(i -> i == key) && player2.getQtdMovimentos() > 0) {
             podeMoverJogador2 = true;
             podeMoverJogador1 = false;
+            System.out.println("Jogador 2: " + player2.getQtdMovimentos() + " movimentos restantes.");
         }
-        
+
     }
 
     @Override
@@ -262,16 +307,15 @@ public class Janela extends JPanel implements KeyListener {
      */
     private void verificarColisaoComFruta(Jogador jogador, String nomeJogador) {
         for (int i = 0; i < frutasChao.length; i++) {
-            Fruta coco = frutasChao[i];
-            if (coco != null && coco.ehVisivel()) {
-                //System.out.println("x: " +coco.getX() + " y: " + coco.getY() );
+            Fruta fruta = frutasChao[i];
+            if (fruta != null && fruta.ehVisivel()) {
                 int jogadorWidth = jogador.getWidth();
                 int jogadorHeight = jogador.getHeigth();
                 int frutaSize = (int) (cellSize * 0.8); // Tamanho da fruta proporcional à célula
     
                 // Calcula o centro da fruta
-                int frutaCenterX = coco.getX();
-                int frutaCenterY = coco.getY();
+                int frutaCenterX = fruta.getX();
+                int frutaCenterY = fruta.getY();
     
                 // Verifica se há sobreposição nas coordenadas X e Y
                 boolean xOverlap = (jogador.getX() + jogadorWidth > frutaCenterX) &&
@@ -281,12 +325,12 @@ public class Janela extends JPanel implements KeyListener {
     
                 // Se houver sobreposição em ambos os eixos, o jogador coletou a fruta
                 if (xOverlap && yOverlap) {
-                    jogador.catouFruta(coco, PosicoesUsadas); // Adiciona a fruta ao jogador
-                    coco.setVisivel(false, PosicoesUsadas); // Torna a fruta invisível e remove a posição
+                    jogador.catouFruta(fruta, PosicoesUsadas); // Adiciona a fruta ao jogador
+                    fruta.setVisivel(false, PosicoesUsadas); // Torna a fruta invisível e remove a posição
                     frutasChao[i] = null; // Remove a fruta do array
-                    System.out.println(nomeJogador + ": " + jogador.frutasColetadas());
                     jogador.decrementarMovimento(1);
-                    System.out.println(nomeJogador + " agora esta com: " + jogador.getQtdMovimentos() + " movimentos");
+                    System.out.println("O jogador " + nomeJogador + " pegou " + fruta.getClass().getSimpleName());
+                    System.out.println("O jogador " + nomeJogador + " está com " + jogador.frutasColetadas() + " frutas.");
                     repaint(); // Redesenha o painel para refletir a mudança
                 }
             }
@@ -331,8 +375,6 @@ public class Janela extends JPanel implements KeyListener {
                 if (xOverlap && yOverlap) {
                     if(jogador.getQtdMovimentos() >= 1){
 
-                        System.out.println(nomeJogador + ": perdeu um movimento");
-                        System.out.println("e agora ta com: " + jogador.getQtdMovimentos() + " movimentos por ter escalado a pedra");
                         jogador.move(movimentoOposto);
                         jogador.setQtdMovimentos(jogador.getQtdMovimentos() + 1);
                         return  1;

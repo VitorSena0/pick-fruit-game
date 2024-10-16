@@ -1,6 +1,7 @@
 package modelo_jogo;
 import java.awt.Graphics;
 import java.awt.Image;
+import javax.swing.ImageIcon;
 import java.util.Set;
 
 import personagens.*;
@@ -8,10 +9,13 @@ import personagens.*;
 public class Goiaba extends Fruta{
 	
 	private int bichada;
+    private Image imagem;
 
    public Goiaba(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
     super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
     this.bichada = bichada; // Inicializa a variável de instância
+    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "goiaba.png");
+    this.imagem = referencia.getImage();
 }
 
     @Override

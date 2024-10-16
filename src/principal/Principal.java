@@ -16,7 +16,7 @@ public class Principal {
      * @param args Argumentos passados pela linha de comando (não usados aqui).
      */
     public static void main(String[] args) {
-        // A chamada para EventQueue.invokeLater garante que a GUI seja construída
+         // A chamada para EventQueue.invokeLater garante que a GUI seja construída
         // e atualizada dentro da thread de despacho de eventos do Swing.
         EventQueue.invokeLater(new Runnable() {
             public void run() {
