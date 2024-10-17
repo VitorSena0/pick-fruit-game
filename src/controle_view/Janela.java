@@ -86,11 +86,7 @@ public class Janela extends JPanel implements KeyListener {
             this.pedras[i] = new Pedra(posicao[0], posicao[1], cellSize);
             posicoesPedras.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da pedra
         }
-        for (int i = 0; i < arvores.length; i++) {
-            int[] posicao = generateRandomPosition();
-            arvores[i] = new Arvore(posicao[0], posicao[1], "", cellSize);
-            posicoesArvores.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da árvore
-        }
+        armazenaArvores(laranjeiras, abacateiros, coqueiros, pesDeAcerola, amoeiras, goiabeiras, probabidade_bichadas);
     }
     /*
      * Gera uma posição aleatória para os elementos do jogo.
@@ -153,6 +149,38 @@ public class Janela extends JPanel implements KeyListener {
         }
     }
 
+    public void armazenaArvores(int laranjeiras, int abacateiros, int coqueiros, int pesDeAcerola, int amoeiras, int goiabeiras, int probabidade_bichadas) {
+        for(int i = 0; i < arvores.length; i++){
+            int[] posicao = generateRandomPosition();
+            if(coqueiros > 0){
+                arvores[i] = new Arvore(posicao[0], posicao[1], "Coqueiro", cellSize);
+                posicoesArvores.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da árvore
+                coqueiros--;
+            }else if(laranjeiras > 0){
+                arvores[i] = new Arvore(posicao[0], posicao[1], "Laranjeiras", cellSize);// Gera uma nova fruta em uma posição válida
+                posicoesArvores.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da árvore
+                laranjeiras--;
+            }else if(abacateiros > 0){
+                arvores[i] = new Arvore(posicao[0], posicao[1], "Abacateiro", cellSize); // Gera uma nova fruta em uma posição válida
+                posicoesArvores.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da árvore
+                abacateiros--;
+            }else if(pesDeAcerola > 0){
+                arvores[i] = new Arvore(posicao[0], posicao[1], "PeDeAcerola", cellSize); // Gera uma nova fruta em uma posição válida
+                posicoesArvores.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da árvore
+                pesDeAcerola--;
+            }else if(amoeiras > 0){
+                arvores[i] = new Arvore(posicao[0], posicao[1], "Amoreiras", cellSize); // Gera uma nova fruta em uma posição válida
+                posicoesArvores.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da árvore
+                amoeiras--;
+            }else if(goiabeiras > 0){
+                arvores[i] = new Arvore(posicao[0], posicao[1], "Goiabeiras", cellSize); // Gera uma nova fruta em uma posição válida
+                posicoesArvores.add(posicao[0] + "," + posicao[1]); // Adiciona a posição da árvore
+                goiabeiras--;
+            }
+        }
+    }
+    
+
     /*
      * Método chamado quando uma tecla é pressionada.
      * @param e O evento de teclado gerado
@@ -161,8 +189,8 @@ public class Janela extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        int listaKeysPlayer1[] = {37, 38, 40, 39, 32}; // Setas do teclado e enter do teclado numerico
-        int listaKeysPlayer2[] = {65, 87, 83, 68, 32}; // WASD e espaço
+        int listaKeysPlayer1[] = {37, 38, 40, 39, 32, 10}; // Setas do teclado, espaço e enter
+        int listaKeysPlayer2[] = {65, 87, 83, 68, 32, 10}; // WASD, espaço e enter
         if ((!podeMoverJogador1 || !podeMoverJogador2) && !dados.isPrimeiraJogada()) {
             return; // Se não pode mover, sai imediatamente
         }
@@ -179,7 +207,7 @@ public class Janela extends JPanel implements KeyListener {
          * e seus pontos antigos são recuperados, se ele tiver ele sobe na pedra e gasta mais um para poder escalar.
          */
         if (podeMoverJogador1 && player.getQtdMovimentos() > 0 && Arrays.stream(listaKeysPlayer1).anyMatch(i -> i == key)) {
-            if(verificarColisaoComPedra(player, "Player 1", listaKeysPlayer1, key) == 2){
+            if(verificarColisaoComPedra(player, "Player 1", player2, listaKeysPlayer1, key) == 2){
                 return;
             }
                 
@@ -189,6 +217,7 @@ public class Janela extends JPanel implements KeyListener {
                     case KeyEvent.VK_LEFT -> player.moveLeft();
                     case KeyEvent.VK_RIGHT -> player.moveRight();
                     case KeyEvent.VK_SPACE -> verificarColisaoComFruta(player, "Player 1");
+                    case KeyEvent.VK_ENTER -> player.setQtdMovimentos(0);// faz o jogador passar a vez
                 }
                 podeMoverJogador1 = false; // Desabilita a movimentação até a liberação da tecla
             podeMoverJogador2 = true;
@@ -197,7 +226,7 @@ public class Janela extends JPanel implements KeyListener {
     
         // Movimentação do Jogador 2
         if (podeMoverJogador2 && player2.getQtdMovimentos() > 0 && (Arrays.stream(listaKeysPlayer2).anyMatch(i -> i == key))) {
-            if(verificarColisaoComPedra(player2, "Player 2", listaKeysPlayer2, key) == 2 ){
+            if(verificarColisaoComPedra(player2, "Player 2", player, listaKeysPlayer2, key) == 2 ){
                 return;
             }
                 switch (key) {
@@ -206,6 +235,7 @@ public class Janela extends JPanel implements KeyListener {
                     case KeyEvent.VK_A -> player2.moveLeft();
                     case KeyEvent.VK_D -> player2.moveRight();
                     case KeyEvent.VK_SPACE -> verificarColisaoComFruta(player2, "Player 2");
+                    case KeyEvent.VK_ENTER -> player2.setQtdMovimentos(0);//faz o jogador passar a vez
                 }
                 podeMoverJogador2 = false; // Desabilita a movimentação até a liberação da tecla
                 podeMoverJogador1 = true;
@@ -229,8 +259,8 @@ public class Janela extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        int listaKeysPlayer1[] = {37, 38, 40, 39, 32}; // Setas do teclado e espaç
-        int listaKeysPlayer2[] = {65, 87, 83, 68, 32}; // WASD e espaço
+        int listaKeysPlayer1[] = {37, 38, 40, 39, 32, 10}; // Setas do teclado e espaço e enter
+        int listaKeysPlayer2[] = {65, 87, 83, 68, 32, 10}; // WASD e espaço e enter
     
         // Reativa o movimento quando a tecla do Jogador 1 é liberada
         if (Arrays.stream(listaKeysPlayer1).anyMatch(i -> i == key) && player.getQtdMovimentos() > 0) {
@@ -332,11 +362,11 @@ public class Janela extends JPanel implements KeyListener {
         }
     }
 
-    private int verificarColisaoComPedra(Jogador jogador, String nomeJogador, int[] teclas, int teclaDigitada) {
+    private int verificarColisaoComPedra(Jogador jogador, String nomeJogador, Jogador jogador2,int[] teclas, int teclaDigitada) {
         int movimentoOposto = -1; // Initialize with a default value
         int passouDoLimite = 0;
         // Verifica se o jogador colidiu com a pedra, faz a posição do jogador mudar para a tecla digitada e depois verifica se o jogador tem movimentos o suficiente se sim retorna 1 se não retorna 0, aí no final volta para a posição normal do jogador anteriormente
-        for(int i = 0; i < teclas.length - 1; i++){
+        for(int i = 0; i < teclas.length - 2; i++){
             if(teclas[i] == teclaDigitada){
                     passouDoLimite = jogador.move(i); //Não mexer na ordem dos elemetos do array de movimentos
                     movimentoOposto = i == 0 ? 3 : i == 1 ? 2 : i == 2 ? 1 : 0;
@@ -349,12 +379,29 @@ public class Janela extends JPanel implements KeyListener {
             if(passouDoLimite == 0){// Se o jogador passou do limite
                 return 0;
             }
+            int jogadorWidth = jogador.getWidth();
+            int jogadorHeight = jogador.getHeigth();
+    
+            // Calcula o centro da fruta
+            int xDoOutroJogador = jogador2.getX();
+            int yDoOutroJogador = jogador2.getY();
+    
+            // Verifica se há sobreposição nas coordenadas X e Y
+            boolean xColisao = (jogador.getX() + jogadorWidth > xDoOutroJogador) &&
+                                   (jogador.getX() < xDoOutroJogador + jogador2.getWidth());
+            boolean yColisao = (jogador.getY() + jogadorHeight > yDoOutroJogador) &&
+                                   (jogador.getY() < yDoOutroJogador + jogador2.getHeigth());
+
+        if(xColisao && yColisao){
+            jogador.move(movimentoOposto);
+            jogador.setQtdMovimentos(jogador.getQtdMovimentos() + 2);
+            return  2;
+
+        }
 
         for (int i = 0; i < pedras.length; i++) {
             Pedra pedraNaMinhaBota = pedras[i];
             if (pedraNaMinhaBota != null) {
-                int jogadorWidth = jogador.getWidth();
-                int jogadorHeight = jogador.getHeigth();
     
                 // Calcula o centro da fruta
                 int xDaPedra = pedraNaMinhaBota.getX();
