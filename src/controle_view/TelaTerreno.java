@@ -2,10 +2,6 @@ package controle_view;
 
 import java.awt.*;
 
-import javax.swing.JPanel;
-
-import dados.*;
-
 /**
  * A classe {@code TelaTerreno} representa a tela de visualização do terreno no jogo "Cata Fruta".
  * Esta tela exibe o estado do terreno, incluindo as dimensões e a distribuição de frutas e pedras.
@@ -44,19 +40,16 @@ public class TelaTerreno extends EstadoView {
         setLayout(new BorderLayout());
 
         // Cria o painel principal para o jogo
-        DadosInterface dados = new DadosInterface();
         Janela janela = new Janela(600, dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas,
                 abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras,
-                goiabeiras, goiabas, probabidade_bichadas, dados);
+                goiabeiras, goiabas, probabidade_bichadas);
         
         // Cria a interface de dados
         
         // Painel para manter a interface de dados à direita e centralizada
-        JPanel panelDados = new JPanel(new GridBagLayout());
-        panelDados.add(dados);
+
         
         // Adiciona o painel de dados ao lado direito
-        add(panelDados, BorderLayout.EAST);
         add(janela, BorderLayout.CENTER);
 
         revalidate();  // Atualiza o layout

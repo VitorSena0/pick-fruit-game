@@ -1,34 +1,40 @@
 package dados;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.Random;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import personagens.Jogador;
 
-
-/**
- * A classe {@code DadosInterface} representa a interface gráfica para rolar dados de 6 faces.
- * Ela exibe dois dados e um botão para rolar os dados e obter um número aleatório entre 1 e 6.
- */
-public class DadosInterface extends JPanel {
+public class DadosInterface {
     private int valorDado1;
     private int valorDado2;
+    private int dimensao;
     private JButton botaoDados;
     private Jogador jogador1, jogador2;
     private boolean primeiraJogada = false;
     private boolean segundaJogada = false;
+    private Image imagemDado1, imagemDado2;
+    private JPanel painelDesenho; // Painel onde os dados serão desenhados
 
     /**
      * Construtor da classe {@code DadosInterface}. Inicializa a interface gráfica dos dados.
+     * @param painelDesenho O painel onde os dados serão desenhados.
      */
-    public DadosInterface() {
-        setPreferredSize(new Dimension(210, 210)); // 30% de 700x700
-        setLayout(null);
+    public DadosInterface(JPanel painelDesenho, int dimensao) {
+        this.valorDado1 = 1;
+        this.valorDado2 = 1;
+        this.painelDesenho = painelDesenho; // Armazena a referência ao painel de desenho
+        this.dimensao = dimensao;
+        carregarImagens();
         adicionarElementosInterface();
     }
 
+    private void carregarImagens() {
+        imagemDado1 = RolarDados.carregarImagem("resources/dice1.png");
+        imagemDado2 = RolarDados.carregarImagem("resources/dice2.png");
+    }
 
     public int getValorDado1() {
         return valorDado1;
@@ -39,87 +45,66 @@ public class DadosInterface extends JPanel {
     }
 
     /**
-     * Adiciona os elementos gráficos da interface: banner, dados e botão.
-    */
+     * Adiciona os elementos gráficos da interface: botão de rolar dados.
+     */
+        /**
+     * Adiciona os elementos gráficos da interface: botão de rolar dados.
+     */
     private void adicionarElementosInterface() {
-        // Painel principal para organizar os componentes
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBounds(0, 0, 210, 210); // 30% de 700x700
-
-        // Banner
-        JLabel bannerIMG = RolarDados.carregarImagens("resources" + System.getProperty("file.separator") + "banner.png");
-        bannerIMG.setBounds(13, 7, 180, 30); // 30% de 45, 25, 600, 100
-        panel.add(bannerIMG); // Adiciona o banner ao painel
-
-        // Dados
-        JLabel dado1 = RolarDados.carregarImagens("resources" + System.getProperty("file.separator") + "dice1.png");
-        dado1.setBounds(30, 60, 60, 84); // 30% de 100, 200, 200, 280
-        panel.add(dado1); // Adiciona o dado 1 ao painel
-
-        JLabel dado2 = RolarDados.carregarImagens("resources" + System.getProperty("file.separator") + "dice2.png");
-        dado2.setBounds(120, 60, 60, 84); // 30% de 400, 200, 200, 280
-        panel.add(dado2); // Adiciona o dado 2 ao painel
-
-        // Botão
+        // Botão para rolar os dados
         Random random = new Random();
-        JButton botao = new JButton("Rolar dados");
-        this.botaoDados = botao;
-        botao.setBounds(75, 165, 60, 17); // 30% de 250, 550, 200, 58
-        botao.addActionListener(new ActionListener() {
-            
-            /**
-             * Método chamado quando o botão é clicado. Ele gera um número aleatório entre 1 e 6 para cada dado durante 1 segundo.
-             * Faça a chamada para o método {@link RolarDados#atualizarImagemDado(JLabel, String)} para atualizar a imagem de cada dado.
-             * Realiza a atribuição das movimentações dos jogadores.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                botao.setEnabled(false); // Desabilita o botão para evitar cliques múltiplos
-                
-                // Gera um número aleatório entre 1 e 6 para cada dado durante 1 segundo
-                long tempoInicial = System.currentTimeMillis();
-                Thread rollThread = new Thread(() -> { // Cria uma nova thread para rolar os dados, pois o método actionPerformed é executado na thread de despacho de eventos
-                    long tempoAtual = System.currentTimeMillis(); // Tempo atual em milissegundos
-                    try {
-                        while ((tempoAtual - tempoInicial) < 1000) { // Rola os dados por 1 segundo
-                            valorDado1 = random.nextInt(6) + 1;
-                            valorDado2 = random.nextInt(6) + 1;
+        botaoDados = new JButton("Rolar dados");
+        botaoDados.setBounds(75, 165, 60, 17);
+        botaoDados.addActionListener(e -> {
+            botaoDados.setEnabled(false);
+            long tempoInicial = System.currentTimeMillis();
 
-                            // Atualiza as imagens dos dados
-                            RolarDados.atualizarImagemDado(dado1, "resources" + System.getProperty("file.separator") + "dice" + valorDado1 + ".png");
-                            RolarDados.atualizarImagemDado(dado2, "resources" + System.getProperty("file.separator") + "dice" + valorDado2 + ".png");
+            Thread rollThread = new Thread(() -> {
+                long tempoAtual = System.currentTimeMillis();
+                try {
+                    while ((tempoAtual - tempoInicial) < 1000) {
+                        valorDado1 = random.nextInt(6) + 1;
+                        valorDado2 = random.nextInt(6) + 1;
 
-                            repaint();
-                            revalidate();
+                        // Atualiza as imagens dos dados
+                        RolarDados.atualizarImagemDado(imagemDado1, "resources" + System.getProperty("file.separator") + "dice" + valorDado1 + ".png");
+                        RolarDados.atualizarImagemDado(imagemDado2, "resources" + System.getProperty("file.separator") + "dice" + valorDado2 + ".png");
+                        atualizarImagens();
+                        // Repaint para redesenhar as novas imagens dos dados
+                        painelDesenho.repaint();
 
-                            Thread.sleep(60); // Aguarda 60 milissegundos
-
-                            tempoAtual = System.currentTimeMillis();
-                        }
-
-                        if(!botao.isEnabled()){ // Verifica se o botão ainda está desabilitado
-                            DadosInterface.this.setBotaoEnabled(false);
-                            DadosInterface.this.setPrimeiraJogada(true);
-                        }
-                        if(!segundaJogada){ // Verifica se é a primeira jogada
-                            DadosInterface.this.setSegundaJogada(true);
-                            jogador1.setQtdMovimentos(valorDado1 + valorDado2); // Atribui a quantidade de movimentos do jogador 1
-                        }else if(segundaJogada){
-                            DadosInterface.this.setSegundaJogada(false);
-                            jogador2.setQtdMovimentos(valorDado1 + valorDado2); // Atribui a quantidade de movimentos do jogador 2
-                        }
-                    } catch (Exception ex) {
-                        System.out.println("Erro ao rolar dados: " + ex);
+                        Thread.sleep(60);
+                        tempoAtual = System.currentTimeMillis();
                     }
-                });
-                rollThread.start(); // Inicia a thread para rolar os dados
-             }
-        });
-        panel.add(botao); // Adiciona o botão ao painel
 
-        this.add(panel); // Adiciona o painel ao JPanel principal
+                    // Verifica se o botão ainda está desabilitado
+                    if (!botaoDados.isEnabled()) {
+                        setBotaoEnabled(false);
+                        setPrimeiraJogada(true);
+                    }
+
+                    // Atribui a quantidade de movimentos ao jogador correspondente
+                    if (!segundaJogada) {
+                        setSegundaJogada(true);
+                        jogador1.setQtdMovimentos(valorDado1 + valorDado2);
+                        
+                    } else {
+                        setSegundaJogada(false);
+                        jogador2.setQtdMovimentos(valorDado1 + valorDado2);
+                    }
+                    
+                    painelDesenho.repaint();
+
+                } catch (Exception ex) {
+                    System.out.println("Erro ao rolar dados: " + ex);
+                }
+            });
+            rollThread.start();
+        });
+
+        painelDesenho.add(botaoDados);
     }
+
         public boolean isPrimeiraJogada() {
             return this.primeiraJogada;
         }
@@ -153,4 +138,56 @@ public class DadosInterface extends JPanel {
             this.jogador1 = jogador1;
             this.jogador2 = jogador2;
         }
+
+/**
+ * Classe responsável por carregar imagens.
+ */
+private void atualizarImagens() {
+    imagemDado1 = RolarDados.carregarImagem("resources/dice" + valorDado1 + ".png");
+    imagemDado2 = RolarDados.carregarImagem("resources/dice" + valorDado2 + ".png");
+}
+
+public void desenharDados(Graphics g) {
+    if (imagemDado1 != null && imagemDado2 != null) {
+        double transladarDados = 0;
+        if(this.dimensao < 8){
+            transladarDados = 0.1;
+        }
+        g.drawImage(imagemDado1, (int)(680 + (680*transladarDados)) , 260, 60, 84, null);
+        g.drawImage(imagemDado2, (int)(680 + (680*transladarDados)), 380, 60, 84, null);
+    }
+
+}
+
+// Outros métodos omitidos para clareza...
+
+public static class RolarDados {
+    private static final double REDIMENSIONAR_PROPORCAO = 0.3;
+
+    public static Image carregarImagem(String caminho) {
+        try {
+            InputStream imagemCaminho = RolarDados.class.getResourceAsStream(caminho);
+            BufferedImage imagem = ImageIO.read(imagemCaminho);
+            return redimensionarImagem(imagem, REDIMENSIONAR_PROPORCAO);
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar imagem: " + e);
+            return null;
+        }
+    }
+
+    public static void atualizarImagemDado(Image imagem, String caminho) {
+        try {
+            BufferedImage novaImagem = ImageIO.read(RolarDados.class.getResourceAsStream(caminho));
+            imagem = redimensionarImagem(novaImagem, REDIMENSIONAR_PROPORCAO);
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar imagem do dado: " + e);
+        }
+    }
+
+    private static Image redimensionarImagem(BufferedImage imagem, double proporcao) {
+        int novaLargura = (int) (imagem.getWidth() * proporcao);
+        int novaAltura = (int) (imagem.getHeight() * proporcao);
+        return imagem.getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH);
+    }
+}
 }

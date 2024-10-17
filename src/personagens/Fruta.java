@@ -1,9 +1,7 @@
 package personagens;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.Random;
 import java.util.Set;
-import javax.swing.ImageIcon;
 
 /**
  * A classe abstrata {@code Fruta} representa uma fruta no jogo, com suas coordenadas e imagem associadas.

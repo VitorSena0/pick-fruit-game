@@ -11,18 +11,8 @@ import java.util.Random;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
-import modelo_jogo.Abacate;
-import modelo_jogo.Acerola;
-import modelo_jogo.Amora;
-import modelo_jogo.Coco;
-import modelo_jogo.Goiaba;
-import modelo_jogo.Laranja;
-import modelo_jogo.Maracuja;
-import personagens.Arvore;
-import personagens.Fruta;
-import personagens.Jogador;
-import personagens.Pedra;
+import modelo_jogo.*;
+import personagens.*;
 
 /**
  * A classe Janela representa o painel de jogo do jogo "Cata Fruta".
@@ -67,14 +57,14 @@ public class Janela extends JPanel implements KeyListener {
      * Inicializa o painel de jogo com a dimensão e o tamanho da célula.
      * Também cria e configura o jogador, a fruta, as pedras e as árvores.
      */
-    public Janela(int proporcaoTelaJogo,int dimensao, int quatidadePedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, DadosInterface dados) {
+    public Janela(int proporcaoTelaJogo,int dimensao, int quatidadePedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas) {
         this.dimensao = dimensao; // Define a dimensão do jogo
         this.pedras = new Pedra[quatidadePedras]; // Inicializa o array de pedras
         this.proporcaoTelaJogo = proporcaoTelaJogo; // Define a proporção da tela do jogo
         this.arvores = new Arvore[laranjeiras + abacateiros + coqueiros + pesDeAcerola + amoeiras + goiabeiras]; // Inicializa o array de árvores
         this.frutasChao = new Fruta[maracujas_chao + laranjas + abacates + cocos + acerolas + amoras + goiabas]; // Inicializa o array de frutas
         this.cellSize = (proporcaoTelaJogo / dimensao); // Calcula o tamanho da célula
-        this.dados = dados; // Define a interface de dados
+        this.dados = new DadosInterface(this, dimensao); // Passa o JPanel da Janela para o DadosInterface
         
         setFocusable(true); // Permite que o painel tenha foco para eventos de teclado
         addKeyListener(this); // Adiciona o KeyListener ao painel
@@ -176,6 +166,7 @@ public class Janela extends JPanel implements KeyListener {
         if ((!podeMoverJogador1 || !podeMoverJogador2) && !dados.isPrimeiraJogada()) {
             return; // Se não pode mover, sai imediatamente
         }
+
         
         if(player.getQtdMovimentos() > 0 || player2.getQtdMovimentos() > 0){
             dados.setBotaoEnabled(false);
@@ -256,6 +247,8 @@ public class Janela extends JPanel implements KeyListener {
         }
 
     }
+    // Método para ler o click do mouse
+    
 
     @Override
     public void keyTyped(KeyEvent e) {}
@@ -298,6 +291,8 @@ public class Janela extends JPanel implements KeyListener {
                 fruta.load(g);
             }
         }
+
+        dados.desenharDados(g);
     }    
     
     /*

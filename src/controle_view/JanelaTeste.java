@@ -1,7 +1,6 @@
 package controle_view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 /**
@@ -26,7 +25,8 @@ public class JanelaTeste extends JFrame implements ActionListener {
 		relogioEstado = new Timer(100, this);
 		estadoAtual = new TelaInicial();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 986, 732);
+		setBounds(0, 0, 996, 732); // Define a posição e o tamanho da janela
+		setLocationRelativeTo(null); // Centraliza a janela na tela
 		setContentPane(estadoAtual);
 		setVisible(true);
 		relogioEstado.start();
@@ -46,4 +46,5 @@ public class JanelaTeste extends JFrame implements ActionListener {
 			repaint();
 		}
 	}
+
 }

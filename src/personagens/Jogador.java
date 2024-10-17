@@ -3,7 +3,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.*;
 import javax.swing.ImageIcon;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 
 /**
  * A classe {@code Jogador} representa o personagem controlado pelo jogador no jogo "Cata Fruta".
@@ -94,7 +93,7 @@ public class Jogador{
      */
 	
 	public Jogador(int dimensao,int dimensaoGrid, int tipoJogador) {
-		this.tipoJogador = (tipoJogador == 1)? "player1" : "player2";
+		this.tipoJogador = tipoJogador == 1 ? "player1" : "player2";
 		this.dimensao = dimensao;
 		this.dimensaoGrid = dimensaoGrid;
 		this.x = aleatorio.nextInt(this.dimensao) * this.dimensaoGrid;
@@ -123,6 +122,13 @@ public class Jogador{
 	    int tamanhoX = tamanho + (int)(tamanho*0.3); 
 	    int offsetX = (dimensaoGrid - tamanho) / 2;   // Calcula o offset para centralizar
 	    int offsetY = (dimensaoGrid - tamanho) / 2;
+
+        if(this.getQtdMovimentos() > 0){
+            g.drawString("Movimentos restantes: " + this.getQtdMovimentos(), 50, 40);
+            imagem = (tipoJogador.equals("player1")) ? new ImageIcon("res" + System.getProperty("file.separator") + "player1PixelartAura(2).png").getImage() : new ImageIcon("res" + System.getProperty("file.separator") +  "player2PixelartAura(2).png").getImage();
+        }else{
+            imagem = (tipoJogador.equals("player1")) ? new ImageIcon("res" + System.getProperty("file.separator") + "player1Pixelart.png").getImage() : new ImageIcon("res" + System.getProperty("file.separator") + "player2Pixelart.png").getImage();
+        }
 
 	    g.drawImage(imagem, x + offsetX + dimensaoGrid, y + offsetY + dimensaoGrid, tamanhoX, tamanho, null);
 	}
@@ -271,7 +277,7 @@ public class Jogador{
      * @return O número de movimentos realizados.
      */
     public void setQtdMovimentos(int qtdMovimentos){
-    	this.qtdMovimentos = qtdMovimentos;
+        this.qtdMovimentos = qtdMovimentos;
     }
 
     /**
