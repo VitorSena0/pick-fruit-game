@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -357,8 +358,13 @@ public class TelaConfiguracoes extends EstadoView {
 				int maracujas = Integer.parseInt(campoMaracujas.getText());
 				int maracujasChao = Integer.parseInt(campoMaracujasChao.getText());
 				int pBichadas = Integer.parseInt(campoBichada.getText());
+				int mochila = Integer.parseInt(campoMochila.getText());
 				int elementos = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras + pedras;
 				int posicoes = dimensao*dimensao;
+				int listaCampos[] = {dimensao, pedras, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, maracujas, maracujasChao, pBichadas, mochila};
+				/**
+				 * Esta parte realiza o tratamento de exceções para os valores inseridos nos campos de texto.
+				 */
 				if (maracujasChao > maracujas) {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
@@ -373,8 +379,12 @@ public class TelaConfiguracoes extends EstadoView {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: número de pedras e árvores muito grande, deve haver pelo menos uma célula de grama";
 			    	  throw new Exception();
-			      }
-				return new TelaTerreno(dimensao, pedras, maracujas, maracujasChao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, pBichadas);
+			      }else if (Arrays.stream(listaCampos).anyMatch(campo -> campo < 0 )){
+					erroMapeado = true;
+					mensagemErro = "Erro: todos os campos devem ser números inteiros positivos";
+					throw new Exception();
+				  }
+				return new TelaTerreno(dimensao, pedras, maracujas, maracujasChao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, pBichadas, mochila);
 			}
 			catch (Exception e) {
 				mudarEstado = false;
@@ -416,6 +426,7 @@ public class TelaConfiguracoes extends EstadoView {
 				int mochila = Integer.parseInt(campoMochila.getText());
 				int elementos = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras + pedras;
 				int posicoes = dimensao*dimensao;
+				int listaCampos[] = {dimensao, pedras, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, maracujas, maracujasChao, pBichadas, mochila};
 				if (maracujasChao > maracujas) {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
@@ -430,7 +441,11 @@ public class TelaConfiguracoes extends EstadoView {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: número de pedras e árvores muito grande, deve haver pelo menos uma célula de grama";
 			    	  throw new Exception();
-			      }
+			      }else if (Arrays.stream(listaCampos).anyMatch(campo -> campo < 0 )){
+					erroMapeado = true;
+					mensagemErro = "Erro: todos os campos devem ser números inteiros positivos";
+					throw new Exception();
+				  }
 				FileWriter arq = new FileWriter("terreno.txt");
 			    PrintWriter gravarArq = new PrintWriter(arq);
 			    gravarArq.println("dimensao " + dimensao);

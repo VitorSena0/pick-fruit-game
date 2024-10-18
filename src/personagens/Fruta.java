@@ -96,6 +96,14 @@ public abstract class Fruta {
         return this.y;
     }
 
+    public int setX(int x){
+        return this.x = x;
+    }
+
+    public int setY(int y){
+        return this.y = y;
+    }
+
     /**
      * Retorna o nome da fruta com base no nome da classe.
      * 

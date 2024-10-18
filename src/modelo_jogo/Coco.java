@@ -13,7 +13,7 @@ public class Coco extends Fruta{
 
    public Coco(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
     super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
-    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "coco.png");
+    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "Coco.png");
     this.imagem = referencia.getImage();
 }
 

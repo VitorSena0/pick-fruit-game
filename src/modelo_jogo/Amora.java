@@ -13,7 +13,7 @@ public class Amora extends Fruta{
 
    public Amora(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
     super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
-    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "amora.png");
+    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "Amora.png");
     this.imagem = referencia.getImage();
 }
 

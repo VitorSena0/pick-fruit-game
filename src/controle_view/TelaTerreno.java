@@ -34,7 +34,7 @@ public class TelaTerreno extends EstadoView {
      */
     TelaTerreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas,
                 int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas,
-                int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas) {
+                int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila) {
           
         setBounds(0, 0, 986, 732);
         setLayout(new BorderLayout());
@@ -42,7 +42,7 @@ public class TelaTerreno extends EstadoView {
         // Cria o painel principal para o jogo
         Janela janela = new Janela(600, dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas,
                 abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras,
-                goiabeiras, goiabas, probabidade_bichadas);
+                goiabeiras, goiabas, probabidade_bichadas, mochila);
         
         // Cria a interface de dados
         

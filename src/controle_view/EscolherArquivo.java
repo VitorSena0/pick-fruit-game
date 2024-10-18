@@ -106,7 +106,7 @@ public class EscolherArquivo extends EstadoView {
 			    	  linha = lerArq.readLine();
 			      }
 			      lerArq.close();
-			      return new TelaTerreno(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"), parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1], parametrosCompostos.get("laranja")[0], parametrosCompostos.get("laranja")[1], parametrosCompostos.get("abacate")[0], parametrosCompostos.get("abacate")[1], parametrosCompostos.get("coco")[0], parametrosCompostos.get("coco")[1], parametrosCompostos.get("acerola")[0], parametrosCompostos.get("acerola")[1], parametrosCompostos.get("amora")[0], parametrosCompostos.get("amora")[1], parametrosCompostos.get("goiaba")[0], parametrosCompostos.get("goiaba")[1], parametrosSimples.get("dimensao"));
+			      return new TelaTerreno(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"), parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1], parametrosCompostos.get("laranja")[0], parametrosCompostos.get("laranja")[1], parametrosCompostos.get("abacate")[0], parametrosCompostos.get("abacate")[1], parametrosCompostos.get("coco")[0], parametrosCompostos.get("coco")[1], parametrosCompostos.get("acerola")[0], parametrosCompostos.get("acerola")[1], parametrosCompostos.get("amora")[0], parametrosCompostos.get("amora")[1], parametrosCompostos.get("goiaba")[0], parametrosCompostos.get("goiaba")[1], parametrosSimples.get("bichadas"), parametrosSimples.get("mochila"));
 			}
 			catch (Exception e) {
 				mudarEstado = false;

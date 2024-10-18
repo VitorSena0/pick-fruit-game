@@ -12,7 +12,7 @@ public class Goiaba extends Fruta{
 
    public Goiaba(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
     super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
-    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "goiaba.png");
+    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "Goiaba.png");
     this.imagem = referencia.getImage();
 }
 

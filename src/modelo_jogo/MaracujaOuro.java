@@ -8,12 +8,12 @@ import javax.swing.ImageIcon;
 
 import personagens.Fruta;
 
-public class Maracuja extends Fruta{
+public class MaracujaOuro extends Fruta{
     private Image imagem;
 
-   public Maracuja(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
+   public MaracujaOuro(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
     super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
-    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "maracujaOuro.png");
+    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "MaracujaOuro.png");
     this.imagem = referencia.getImage();
 }
 

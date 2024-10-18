@@ -1,4 +1,4 @@
-dimensao 12
+dimensao 10
 pedras 20
 maracuja 3 3
 laranja 3 3
@@ -7,5 +7,5 @@ coco 3 3
 acerola 3 3
 amora 3 3
 goiaba 3 3
-bichadas 25
-mochila 30
+bichadas 50
+mochila 70

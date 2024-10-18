@@ -11,7 +11,7 @@ public class Abacate extends Fruta{
 	
 	public Abacate(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
 		super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
-		ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "abacate.png");
+		ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "Abacate.png");
 		this.imagem = referencia.getImage();
 }
 

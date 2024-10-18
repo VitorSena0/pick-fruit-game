@@ -10,7 +10,7 @@ public class Laranja extends Fruta{
 
    public Laranja(int dimensao, int dimensaoGrid, Set<String> posicoesOcupadas, int bichada) {
     super(dimensao, dimensaoGrid, posicoesOcupadas, bichada); // Passa bichada para a superclasse
-    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "laranja.png");
+    ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "Laranja.png");
     this.imagem = referencia.getImage();
 }
 

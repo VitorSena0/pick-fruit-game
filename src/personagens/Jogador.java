@@ -37,9 +37,9 @@ public class Jogador{
     private int heigth;
 
     /**
-     * O array de frutas coletadas pelo jogador, com um limite de até 99 frutas.
+     * Pilha de frutas coletadas pelo jogador, com um limite de até n frutas.
      */
-    private Fruta[] frutas = new Fruta[99];
+    private Fruta mochila[];
 
     /**
      * O número de frutas coletadas pelo jogador.
@@ -91,9 +91,11 @@ public class Jogador{
      * @param posicoesOcupadas Conjunto de posições ocupadas no terreno.
      * @param qtdMovimentos A quantidade de movimentos realizados pelo jogador com base nos dados.
      */
+
 	
-	public Jogador(int dimensao,int dimensaoGrid, int tipoJogador) {
+	public Jogador(int dimensao,int dimensaoGrid, int tipoJogador, int mochila) {
 		this.tipoJogador = tipoJogador == 1 ? "player1" : "player2";
+        this.mochila = new Fruta[mochila];
 		this.dimensao = dimensao;
 		this.dimensaoGrid = dimensaoGrid;
 		this.x = aleatorio.nextInt(this.dimensao) * this.dimensaoGrid;
@@ -237,8 +239,8 @@ public class Jogador{
      *
      * @return Um array de frutas coletadas.
      */
-    public Fruta[] getFrutas() {
-        return this.frutas;
+    public Fruta[] getMochilaFrutas() {
+        return this.mochila;
     }
 
     /**
@@ -256,10 +258,25 @@ public class Jogador{
      * @param a A fruta que foi coletada.
      * @param posicoesOcupadas Conjunto de posições ocupadas no terreno.
      */
-    public void catouFruta(Fruta a, Set<String> posicoesOcupadas) {
-        frutas[qtdFrutasColetadas] = a;
-        a.setVisivel(false, posicoesOcupadas); // Marca a fruta como invisível
+    public void catouFruta(Fruta fruta, Set<String> posicoesOcupadas) {
+        mochila[getQtdFrutasColetadas()] = fruta;
+        fruta.setVisivel(false, posicoesOcupadas); // Marca a fruta como invisível
         qtdFrutasColetadas++;
+        int i = getQtdFrutasColetadas();
+        while(i > 0){
+            System.out.println("Fruta " + i + ": " + mochila[i-1].getNomeFruta());
+            i--;
+        }
+    }
+
+    public void consumirFruta(Fruta fruta){
+        if(getQtdFrutasColetadas() < 1){
+            System.out.println("Não há frutas para consumir.");
+            return;
+        }
+        this.mochila[getQtdFrutasColetadas()] = null;
+        this.qtdFrutasColetadas--;
+        this.decrementarMovimento(1);;
     }
 
     /**
@@ -267,7 +284,7 @@ public class Jogador{
      *
      * @return O número de frutas coletadas.
      */
-    public int frutasColetadas() {
+    public int getQtdFrutasColetadas() {
         return qtdFrutasColetadas;
     }
 
