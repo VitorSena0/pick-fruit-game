@@ -1,6 +1,5 @@
 package personagens;
 import java.awt.Graphics;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
@@ -11,12 +10,9 @@ import javax.swing.ImageIcon;
  * tamanho da célula em que está inserida.</p>
  */
 
-public class Arvore extends ElementosStatics{
+public class Arvore extends ElementosEstaticos{
     private String peDeFruta; // Tipo de fruta que a árvore produz
-    private Image imagem;      // Imagem da árvore
-    private int dimensao;      // Dimensão da célula da árvore
-    private int x;            // Posição x da árvore
-    private int y;            // Posição y da árvore
+    private static ImageIcon imagem = new ImageIcon("res" + System.getProperty("file.separator") + "arvorePixelart.png");      // Imagem da árvore
 
     /**
      * Construtor da classe {@code Arvore}. Inicializa uma nova instância de árvore com uma posição,
@@ -29,13 +25,8 @@ public class Arvore extends ElementosStatics{
      */
 
     public Arvore(int posicaoX, int posicaoY, String peDeFruta, int dimensao) {
-        super(posicaoX, posicaoY);
-        this.x = posicaoX;
-        this.y = posicaoY;
+        super(posicaoX, posicaoY,dimensao,imagem);
         this.peDeFruta = peDeFruta;
-        this.dimensao = dimensao; // Atribui o tamanho da célula
-        ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "arvorePixelart.png");
-        this.imagem = referencia.getImage();
     }
     
     /**
@@ -50,27 +41,14 @@ public class Arvore extends ElementosStatics{
         int tamanho = (int) (dimensao * 2); // Ajusta o tamanho da árvore para 200% da célula
         int offset = (dimensao - tamanho) / 2; // Ajusta o offset para centralizar a árvore
 
-        g.drawImage(imagem, posicaoX - offset, posicaoY - offset, tamanho, tamanho, null);
+        g.drawImage(getImage(), posicaoX - offset, posicaoY - offset, tamanho, tamanho, null);
     }
 
-     /**
-     * Retorna a coordenada x da árvore.
-     * 
-     * @return A coordenada x da árvore.
-     */
 
-	public int getX() {
-		return x;
-	}
-
-      /**
-     * Retorna a coordenada y da árvore.
-     * 
-     * @return A coordenada y da árvore.
-     */
-
-	public int getY() {
-		return y;
+	@Override
+	public void acao() {
+		// TODO Auto-generated method stub
+		
 	}
     
     

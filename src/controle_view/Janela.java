@@ -50,7 +50,8 @@ public class Janela extends JPanel implements KeyListener {
     private Set<String> PosicoesUsadas = new HashSet<>(); // Posições usadas
     private Set<String> posicoesPedras = new HashSet<>(); // Posições das pedras
     private Set<String> posicoesArvores = new HashSet<>(); // Posições das árvores
-    private Image gramaImage, scoreJogador1, socreJogador2; // Imagem da grama
+    private Image scoreJogador1, socreJogador2; // Imagem da grama
+    private Image gramaImage; // Imagem da grama
     private ScorePlayers scorePlayers; // Score dos jogadores
     
     /**
@@ -297,16 +298,21 @@ public class Janela extends JPanel implements KeyListener {
      * @param g O objeto Graphics usado para desenhar
      * @see Graphics
      */
+  
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g); // Chama o método paintComponent da superclasse
         int cellSize = this.proporcaoTelaJogo / dimensao; // Calcula o tamanho da célula
         // Garante que o painel está com o foco
+        // Garante que o painel está com o foco
         requestFocusInWindow();
-        // Desenha a grama no fundo
+
+        // Desenha a grama no fundo de maneira otimizada
         for (int i = 0; i < this.proporcaoTelaJogo; i += cellSize) { 
             for (int a = 0; a < this.proporcaoTelaJogo; a += cellSize) {
-                g.drawImage(gramaImage, a + cellSize, i + cellSize, cellSize, cellSize, this);
+                // Em vez de criar uma nova Grama, desenhamos diretamente
+            	Grama chao = new Grama(a,i,dimensao,proporcaoTelaJogo);
+                chao.load(g);
             }
         }
         // Desenha as pedras
@@ -412,8 +418,8 @@ public class Janela extends JPanel implements KeyListener {
             if (pedraNaMinhaBota != null) {
     
                 // Calcula o centro da fruta
-                int xDaPedra = pedraNaMinhaBota.getX();
-                int yDaPedra = pedraNaMinhaBota.getY();
+                int xDaPedra = pedraNaMinhaBota.getPosicaoX();
+                int yDaPedra = pedraNaMinhaBota.getPosicaoY();
     
                 // Verifica se há sobreposição nas coordenadas X e Y
                 boolean xOverlap = (jogador.getX() + jogadorWidth > xDaPedra) &&

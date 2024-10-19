@@ -1,25 +1,16 @@
 package personagens;
 import java.awt.Graphics;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
  * A classe {@code Pedra} representa uma rocha no terreno do jogo. 
  * Este é um elemento estático que impede o jogador de passar por ele.
  */
-public class Pedra extends ElementosStatics{
+public class Pedra extends ElementosEstaticos{
 	    /**
      * A imagem que representa a rocha no terreno.
      */
-	private Image imagem;
-        /**
-     * A dimensão da célula do terreno onde a rocha está posicionada.
-     */
-    private int dimensao;
-        /**
-     * As coordenadas x e y da rocha no terreno.
-     */
-    private int x, y;
+	private static ImageIcon referencia= new ImageIcon("res" + System.getProperty("file.separator") + "rochaPixelArt.png");
     
     /**
      * Construtor da classe {@code Pedra}. Inicializa a pedra com uma imagem
@@ -30,12 +21,7 @@ public class Pedra extends ElementosStatics{
      * @param dimensao O tamanho da célula do terreno.
      */
     public Pedra(int posicaoX, int posicaoY, int dimensao) {
-        super(posicaoX, posicaoY);
-        this.x = posicaoX;
-        this.y = posicaoY;
-        this.dimensao = dimensao; // Atribui o tamanho da célula
-        ImageIcon referencia = new ImageIcon("res" + System.getProperty("file.separator") + "rochaPixelArt.png");
-        this.imagem = referencia.getImage();
+        super(posicaoX,posicaoY,dimensao,referencia);
     }
     /**
      * Desenha a rocha na tela. O tamanho da rocha é ajustado para 200% do tamanho da célula.
@@ -47,28 +33,17 @@ public class Pedra extends ElementosStatics{
         int size = (int) (dimensao * 2); // Ajusta o tamanho da pedra para 200% da célula
         int offset = (dimensao - size) / 2; // Ajusta o offset para centralizar a pedra
 
-        g.drawImage(imagem, posicaoX - offset, posicaoY - offset, size, size, null);
+        g.drawImage(getImage(), posicaoX - offset, posicaoY - offset, size, size, null);
     }
-    /**
-     * Retorna a coordenada x da pedra.
-     *
-     * @return A coordenada x da pedra.
-     */
-	public int getX() {
-		return x;
-	}
-    /**
-     * Retorna a coordenada y da pedra.
-     *
-     * @return A coordenada y da pedra.
-     */
-	public int getY() {
-		return y;
-	}
 
     public int getDimensao() {
         return dimensao;
     }
+	@Override
+	public void acao() {
+		// decrementa o número de jogadas do jogador
+		
+	}
 
 
     
