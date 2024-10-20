@@ -31,6 +31,13 @@ public class Jogador extends ElementoDinamico {
 		}
 		coordenadaX += dX;
 		coordenadaY += dY;
+		Set<String> keySet = mochila.keySet();
+		for (String tipo : keySet) {
+			LinkedList<Fruta> lista = mochila.get(tipo);
+			for (Fruta fruta : lista) {
+				fruta.mover(direcao);
+			}
+		}
 	}
 	public int calcularPontosDeVitoria() {
 		LinkedList<Fruta> maracujas = mochila.get("Maracuja");
@@ -130,7 +137,7 @@ public class Jogador extends ElementoDinamico {
 			}
 			tipo = i.next();
 		}
-		return frutas;
+		return frutas; 
 	}
 	
 	Jogador(String nome, int capacidadeMochila, int x, int y) {
