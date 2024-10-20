@@ -154,14 +154,15 @@ public class Terreno {
 			indice_posicao_fruta = (indice_posicao_fruta + 1) % (fim + 1);
 		}
 		//Grama
-		while (fim >= 0) {
-			int posicao = sequenciaPosicoes[fim];
+		for (int i = 0; i <= fim; i++) {
+			int posicao = sequenciaPosicoes[i];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
 			Grama grama =  new Grama(x, y);
-			grama.setFruta(frutas[fim]);
+			if (i < frutas.length) {
+				grama.setFruta(frutas[i]);
+			}
 			floresta[x][y] = grama;
-			fim--;
 		}
 	}
 }

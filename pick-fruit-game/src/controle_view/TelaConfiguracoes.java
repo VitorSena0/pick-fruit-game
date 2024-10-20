@@ -350,6 +350,7 @@ public class TelaConfiguracoes extends EstadoView {
 				else {
 					mensagem.setText("Erro: não foi possível salvar as configurações");
 				}
+				System.out.println(e.getMessage());
 				return this;
 			}
 		}
