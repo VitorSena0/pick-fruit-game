@@ -2,7 +2,7 @@ package modelo_jogo;
 import java.util.Random;
 public class Terreno {
 	private ElementoEstatico[][] floresta;
-	private Fruta[] frutas;
+	//private Fruta[] frutas;
 	private int frutasOuroParaNascer;
 	private int probabilidadeFrutaBichada;
 	
@@ -39,42 +39,42 @@ public class Terreno {
 			int posicao = sequenciaPosicoes[fim];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
-			floresta[x][y] = new Laranjeira(x, y);
+			floresta[x][y] = new Grama(x, y, new Laranjeira(x, y));
 			fim--;
 		}
 		for (int i = 0; i < abacateiros; i++) {
 			int posicao = sequenciaPosicoes[fim];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
-			floresta[x][y] = new Abacateiro(x, y);
+			floresta[x][y] = new Grama(x, y, new Abacateiro(x, y));
 			fim--;
 		}
 		for (int i = 0; i < pesDeAcerola; i++) {
 			int posicao = sequenciaPosicoes[fim];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
-			floresta[x][y] = new Pe_de_Acerola(x, y);
+			floresta[x][y] = new Grama(x, y, new Pe_de_Acerola(x, y));
 			fim--;
 		}
 		for (int i = 0; i < coqueiros; i++) {
 			int posicao = sequenciaPosicoes[fim];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
-			floresta[x][y] = new Coqueiro(x, y);
+			floresta[x][y] = new Grama(x, y, new Coqueiro(x, y));
 			fim--;
 		}
 		for (int i = 0; i < amoeiras; i++) {
 			int posicao = sequenciaPosicoes[fim];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
-			floresta[x][y] = new Amoreira(x, y);
+			floresta[x][y] = new Grama(x, y, new Amoreira(x, y));
 			fim--;
 		}
 		for (int i = 0; i < goiabeiras; i++) {
 			int posicao = sequenciaPosicoes[fim];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
-			floresta[x][y] = new Goiabeira(x, y);
+			floresta[x][y] = new Grama(x, y, new Goiabeira(x, y));
 			fim--;
 		}
 		//Pedras
@@ -86,7 +86,7 @@ public class Terreno {
 			fim--;
 		}
 		//Frutas
-		frutas = new Fruta[laranjas + abacates + acerolas + cocos + amoras + goiabas + maracujas_chao];
+		Fruta[] frutas = new Fruta[laranjas + abacates + acerolas + cocos + amoras + goiabas + maracujas_chao];
 		frutasOuroParaNascer = maracujas - maracujas_chao;
 		int indice_posicao_fruta = 0;
 		int indice_fruta = 0;
@@ -158,7 +158,9 @@ public class Terreno {
 			int posicao = sequenciaPosicoes[fim];
 			int x = posicao % dimensao;
 			int y = posicao / dimensao;
-			floresta[x][y] = new Grama(x, y);
+			Grama grama =  new Grama(x, y);
+			grama.setFruta(frutas[fim]);
+			floresta[x][y] = grama;
 			fim--;
 		}
 	}

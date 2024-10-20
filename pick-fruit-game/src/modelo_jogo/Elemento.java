@@ -8,7 +8,6 @@ public abstract class Elemento {
 	public int getY() {
 		return coordenadaY;
 	}
-	public abstract String[] desenho();
 	Elemento(int x, int y) {
 		if (x >= 0)
 			coordenadaX = x;
