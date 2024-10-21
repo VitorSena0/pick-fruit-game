@@ -7,6 +7,7 @@ public class Jogo {
 	private Terreno terreno;
 	private Jogador[] jogadores;
 	private int rodada;
+	private int jogadorDaVez;
 	private boolean houveEmpurraoRodada;
 	private Integer[] dados;
 	
@@ -53,5 +54,6 @@ public class Jogo {
 		}
 		houveEmpurraoRodada = false;
 		rodada = 0;
+		jogadorDaVez = 0;
 	}
 }
