@@ -106,11 +106,20 @@ public class Jogador extends ElementoDinamico {
 	public void setForte(boolean forte) {
 		this.forte = forte;
 	}
+	public void setPontosMovimento(int pontos) {
+		if (pontos < 0) {
+			return;
+		}
+		pontosDeMovimento = pontos;
+	}
 	public boolean estaDoente() {
 		return doente;
 	}
 	public boolean estaForte() {
 		return forte;
+	}
+	public int movimentosRestantes() {
+		return pontosDeMovimento;
 	}
 	public LinkedList<Fruta> serEmpurrado(Jogador empurrador) {
 		int forcaDefensor = calcularForca();;
