@@ -22,7 +22,7 @@ public class TelaTerreno extends EstadoView {
 	private String[] nomes = {"Jogador 1", "Jogador 2"};
 	
 	TelaTerreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila) {
-		setBounds(0, 0, 886, 632);
+		setBounds(0, 0, 986, 732);
 		setLayout(null);
 		larguraImagens = getWidth()/dimensao;
 		alturaImagens = getHeight()/dimensao;
@@ -58,42 +58,62 @@ public class TelaTerreno extends EstadoView {
         } catch (Exception e) {
             imagemFruta = null;
         }
+		revalidate();  // Atualiza o layout
 		repaint();     // Para garantir que a pintura aconteça
 
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-		int dimensaoTerreno = terreno.getDimensao();
-		requestFocusInWindow();
-		g.setColor(new Color(0x7B3F00));
-		g.fillRect(0, 0, larguraImagens*dimensaoTerreno, alturaImagens*dimensaoTerreno);
-		for (int i = 0; i < dimensaoTerreno; i++)
-		{
-			for (int j = 0; j < dimensaoTerreno; j++)
-			{
-				ElementoEstatico elementoCenario = terreno.getElementoFloresta(i, j);
-				if (elementoCenario instanceof Grama) {
-					g.drawImage(imagemGrama, i*larguraImagens, j*alturaImagens, larguraImagens, alturaImagens, null);
-					Grama gramaAtual = (Grama)elementoCenario;
-					if (gramaAtual.getArvore() != null) {
-						g.drawImage(imagemArvore, i*larguraImagens, j*alturaImagens, larguraImagens, alturaImagens, null);
-					}
-					if (gramaAtual.getFruta() != null) {
-						g.drawImage(imagemFruta, i*larguraImagens, j*alturaImagens, larguraImagens, alturaImagens, null);
-					}
-					if(gramaAtual.getJogador() != null) {
-						g.drawImage(imagemJogador, i* larguraImagens+larguraImagens/4, j*alturaImagens+alturaImagens/4, larguraImagens/2, alturaImagens/2, null);
-					}
-				}
-				else if (elementoCenario instanceof Pedra) {
-					g.drawImage(imagemTerra, i*larguraImagens, j*alturaImagens, larguraImagens, alturaImagens, null);
-					g.drawImage(imagemPedra, i*larguraImagens, j*alturaImagens, larguraImagens, alturaImagens, null);
-				}
-			}
-		}
-    }
+	    super.paintComponent(g);
+	    
+	    // Calcula dinamicamente o tamanho de cada célula com base no tamanho da janela
+	    larguraImagens = getWidth() / terreno.getDimensao();
+	    alturaImagens = getHeight() / terreno.getDimensao();
+	    
+	    int dimensaoTerreno = terreno.getDimensao();  // Quantidade de células no terreno
+
+	    // Preenche o fundo da tela com uma cor base
+	    g.setColor(new Color(0x7B3F00));
+	    g.fillRect(0, 0, getWidth(), getHeight());
+
+	    // Desenho dos elementos no terreno
+	    for (int i = 0; i < dimensaoTerreno; i++) {
+	        for (int j = 0; j < dimensaoTerreno; j++) {
+	            ElementoEstatico elementoCenario = terreno.getElementoFloresta(i, j);
+
+	            if (elementoCenario instanceof Grama) {
+	                // Desenha a grama
+	                g.drawImage(imagemGrama, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+
+	                Grama gramaAtual = (Grama) elementoCenario;
+	                
+	                // Desenha a árvore se existir
+	                if (gramaAtual.getArvore() != null) {
+	                    g.drawImage(imagemArvore, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                }
+	                
+	                // Desenha a fruta se existir
+	                if (gramaAtual.getFruta() != null) {
+	                    g.drawImage(imagemFruta, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                }
+	                
+	                // Desenha o jogador se existir
+	                if (gramaAtual.getJogador() != null) {
+	                    g.drawImage(imagemJogador, i * larguraImagens + larguraImagens / 4, j * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
+	                }
+	            } else if (elementoCenario instanceof Pedra) {
+	                // Desenha o terreno com pedra
+	                g.drawImage(imagemTerra, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                g.drawImage(imagemPedra, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	            }
+	        }
+	    }
+	    revalidate();  // Atualiza o layout
+		repaint();     // Para garantir que a pintura aconteça
+
+	}
+
 	
 	@Override
 	public EstadoView proximoEstado() {
