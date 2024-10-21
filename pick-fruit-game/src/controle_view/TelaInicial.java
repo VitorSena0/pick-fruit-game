@@ -2,7 +2,6 @@ package controle_view;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 public class TelaInicial extends EstadoView {
@@ -25,7 +24,7 @@ public class TelaInicial extends EstadoView {
 		add(lblNewLabel_1);
 
 		PainelDesenho maracuja = new PainelDesenho();
-		maracuja.setAtributos(313, 179, 253, 189, "res/Maracuja.png");
+		maracuja.setAtributos(313, 179, 253, 189, "res"+ System.getProperty("file.separator") +"Maracuja.png");
 		add(maracuja);
 		
 		addMouseListener(new MouseAdapter() {

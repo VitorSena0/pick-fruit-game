@@ -2,7 +2,6 @@ package controle_view;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.*;
 public class TelaSelecao extends EstadoView {
 	private enum opcao {

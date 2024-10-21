@@ -5,7 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-
 import javax.swing.*;
 
 public class TelaConfiguracoes extends EstadoView {
@@ -321,6 +320,7 @@ public class TelaConfiguracoes extends EstadoView {
 				int pBichadas = Integer.parseInt(campoBichada.getText());
 				int elementos = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras + pedras;
 				int posicoes = dimensao*dimensao;
+				int mochila = Integer.parseInt(campoMochila.getText());
 				if (maracujasChao > maracujas) {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
@@ -336,7 +336,7 @@ public class TelaConfiguracoes extends EstadoView {
 			    	  mensagemErro = "Erro: número de pedras e árvores muito grande, deve haver pelo menos uma célula de grama";
 			    	  throw new Exception();
 			      }
-				return new TelaTerreno(dimensao, pedras, maracujas, maracujasChao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, pBichadas);
+				return new TelaTerreno(dimensao, pedras, maracujas, maracujasChao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, pBichadas, mochila);
 			}
 			catch (Exception e) {
 				mudarEstado = false;

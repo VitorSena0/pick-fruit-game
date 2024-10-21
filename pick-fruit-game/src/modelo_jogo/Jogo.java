@@ -27,7 +27,7 @@ public class Jogo {
 		return houveEmpurraoRodada;
 	}
 	
-	Jogo(Terreno terreno, int numeroJogadores, int capacidadeMochila, int quantidadeDeDados, String[] nomes) {
+	public Jogo(Terreno terreno, int numeroJogadores, int capacidadeMochila, int quantidadeDeDados, String[] nomes) {
 		this.terreno = terreno;
 		LinkedList<Grama> gramas = new LinkedList<Grama>();
 		int dimensao = terreno.getDimensao();
