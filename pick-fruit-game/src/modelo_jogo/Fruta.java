@@ -6,20 +6,38 @@ public abstract class Fruta extends ElementoDinamico {
 		return bichada;
 	}
 	public void mover(int direcao) {
-		if (direcao < 1 || direcao > 8)
-			return;
-		int dx = 0;
-		int dy = 0;
-		if (direcao == 1 || direcao == 2 || direcao == 8)
-			dy = 1;
-		else if (direcao >= 4 && direcao <= 6)
-			dy = -1;
-		if (direcao >= 2 && direcao <= 4)
-			dx = 1;
-		else if(direcao >= 6 && direcao <= 8)
-			dx = -1;
-		coordenadaX += dx;
-		coordenadaY += dy;
+		int dX = 0;
+		int dY = 0;
+		if (direcao == 1) {
+			dY -= 1;
+		}
+		else if (direcao == 2) {
+			dX -= 1;
+		}
+		else if (direcao == 3) {
+			dX += 1;
+		}
+		else if (direcao == 4) {
+			dY += 1;
+		}
+		else if (direcao == 5) {
+			dX -= 1;
+			dY -= 1;
+		}
+		else if (direcao == 6) {
+			dX += 1;
+			dY -= 1;
+		}
+		else if (direcao == 7) {
+			dX -= 1;
+			dY += 1;
+		}
+		else if (direcao == 8) {
+			dX += 1;
+			dY += 1;
+		}
+		coordenadaX += dX;
+		coordenadaY += dY;
 	}
 	Fruta(int x, int y, boolean bichada) {
 		super(x, y);
