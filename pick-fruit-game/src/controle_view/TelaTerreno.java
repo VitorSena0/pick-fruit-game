@@ -90,12 +90,16 @@ public class TelaTerreno extends EstadoView {
 	                
 	                // Desenha a árvore se existir
 	                if (gramaAtual.getArvore() != null) {
-	                    g.drawImage(imagemArvore, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                	String nomearvore = gramaAtual.getArvore().getClass().getName() + ".png";
+	                	Image arvoreImage = new ImageIcon("res" + System.getProperty("file.separator") + nomearvore).getImage();
+	                    g.drawImage(arvoreImage, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
 	                }
 	                
 	                // Desenha a fruta se existir
 	                if (gramaAtual.getFruta() != null) {
-	                    g.drawImage(imagemFruta, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                	String nomefruta = gramaAtual.getFruta().getClass().getName() + ".png";
+	                	Image frutaImage = new ImageIcon("res" + System.getProperty("file.separator") + nomefruta).getImage();
+	                    g.drawImage(frutaImage, i * larguraImagens + larguraImagens / 4, j * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
 	                }
 	                
 	                // Desenha o jogador se existir
