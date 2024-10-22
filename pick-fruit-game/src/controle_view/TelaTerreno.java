@@ -1,16 +1,23 @@
 package controle_view;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.*;
+
 import modelo_jogo.*;
 public class TelaTerreno extends EstadoView {
 	private Terreno terreno;
 	private Jogo jogo;
+	private JButton botaoVoltar;
 	private Image imagemGrama;
 	private Image imagemPedra;
 	private Image imagemFruta;
@@ -19,15 +26,19 @@ public class TelaTerreno extends EstadoView {
 	private Image imagemJogador;
 	private int larguraImagens;
 	private int alturaImagens;
+	private boolean mudarEstado = false;
 	private String[] nomes = {"Jogador 1", "Jogador 2"};
 	
 	TelaTerreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila) {
 		setBounds(0, 0, 986, 732);
-		setLayout(null);
+		setLayout(new GridBagLayout());
 		larguraImagens = getWidth()/dimensao;
 		alturaImagens = getHeight()/dimensao;
 		terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
 		jogo = new Jogo(terreno, 2 ,mochila, 2, nomes);
+		GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento entre os componentes
+	     
 		try {
 			imagemGrama = new ImageIcon("res" + System.getProperty("file.separator") + "gramaPixelart(1).png").getImage();
         } catch (Exception e) {
@@ -58,6 +69,26 @@ public class TelaTerreno extends EstadoView {
         } catch (Exception e) {
             imagemFruta = null;
         }
+	
+	        // Adicionando o botão "Voltar" ao lado direito
+	        botaoVoltar = new JButton("Voltar");
+	        botaoVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+
+	        // Usando weightx para empurrar o botão para a direita
+	        gbc.gridx = 1; // Definir coluna (direita)
+	        gbc.gridy = 0; // Primeira linha
+	        gbc.weightx = 1.0; // Usar o espaço disponível
+	        gbc.anchor = GridBagConstraints.NORTHEAST; // Posicionar no canto superior direito
+	        
+	        botaoVoltar.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                mudarEstado = true;
+	            }
+	        });
+
+	        add(botaoVoltar, gbc);
+		
 		revalidate();  // Atualiza o layout
 		repaint();     // Para garantir que a pintura aconteça
 
@@ -68,14 +99,14 @@ public class TelaTerreno extends EstadoView {
 	    super.paintComponent(g);
 	    
 	    // Calcula dinamicamente o tamanho de cada célula com base no tamanho da janela
-	    larguraImagens = getWidth() / terreno.getDimensao();
-	    alturaImagens = getHeight() / terreno.getDimensao();
+	    larguraImagens = (int)((getWidth() / terreno.getDimensao())*0.8);
+	    alturaImagens = (int)((getHeight() / terreno.getDimensao())*0.8);
 	    
 	    int dimensaoTerreno = terreno.getDimensao();  // Quantidade de células no terreno
 
 	    // Preenche o fundo da tela com uma cor base
 	    g.setColor(new Color(0x7B3F00));
-	    g.fillRect(0, 0, getWidth(), getHeight());
+	    g.fillRect(0, 0, (int)(getWidth()*0.8), (int)(getHeight()*0.8));
 
 	    // Desenho dos elementos no terreno
 	    for (int i = 0; i < dimensaoTerreno; i++) {
@@ -117,10 +148,12 @@ public class TelaTerreno extends EstadoView {
 		repaint();     // Para garantir que a pintura aconteça
 
 	}
-
 	
 	@Override
 	public EstadoView proximoEstado() {
+		if(mudarEstado) {
+			 return new TelaSelecao();
+		}
 		return this;
 	}
 	
