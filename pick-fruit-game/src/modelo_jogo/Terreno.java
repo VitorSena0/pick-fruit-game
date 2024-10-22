@@ -3,6 +3,7 @@ import java.util.Random;
 public class Terreno {
 	private ElementoEstatico[][] floresta;
 	//private Fruta[] frutas;
+	private int totalFrutasOuro;
 	private int frutasOuroParaNascer;
 	private int probabilidadeFrutaBichada;
 	
@@ -12,9 +13,16 @@ public class Terreno {
 	public int getDimensao() {
 		return floresta.length;
 	}
+	public int getTotalFrutasOuro() {
+		return totalFrutasOuro;
+	}
+	public int probabilidadeBichada() {
+		return probabilidadeFrutaBichada;
+	}
 	
 	public Terreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas) {
 		floresta = new ElementoEstatico[dimensao][dimensao];
+		totalFrutasOuro = maracujas;
 		probabilidadeFrutaBichada = probabidade_bichadas;
 		frutasOuroParaNascer = maracujas - maracujas_chao;
 		//numero de posições no mapa

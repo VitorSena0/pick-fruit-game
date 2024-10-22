@@ -15,6 +15,9 @@ public class Jogador extends ElementoDinamico {
 	
 	@Override
 	public void mover(int direcao) {
+		if (pontosDeMovimento <= 0) {
+			return;
+		}
 		int dX = 0;
 		int dY = 0;
 		if (direcao == 1) {
@@ -38,6 +41,7 @@ public class Jogador extends ElementoDinamico {
 				fruta.mover(direcao);
 			}
 		}
+		pontosDeMovimento--;
 	}
 	public int calcularPontosDeVitoria() {
 		LinkedList<Fruta> maracujas = mochila.get("Maracuja");
