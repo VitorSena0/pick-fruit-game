@@ -26,17 +26,18 @@ public class TelaTerreno extends EstadoView {
 	private Image imagemJogador;
 	private int larguraImagens;
 	private int alturaImagens;
-	private boolean mudarEstado = false;
+	GridBagConstraints gbc;
 	private String[] nomes = {"Jogador 1", "Jogador 2"};
 	
 	TelaTerreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila) {
+		mudarEstado = false;
 		setBounds(0, 0, 986, 732);
 		setLayout(new GridBagLayout());
 		larguraImagens = getWidth()/dimensao;
 		alturaImagens = getHeight()/dimensao;
 		terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
 		jogo = new Jogo(terreno, 2 ,mochila, 2, nomes);
-		GridBagConstraints gbc = new GridBagConstraints();
+		gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento entre os componentes
 	     
 		try {
@@ -152,7 +153,7 @@ public class TelaTerreno extends EstadoView {
 	@Override
 	public EstadoView proximoEstado() {
 		if(mudarEstado) {
-			 return new TelaSelecao();
+			 return new TelaConfiguracoes();
 		}
 		return this;
 	}
