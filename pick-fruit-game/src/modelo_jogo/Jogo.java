@@ -9,6 +9,7 @@ public class Jogo {
 	private Jogador[] jogadores;
 	private int rodada;
 	private int jogadorDaVez;
+	private Integer jogadorVencedor;
 	private boolean houveEmpurraoTurno;
 	private int[] dados;
 	
@@ -30,6 +31,9 @@ public class Jogo {
 	public boolean houveEmpurrao() {
 		return houveEmpurraoTurno;
 	}
+	public void gerarFrutaOuro() {
+		
+	}
 	public void rolarDados() {
 		Random gerador = new Random();
 		for (int i = 0; i < dados.length; i++) {
@@ -37,9 +41,18 @@ public class Jogo {
 		}
 	}
 	public void proximaRodada() {
+		if (jogadorVencedor != null) {
+			return;
+		}
 		rodada++;
 		jogadorDaVez = 0;
 		rolarDados();
+		for (int i = 0; i < jogadores.length; i++) {
+			if (jogadores[i].calcularPontosDeVitoria() >= Math.floor(terreno.getTotalFrutasOuro()/2) + 1) {
+				jogadorVencedor = i;
+				return;
+			}
+		}
 		int somaDados = Arrays.stream(dados).sum();
 		for (int i = 0; i < jogadores.length; i++) {
 			jogadores[i].setPontosMovimento(somaDados);
@@ -62,6 +75,9 @@ public class Jogo {
 		//
 	}
 	public void finalizarTurno() {
+		if (jogadorVencedor != null) {
+			return;
+		}
 		ElementoEstatico elementoPosicaoJogador = terreno.getElementoFloresta(jogadores[jogadorDaVez].getX(), jogadores[jogadorDaVez].getY());
 		if (elementoPosicaoJogador instanceof Grama) {
 			Grama gramaPosicaoJogador = (Grama) elementoPosicaoJogador;
@@ -83,6 +99,9 @@ public class Jogo {
 		}
 	}
 	public void movimentarJogador(int direcao) {
+		if (jogadorVencedor != null) {
+			return;
+		}
 		if (direcao < 1 || direcao > 4) {
 			return;
 		}
@@ -226,6 +245,9 @@ public class Jogo {
 				}
 			}
 		}
+		if (jogadores[jogadorDaVez].movimentosRestantes() <= 0) {
+			finalizarTurno();
+		}
 	}
 	
 	public Jogo(Terreno terreno, int numeroJogadores, int capacidadeMochila, int quantidadeDeDados, String[] nomes) {
@@ -256,5 +278,6 @@ public class Jogo {
 		houveEmpurraoTurno = false;
 		rodada = 0;
 		jogadorDaVez = 0;
+		jogadorVencedor = null;
 	}
 }
