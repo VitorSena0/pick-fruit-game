@@ -197,11 +197,17 @@ public class Jogo {
 		if (rodada % 2 == 0) {
 			gerarFrutaOuro();
 		}
+		if (jogadores[jogadorDaVez].estaDoente()) {
+			jogadores[jogadorDaVez].setDoente(false);
+			finalizarTurno();
+		}
 	}
 	public void finalizarTurno() {
 		if (jogadorVencedor != null) {
 			return;
 		}
+		jogadores[jogadorDaVez].setPontosMovimento(0);
+		jogadores[jogadorDaVez].setForte(false);
 		ElementoEstatico elementoPosicaoJogador = terreno.getElementoFloresta(jogadores[jogadorDaVez].getX(), jogadores[jogadorDaVez].getY());
 		if (elementoPosicaoJogador instanceof Grama) {
 			Grama gramaPosicaoJogador = (Grama) elementoPosicaoJogador;
@@ -218,11 +224,16 @@ public class Jogo {
 		}
 		jogadorDaVez++;
 		houveEmpurraoTurno = false;
-		if (jogadorDaVez > jogadores.length) {
+		if (jogadorDaVez >= jogadores.length) {
 			proximaRodada();
+			return;
 		}
-		else if (rodada % 2 == 0) {
+		if (rodada % 2 == 0) {
 			gerarFrutaOuro();
+		}
+		if (jogadores[jogadorDaVez].estaDoente()) {
+			jogadores[jogadorDaVez].setDoente(false);
+			finalizarTurno();
 		}
 	}
 	public void movimentarJogador(int direcao) {
@@ -407,5 +418,6 @@ public class Jogo {
 		jogadorDaVez = 0;
 		jogadorVencedor = null;
 		arvoreMaracujaAnterior = null;
+		proximaRodada();
 	}
 }
