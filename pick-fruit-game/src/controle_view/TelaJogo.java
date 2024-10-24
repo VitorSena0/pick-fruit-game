@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -36,7 +37,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 		alturaImagens = getHeight()/dimensao;
 		Terreno terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
 		jogo = new Jogo(terreno, 2 ,mochila, 2, nomes);
-	    
+	    setFocusable(true);
 		try {
 			imagemGrama = new ImageIcon("res" + System.getProperty("file.separator") + "gramaPixelart(1).png").getImage();
         } catch (Exception e) {
@@ -128,6 +129,11 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	}
 	
 	@Override
+	public EstadoView proximoEstado() {
+		return this;
+	}
+
+	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
@@ -136,7 +142,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Key pressed");
 	}
 
 	@Override
@@ -144,11 +150,6 @@ public class TelaJogo extends EstadoView implements KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public EstadoView proximoEstado() {
-		// TODO Auto-generated method stub
-		return this;
-	}
+	
 
 }

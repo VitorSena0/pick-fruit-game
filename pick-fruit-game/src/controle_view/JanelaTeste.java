@@ -3,24 +3,29 @@ import java.awt.AWTEvent;
 import java.awt.ActiveEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 public class JanelaTeste extends JFrame implements ActionListener {
 	private Timer relogioEstado;
-	private EstadoView estadoAtual;
+	public EstadoView estadoAtual;
 	public JanelaTeste() {
 		super();
 		relogioEstado = new Timer(100, this);
 		estadoAtual = new TelaInicial();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 886, 632);
+		add(estadoAtual);
 		setContentPane(estadoAtual);
 		setVisible(true);
 		relogioEstado.start();
 	}
 	public void actionPerformed(ActionEvent event) {
 		if (estadoAtual.getMudarEstado()) {
+			remove(estadoAtual);
 			estadoAtual = estadoAtual.proximoEstado();
+			add(estadoAtual);
 			setContentPane(estadoAtual);
 			repaint();
 		}

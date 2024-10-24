@@ -1,6 +1,8 @@
 package principal;
 import controle_view.*;
 import java.awt.EventQueue;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import controle_view.JanelaTeste;
 public class Principal {
