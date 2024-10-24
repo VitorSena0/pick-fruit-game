@@ -16,8 +16,16 @@ public class Terreno {
 	public int getTotalFrutasOuro() {
 		return totalFrutasOuro;
 	}
+	public int getFrutasOuroParaNascer() {
+		return frutasOuroParaNascer;
+	}
 	public int probabilidadeBichada() {
 		return probabilidadeFrutaBichada;
+	}
+	public void nasceuFrutaOuro() {
+		if (frutasOuroParaNascer > 0) {
+			frutasOuroParaNascer--;
+		}
 	}
 	
 	public Terreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas) {

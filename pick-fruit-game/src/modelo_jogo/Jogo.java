@@ -1,6 +1,7 @@
 package modelo_jogo;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ public class Jogo {
 	private int rodada;
 	private int jogadorDaVez;
 	private Integer jogadorVencedor;
+	private Arvore arvoreMaracujaAnterior;
 	private boolean houveEmpurraoTurno;
 	private int[] dados;
 	
@@ -32,7 +34,128 @@ public class Jogo {
 		return houveEmpurraoTurno;
 	}
 	public void gerarFrutaOuro() {
-		
+		if (terreno.getFrutasOuroParaNascer() <= 0) {
+			return;
+		}
+		int dimensao = terreno.getDimensao();
+		int fim = dimensao - 1;
+		Random gerador = new Random();
+		HashMap<Arvore,Grama> vizinhancasLivresSemFruta = new HashMap<Arvore,Grama>();
+		HashMap<Arvore,Grama> vizinhancasLivresComFruta = new HashMap<Arvore,Grama>();
+		for (int n = 0; n < dimensao; n++)
+		{
+			for (int m = 0; m < dimensao; m++)
+			{
+				ElementoEstatico elemento = terreno.getElementoFloresta(n, m);
+				if (elemento instanceof Grama) {
+					Grama grama = (Grama) elemento;
+					Arvore arvore = grama.getArvore();
+					if (arvore == null || arvore == arvoreMaracujaAnterior) {
+						continue;
+					}
+					int arvoreX = arvore.getX();
+					int arvoreY = arvore.getY();
+					int indiceI  = gerador.nextInt(3);
+					int indiceJ = indiceI;
+					int[] deslocamentos = {-1, 0, 1};
+					for (int k = -1; k < 2; k++)
+					{
+						int i = deslocamentos[indiceI];
+						boolean encontrado = false;
+						for (int l = -1; l < 2; l++)
+						{
+							int j = deslocamentos[indiceJ];
+							if (arvoreX + i < 0 || arvoreX + i > fim || arvoreY + j < 0 || arvoreY + j > fim || (i == 0 && j == 0)) {
+								continue;
+							}
+							ElementoEstatico elementoVizinho = terreno.getElementoFloresta(arvoreX + i, arvoreY + j);
+							if (elementoVizinho instanceof Grama) {
+								Grama gramaVizinha = (Grama) elementoVizinho;
+								if (gramaVizinha.getArvore() == null) {
+									if (gramaVizinha.getFruta() == null) {
+										vizinhancasLivresSemFruta.put(arvore, gramaVizinha);
+										encontrado = true;
+										break;
+									}
+									else if (!(gramaVizinha.getFruta() instanceof Maracuja)) {
+										vizinhancasLivresComFruta.put(arvore, gramaVizinha);
+										encontrado = true;
+										break;
+									}
+								}
+								}
+							indiceJ = (indiceJ + 1) % 3;
+						}
+						if (encontrado) {
+							break;
+						}
+						indiceI = (indiceI + 1) % 3;
+					}
+				}
+			}
+		}
+		if (vizinhancasLivresComFruta.isEmpty() && vizinhancasLivresSemFruta.isEmpty() && arvoreMaracujaAnterior != null) {
+			int arvoreX = arvoreMaracujaAnterior.getX();
+			int arvoreY = arvoreMaracujaAnterior.getY();
+			int indiceI  = gerador.nextInt(3);
+			int indiceJ = indiceI;
+			int[] deslocamentos = {-1, 0, 1};
+			for (int k = -1; k < 2; k++)
+			{
+				int i = deslocamentos[indiceI];
+				boolean encontrado = false;
+				for (int l = -1; l < 2; l++)
+				{
+					int j = deslocamentos[indiceJ];
+					if (arvoreX + i < 0 || arvoreX + i > fim || arvoreY + j < 0 || arvoreY + j > fim || (i == 0 && j == 0)) {
+						continue;
+					}
+					ElementoEstatico elementoVizinho = terreno.getElementoFloresta(arvoreX + i, arvoreY + j);
+					if (elementoVizinho instanceof Grama) {
+						Grama gramaVizinha = (Grama) elementoVizinho;
+						if (gramaVizinha.getArvore() == null) {
+							if (gramaVizinha.getFruta() == null) {
+								vizinhancasLivresSemFruta.put(arvoreMaracujaAnterior, gramaVizinha);
+								encontrado = true;
+								break;
+							}
+							else if (!(gramaVizinha.getFruta() instanceof Maracuja)) {
+								vizinhancasLivresComFruta.put(arvoreMaracujaAnterior, gramaVizinha);
+								encontrado = true;
+								break;
+							}
+						}
+						}
+					indiceJ = (indiceJ + 1) % 3;
+				}
+				if (encontrado) {
+					break;
+				}
+				indiceI = (indiceI + 1) % 3;
+			}
+		}
+		if (!vizinhancasLivresSemFruta.isEmpty()) {
+			int numero = gerador.nextInt(100);
+			boolean bichada = numero < terreno.probabilidadeBichada();
+			int i = gerador.nextInt(vizinhancasLivresSemFruta.keySet().size());
+			Arvore arvore = (Arvore) vizinhancasLivresSemFruta.keySet().toArray()[i];
+			Grama grama = vizinhancasLivresSemFruta.get(arvore);
+			grama.setFruta(new Maracuja(grama.getX(), grama.getX(), bichada));
+			arvoreMaracujaAnterior = arvore;
+			terreno.nasceuFrutaOuro();
+			return;
+		}
+		if (!vizinhancasLivresComFruta.isEmpty()) {
+			int numero = gerador.nextInt(100);
+			boolean bichada = numero < terreno.probabilidadeBichada();
+			int i = gerador.nextInt(vizinhancasLivresComFruta.keySet().size());
+			Arvore arvore = (Arvore) vizinhancasLivresComFruta.keySet().toArray()[i];
+			Grama grama = vizinhancasLivresComFruta.get(arvore);
+			grama.setFruta(new Maracuja(grama.getX(), grama.getX(), bichada));
+			arvoreMaracujaAnterior = arvore;
+			terreno.nasceuFrutaOuro();
+			return;
+		}
 	}
 	public void rolarDados() {
 		Random gerador = new Random();
@@ -70,9 +193,10 @@ public class Jogo {
 				}
 			}
 		}
-		// TODO: Gerar fruta ouro
-		
-		//
+		arvoreMaracujaAnterior = null;
+		if (rodada % 2 == 0) {
+			gerarFrutaOuro();
+		}
 	}
 	public void finalizarTurno() {
 		if (jogadorVencedor != null) {
@@ -96,6 +220,9 @@ public class Jogo {
 		houveEmpurraoTurno = false;
 		if (jogadorDaVez > jogadores.length) {
 			proximaRodada();
+		}
+		else if (rodada % 2 == 0) {
+			gerarFrutaOuro();
 		}
 	}
 	public void movimentarJogador(int direcao) {
@@ -279,5 +406,6 @@ public class Jogo {
 		rodada = 0;
 		jogadorDaVez = 0;
 		jogadorVencedor = null;
+		arvoreMaracujaAnterior = null;
 	}
 }
