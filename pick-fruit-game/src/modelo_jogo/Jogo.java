@@ -18,6 +18,9 @@ public class Jogo {
 	public ElementoEstatico getElementoTerreno(int x, int y) {
 		return terreno.getElementoFloresta(x, y);
 	}
+	public int getDimensao() {
+		return terreno.getDimensao();
+	}
 	public Jogador getJogador(int i) {
 		return jogadores[i];
 	}

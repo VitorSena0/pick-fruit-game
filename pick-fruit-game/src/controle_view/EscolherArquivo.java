@@ -115,7 +115,8 @@ public class EscolherArquivo extends EstadoView {
                 } else if (elementos >= posicoes) {
                     throw new Exception("arquivo com formato inválido");
                 }
-                return new TelaTerreno(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"),
+                String[] nomes = {"Jogador 1", "Jogador 2"};
+                return new TelaJogo(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"),
                         parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1],
                         parametrosCompostos.get("laranja")[0], parametrosCompostos.get("laranja")[1],
                         parametrosCompostos.get("abacate")[0], parametrosCompostos.get("abacate")[1],
@@ -123,7 +124,7 @@ public class EscolherArquivo extends EstadoView {
                         parametrosCompostos.get("acerola")[0], parametrosCompostos.get("acerola")[1],
                         parametrosCompostos.get("amora")[0], parametrosCompostos.get("amora")[1],
                         parametrosCompostos.get("goiaba")[0], parametrosCompostos.get("goiaba")[1],
-                        parametrosSimples.get("bichadas"), parametrosSimples.get("mochila"));
+                        parametrosSimples.get("bichadas"), parametrosSimples.get("mochila"), nomes);
             } catch (Exception e) {
                 mudarEstado = false;
                 if (e.getClass().equals(FileNotFoundException.class)) {
