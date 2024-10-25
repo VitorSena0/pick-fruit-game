@@ -16,16 +16,14 @@ public class JanelaTeste extends JFrame implements ActionListener {
 		estadoAtual = new TelaInicial();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 886, 632);
-		add(estadoAtual);
-		setContentPane(estadoAtual);
 		setVisible(true);
+		setContentPane(estadoAtual);
 		relogioEstado.start();
 	}
 	public void actionPerformed(ActionEvent event) {
 		if (estadoAtual.getMudarEstado()) {
 			remove(estadoAtual);
 			estadoAtual = estadoAtual.proximoEstado();
-			add(estadoAtual);
 			setContentPane(estadoAtual);
 			repaint();
 		}

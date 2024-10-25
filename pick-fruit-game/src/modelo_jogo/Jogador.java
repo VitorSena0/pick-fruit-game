@@ -153,7 +153,7 @@ public class Jogador extends ElementoDinamico {
 		return frutas; 
 	}
 	
-	Jogador(String nome, int capacidadeMochila, int x, int y) {
+	Jogador(String nome, int x, int y, int capacidadeMochila) {
 		super(x, y);
 		this.nome = nome;
 		this.capacidadeMochila = capacidadeMochila;

@@ -274,6 +274,7 @@ public class Jogo {
 			Grama grama = (Grama) elementoProximaPosicao;
 			if (grama.getJogador() == null) {
 				jogadores[jogadorDaVez].mover(direcao);
+				grama.setJogador(jogadores[jogadorDaVez]);
 				if (grama.getFruta() != null) {
 					boolean catouFruta = jogadores[jogadorDaVez].catarFruta(grama.getFruta());
 					if (catouFruta) {

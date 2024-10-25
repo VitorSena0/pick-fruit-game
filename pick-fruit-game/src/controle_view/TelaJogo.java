@@ -33,11 +33,13 @@ public class TelaJogo extends EstadoView implements KeyListener {
 		mudarEstado = false;
 		setBounds(0, 0, 986, 732);
 		setLayout(new GridBagLayout());
-		larguraImagens = getWidth()/dimensao;
-		alturaImagens = getHeight()/dimensao;
 		Terreno terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
 		jogo = new Jogo(terreno, 2 ,mochila, 2, nomes);
-	    setFocusable(true);
+		larguraImagens = (int)((getWidth() / jogo.getDimensao())*0.8);
+		alturaImagens = (int)((getWidth() / jogo.getDimensao())*0.8);
+        setFocusable(true); // Permite que o painel tenha foco para eventos de teclado
+        addKeyListener(this); // Adiciona o KeyListener ao painel
+        requestFocusInWindow(); // Solicita foco para o JPanel
 		try {
 			imagemGrama = new ImageIcon("res" + System.getProperty("file.separator") + "gramaPixelart(1).png").getImage();
         } catch (Exception e) {
@@ -70,7 +72,30 @@ public class TelaJogo extends EstadoView implements KeyListener {
         }
 		revalidate();  // Atualiza o layout
 		repaint();     // Para garantir que a pintura aconteça
-
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int x = e.getX() / larguraImagens;
+				int y = e.getY() / alturaImagens;
+				int dX = x - jogo.getJogador(jogo.getJogadorDaVez()).getX();
+				int dY = y - jogo.getJogador(jogo.getJogadorDaVez()).getY();
+				if (dX == 0 && dY == -1) {
+					jogo.movimentarJogador(1);
+				}
+				else if (dX == -1 && dY == 0) {
+					jogo.movimentarJogador(2);
+				}
+				else if (dX == 1 && dY == 0) {
+					jogo.movimentarJogador(3);
+				}
+				else if (dX == 0 && dY == 1) {
+					jogo.movimentarJogador(4);
+				}
+				System.out.println("position " + jogo.getJogador(jogo.getJogadorDaVez()).getX() + " " + jogo.getJogador(jogo.getJogadorDaVez()).getY());
+				System.out.println("click " + dX + " " + dY);
+				repaint();
+			}
+		});
 	}
 	
 	@Override
@@ -94,7 +119,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 
 	            if (elementoCenario instanceof Grama) {
 	                // Desenha a grama
-	                g.drawImage(imagemGrama, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                g.drawImage(imagemGrama, elementoCenario.getX() * larguraImagens, elementoCenario.getY() * alturaImagens, larguraImagens, alturaImagens, null);
 
 	                Grama gramaAtual = (Grama) elementoCenario;
 	                
@@ -102,24 +127,24 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	                if (gramaAtual.getArvore() != null) {
 	                	String nomearvore = gramaAtual.getArvore().getClass().getName() + ".png";
 	                	Image arvoreImage = new ImageIcon("res" + System.getProperty("file.separator") + nomearvore).getImage();
-	                    g.drawImage(arvoreImage, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                    g.drawImage(arvoreImage, elementoCenario.getX() * larguraImagens, elementoCenario.getY() * alturaImagens, larguraImagens, alturaImagens, null);
 	                }
 	                
 	                // Desenha a fruta se existir
 	                if (gramaAtual.getFruta() != null) {
 	                	String nomefruta = gramaAtual.getFruta().getClass().getName() + ".png";
 	                	Image frutaImage = new ImageIcon("res" + System.getProperty("file.separator") + nomefruta).getImage();
-	                    g.drawImage(frutaImage, i * larguraImagens + larguraImagens / 4, j * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
+	                    g.drawImage(frutaImage, elementoCenario.getX() * larguraImagens + larguraImagens / 4, elementoCenario.getY() * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
 	                }
 	                
 	                // Desenha o jogador se existir
 	                if (gramaAtual.getJogador() != null) {
-	                    g.drawImage(imagemJogador, i * larguraImagens + larguraImagens / 4, j * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
+	                    g.drawImage(imagemJogador, gramaAtual.getJogador().getX() * larguraImagens + larguraImagens / 4, gramaAtual.getJogador().getY() * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
 	                }
 	            } else if (elementoCenario instanceof Pedra) {
 	                // Desenha o terreno com pedra
-	                g.drawImage(imagemTerra, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
-	                g.drawImage(imagemPedra, i * larguraImagens, j * alturaImagens, larguraImagens, alturaImagens, null);
+	                g.drawImage(imagemTerra, elementoCenario.getX() * larguraImagens, elementoCenario.getY() * alturaImagens, larguraImagens, alturaImagens, null);
+	                g.drawImage(imagemPedra, elementoCenario.getX() * larguraImagens, elementoCenario.getY() * alturaImagens, larguraImagens, alturaImagens, null);
 	            }
 	        }
 	    }
