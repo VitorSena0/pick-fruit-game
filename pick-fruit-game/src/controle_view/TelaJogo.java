@@ -111,6 +111,8 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	    // Preenche o fundo da tela com uma cor base
 	    g.setColor(new Color(0x7B3F00));
 	    g.fillRect(0, 0, (int)(getWidth()*0.8), (int)(getHeight()*0.8));
+	    
+	    this.requestFocusInWindow();
 
 	    // Desenho dos elementos no terreno
 	    for (int i = 0; i < dimensaoTerreno; i++) {
@@ -167,7 +169,21 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Key pressed");
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			jogo.movimentarJogador(1);
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			jogo.movimentarJogador(2);
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			jogo.movimentarJogador(3);
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			jogo.movimentarJogador(4);
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			jogo.finalizarTurno();
+		}
 	}
 
 	@Override
