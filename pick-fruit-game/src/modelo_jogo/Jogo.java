@@ -168,6 +168,7 @@ public class Jogo {
 	}
 	public void proximaRodada() {
 		if (jogadorVencedor != null) {
+			System.out.println("Vitória");
 			return;
 		}
 		rodada++;
@@ -176,12 +177,14 @@ public class Jogo {
 		for (int i = 0; i < jogadores.length; i++) {
 			if (jogadores[i].calcularPontosDeVitoria() >= Math.floor(terreno.getTotalFrutasOuro()/2) + 1) {
 				jogadorVencedor = i;
+				System.out.println("Vitória");
 				return;
 			}
 		}
 		int somaDados = Arrays.stream(dados).sum();
 		for (int i = 0; i < jogadores.length; i++) {
 			jogadores[i].setPontosMovimento(somaDados);
+			System.out.println("Pontos de movimento da rodada: " + somaDados);
 		}
 		for (int i = 0; i < terreno.getDimensao(); i++)
 		{
@@ -201,12 +204,14 @@ public class Jogo {
 			gerarFrutaOuro();
 		}
 		if (jogadores[jogadorDaVez].estaDoente()) {
+			System.out.println("Doença impossibilitou o movimento");
 			jogadores[jogadorDaVez].setDoente(false);
 			finalizarTurno();
 		}
 	}
 	public void finalizarTurno() {
 		if (jogadorVencedor != null) {
+			System.out.println("Vitória");
 			return;
 		}
 		jogadores[jogadorDaVez].setPontosMovimento(0);
@@ -221,6 +226,7 @@ public class Jogo {
 				boolean bichada = numeroSorteado < terreno.probabilidadeBichada();
 				Fruta fruto = gramaPosicaoJogador.getArvore().gerarFruta(bichada, false);
 				if (fruto != null) {
+					System.out.println("Catou fruta da árvore");
 					jogadores[jogadorDaVez].catarFruta(fruto);
 				}
 			}
@@ -228,6 +234,7 @@ public class Jogo {
 		jogadorDaVez++;
 		houveEmpurraoTurno = false;
 		if (jogadorDaVez >= jogadores.length) {
+			System.out.println("Fim da rodada");
 			proximaRodada();
 			return;
 		}
@@ -235,18 +242,21 @@ public class Jogo {
 			gerarFrutaOuro();
 		}
 		if (jogadores[jogadorDaVez].estaDoente()) {
+			System.out.println("Doença impossibilitou o movimento");
 			jogadores[jogadorDaVez].setDoente(false);
 			finalizarTurno();
 		}
 	}
 	public void movimentarJogador(int direcao) {
 		if (jogadorVencedor != null) {
+			System.out.println("Vitória");
 			return;
 		}
 		if (direcao < 1 || direcao > 4) {
 			return;
 		}
 		if (jogadores[jogadorDaVez].movimentosRestantes() <= 0) {
+			System.out.println("Sem movimentos");
 			return;
 		}
 		int x = jogadores[jogadorDaVez].getX();
@@ -273,11 +283,15 @@ public class Jogo {
 		if (elementoProximaPosicao instanceof Grama) {
 			Grama grama = (Grama) elementoProximaPosicao;
 			if (grama.getJogador() == null) {
+				Grama gramaAnterior = (Grama) terreno.getElementoFloresta(jogadores[jogadorDaVez].getX(), jogadores[jogadorDaVez].getY());
+				gramaAnterior.setJogador(null);
 				jogadores[jogadorDaVez].mover(direcao);
 				grama.setJogador(jogadores[jogadorDaVez]);
+				System.out.println("Moveu-se");
 				if (grama.getFruta() != null) {
 					boolean catouFruta = jogadores[jogadorDaVez].catarFruta(grama.getFruta());
 					if (catouFruta) {
+						System.out.println("Catou fruta");
 						grama.setFruta(null);
 					}
 				}
@@ -289,6 +303,7 @@ public class Jogo {
 				Jogador jogadorEmpurrado = grama.getJogador();
 				LinkedList<Fruta> frutasDerrubadas = jogadorEmpurrado.serEmpurrado(jogadores[jogadorDaVez]);
 				houveEmpurraoTurno = true;
+				System.out.println("Empurrou");
 				int empurradoX = jogadorEmpurrado.getX();
 				int empurradoY = jogadorEmpurrado.getY();
 				int[] direcoesLivres = new int[8];
@@ -343,18 +358,20 @@ public class Jogo {
 					}
 				}
 				int i = 0;
-				while (i < totalDirecoesLivres && !frutasDerrubadas.isEmpty()) {
-					Fruta frutaDerrubada = frutasDerrubadas.pop();
-					frutaDerrubada.mover(direcoesLivres[i]);
-					i++;
-				}
-				boolean doente = jogadorEmpurrado.estaDoente();
-				while (!frutasDerrubadas.isEmpty()) {
-					Fruta frutaDerrubada = frutasDerrubadas.pop();
-					jogadorEmpurrado.catarFruta(frutaDerrubada);
-				}
-				if (!doente) {
-					jogadorEmpurrado.setDoente(false);
+				if (frutasDerrubadas != null) {
+					while (i < totalDirecoesLivres && !frutasDerrubadas.isEmpty()) {
+						Fruta frutaDerrubada = frutasDerrubadas.pop();
+						frutaDerrubada.mover(direcoesLivres[i]);
+						i++;
+					}
+					boolean doente = jogadorEmpurrado.estaDoente();
+					while (!frutasDerrubadas.isEmpty()) {
+						Fruta frutaDerrubada = frutasDerrubadas.pop();
+						jogadorEmpurrado.catarFruta(frutaDerrubada);
+					}
+					if (!doente) {
+						jogadorEmpurrado.setDoente(false);
+					}
 				}
 			}
 		}
@@ -362,32 +379,39 @@ public class Jogo {
 			int xFinal = x + 2*dX;
 			int yFinal = y + 2*dY;
 			if (xFinal < 0 || xFinal > fim || yFinal < 0 || yFinal > fim) {
+				System.out.println("Impossível pular pedra (Borda)");
 				return;
 			}
 			if (jogadores[jogadorDaVez].movimentosRestantes() < 3) {
+				System.out.println("Impossível pular pedra (Sem movimentos)");
 				return;
 			}
 			ElementoEstatico elementoPosicaoFinal = terreno.getElementoFloresta(xFinal, yFinal);
 			if (elementoPosicaoFinal instanceof Pedra) {
+				System.out.println("Impossível pular pedra (Pedras seguidas)");
 				return;
 			}
 			else if (elementoPosicaoFinal instanceof Grama) {
 				Grama grama = (Grama) elementoPosicaoFinal;
 				if (grama.getJogador() != null) {
+					System.out.println("Impossível pular pedra (Jogador)");
 					return;
 				}
 				jogadores[jogadorDaVez].mover(direcao);
 				jogadores[jogadorDaVez].setPontosMovimento(jogadores[jogadorDaVez].movimentosRestantes() - 1);
 				jogadores[jogadorDaVez].mover(direcao);
+				System.out.println("Pulou pedra");
 				if (grama.getFruta() != null) {
 					boolean catouFruta = jogadores[jogadorDaVez].catarFruta(grama.getFruta());
 					if (catouFruta) {
+						System.out.println("Catou fruta");
 						grama.setFruta(null);
 					}
 				}
 			}
 		}
 		if (jogadores[jogadorDaVez].movimentosRestantes() <= 0) {
+			System.out.println("Terminou turno");
 			finalizarTurno();
 		}
 	}

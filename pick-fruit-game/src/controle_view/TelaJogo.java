@@ -91,8 +91,8 @@ public class TelaJogo extends EstadoView implements KeyListener {
 				else if (dX == 0 && dY == 1) {
 					jogo.movimentarJogador(4);
 				}
-				System.out.println("position " + jogo.getJogador(jogo.getJogadorDaVez()).getX() + " " + jogo.getJogador(jogo.getJogadorDaVez()).getY());
-				System.out.println("click " + dX + " " + dY);
+				//System.out.println("position " + jogo.getJogador(jogo.getJogadorDaVez()).getX() + " " + jogo.getJogador(jogo.getJogadorDaVez()).getY());
+				//System.out.println("click " + dX + " " + dY);
 				repaint();
 			}
 		});
