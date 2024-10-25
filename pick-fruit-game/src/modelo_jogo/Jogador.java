@@ -71,6 +71,7 @@ public class Jogador extends ElementoDinamico {
 	}
 	public boolean catarFruta(Fruta fruta) {
 		if (totalDeFrutas() >= capacidadeMochila) {
+			System.out.println(nome + " não conseguiu catar fruta pois a mochila está cheia");
 			return false;
 		}
 		if (fruta.temBicho()) {
@@ -86,21 +87,31 @@ public class Jogador extends ElementoDinamico {
 		else {
 			mochila.get(tipo).add(fruta);
 		}
+		System.out.println(nome + " catou " + tipo + (fruta.temBicho() ? "com bicho" : "" ));
 		return true;
 	}
 	public boolean comerFruta(String tipo) {
 		LinkedList<Fruta> frutasDoTipo = mochila.get(tipo);
 		if (frutasDoTipo == null) {
+			System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
 			return false;
 		}
 		if (frutasDoTipo.size() == 0) {
+			System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
+			return false;
+		}
+		if (pontosDeMovimento <= 0) {
+			System.out.println(nome + " não conseguiu comer " + tipo + " pois não tem pontos de movimento");
 			return false;
 		}
 		Fruta fruta = frutasDoTipo.pop();
 		boolean consumida = fruta.serConsumida(this);
 		if (consumida) {
+			System.out.println(nome + " comeu " + tipo);
+			pontosDeMovimento--;
 			return true;
 		}
+		System.out.println(nome + " não conseguiu comer " + tipo + " pois não é comestível");
 		frutasDoTipo.add(fruta);
 		return false;
 	}
@@ -115,6 +126,9 @@ public class Jogador extends ElementoDinamico {
 			return;
 		}
 		pontosDeMovimento = pontos;
+	}
+	public String getNome() {
+		return nome;
 	}
 	public boolean estaDoente() {
 		return doente;
@@ -139,11 +153,13 @@ public class Jogador extends ElementoDinamico {
 		}
 		LinkedList<Fruta> frutas = new LinkedList<Fruta>();
 		String tipo = i.next();
-		for (int j = 0; j < frutasDerrubadas; j++) {
+		int j = 0; 
+		while (j < frutasDerrubadas) {
 			LinkedList<Fruta> lista = mochila.get(tipo);
 			if (lista.size() > 0) {
 				Fruta fruta = lista.pop();
 				frutas.add(fruta);
+				j++;
 			}
 			if(!i.hasNext()) {
 				i = keySet.iterator();

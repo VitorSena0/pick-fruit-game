@@ -1,6 +1,6 @@
 dimensao 8
 pedras 8
-maracuja 4 2
+maracuja 8 2
 laranja 1 3
 abacate 1 5
 coco 1 2
@@ -8,4 +8,4 @@ acerola 1 3
 amora 1 2
 goiaba 1 4
 bichadas 22
-mochila 11
+mochila 20

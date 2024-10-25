@@ -226,7 +226,7 @@ public class Jogo {
 				boolean bichada = numeroSorteado < terreno.probabilidadeBichada();
 				Fruta fruto = gramaPosicaoJogador.getArvore().gerarFruta(bichada, false);
 				if (fruto != null) {
-					System.out.println("Catou fruta da árvore");
+					System.out.println("Caiu fruta da árvore");
 					jogadores[jogadorDaVez].catarFruta(fruto);
 				}
 			}
@@ -244,6 +244,12 @@ public class Jogo {
 		if (jogadores[jogadorDaVez].estaDoente()) {
 			System.out.println("Doença impossibilitou o movimento");
 			jogadores[jogadorDaVez].setDoente(false);
+			finalizarTurno();
+		}
+	}
+	public void jogadorConsumirFruta(String tipo) {
+		jogadores[jogadorDaVez].comerFruta(tipo);
+		if (jogadores[jogadorDaVez].movimentosRestantes() <= 0) {
 			finalizarTurno();
 		}
 	}
@@ -291,7 +297,6 @@ public class Jogo {
 				if (grama.getFruta() != null) {
 					boolean catouFruta = jogadores[jogadorDaVez].catarFruta(grama.getFruta());
 					if (catouFruta) {
-						System.out.println("Catou fruta");
 						grama.setFruta(null);
 					}
 				}
@@ -303,7 +308,7 @@ public class Jogo {
 				Jogador jogadorEmpurrado = grama.getJogador();
 				LinkedList<Fruta> frutasDerrubadas = jogadorEmpurrado.serEmpurrado(jogadores[jogadorDaVez]);
 				houveEmpurraoTurno = true;
-				System.out.println("Empurrou");
+				System.out.println(jogadores[jogadorDaVez].getNome() + " Empurrou " + jogadorEmpurrado.getNome());
 				int empurradoX = jogadorEmpurrado.getX();
 				int empurradoY = jogadorEmpurrado.getY();
 				int[] direcoesLivres = new int[8];
@@ -363,6 +368,7 @@ public class Jogo {
 						Fruta frutaDerrubada = frutasDerrubadas.pop();
 						frutaDerrubada.mover(direcoesLivres[i]);
 						Grama gramaDeDestino = (Grama) terreno.getElementoFloresta(frutaDerrubada.getX(), frutaDerrubada.getY());
+						System.out.println(frutaDerrubada.getClass().getSimpleName() + " derrubado");
 						gramaDeDestino.setFruta(frutaDerrubada);
 						i++;
 					}
@@ -409,7 +415,6 @@ public class Jogo {
 				if (grama.getFruta() != null) {
 					boolean catouFruta = jogadores[jogadorDaVez].catarFruta(grama.getFruta());
 					if (catouFruta) {
-						System.out.println("Catou fruta");
 						grama.setFruta(null);
 					}
 				}

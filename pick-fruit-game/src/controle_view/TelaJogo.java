@@ -184,6 +184,27 @@ public class TelaJogo extends EstadoView implements KeyListener {
 		else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			jogo.finalizarTurno();
 		}
+		else if (e.getKeyCode() == KeyEvent.VK_1) {
+			jogo.jogadorConsumirFruta("Maracuja");
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_2) {
+			jogo.jogadorConsumirFruta("Coco");
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_3) {
+			jogo.jogadorConsumirFruta("Abacate");
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_4) {
+			jogo.jogadorConsumirFruta("Laranja");
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_5) {
+			jogo.jogadorConsumirFruta("Acerola");
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_6) {
+			jogo.jogadorConsumirFruta("Amora");
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_7) {
+			jogo.jogadorConsumirFruta("Goiaba");
+		}
 	}
 
 	@Override
