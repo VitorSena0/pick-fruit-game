@@ -362,6 +362,8 @@ public class Jogo {
 					while (i < totalDirecoesLivres && !frutasDerrubadas.isEmpty()) {
 						Fruta frutaDerrubada = frutasDerrubadas.pop();
 						frutaDerrubada.mover(direcoesLivres[i]);
+						Grama gramaDeDestino = (Grama) terreno.getElementoFloresta(frutaDerrubada.getX(), frutaDerrubada.getY());
+						gramaDeDestino.setFruta(frutaDerrubada);
 						i++;
 					}
 					boolean doente = jogadorEmpurrado.estaDoente();
