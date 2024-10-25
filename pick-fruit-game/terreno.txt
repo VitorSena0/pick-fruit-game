@@ -1,11 +1,11 @@
 dimensao 8
 pedras 8
 maracuja 4 2
-laranja 1 1
-abacate 1 1
-coco 1 1
-acerola 1 1
-amora 1 1
-goiaba 1 1
+laranja 1 3
+abacate 1 5
+coco 1 2
+acerola 1 3
+amora 1 2
+goiaba 1 4
 bichadas 22
 mochila 11

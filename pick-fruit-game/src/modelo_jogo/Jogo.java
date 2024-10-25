@@ -397,9 +397,12 @@ public class Jogo {
 					System.out.println("Impossível pular pedra (Jogador)");
 					return;
 				}
+				Grama gramaAnterior = (Grama) terreno.getElementoFloresta(jogadores[jogadorDaVez].getX(), jogadores[jogadorDaVez].getY());
+				gramaAnterior.setJogador(null);
 				jogadores[jogadorDaVez].mover(direcao);
 				jogadores[jogadorDaVez].setPontosMovimento(jogadores[jogadorDaVez].movimentosRestantes() - 1);
 				jogadores[jogadorDaVez].mover(direcao);
+				grama.setJogador(jogadores[jogadorDaVez]);
 				System.out.println("Pulou pedra");
 				if (grama.getFruta() != null) {
 					boolean catouFruta = jogadores[jogadorDaVez].catarFruta(grama.getFruta());
