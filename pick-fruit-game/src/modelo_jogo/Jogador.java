@@ -1,9 +1,12 @@
 package modelo_jogo;
 
+import java.awt.Image;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
+
+import javax.swing.ImageIcon;
 
 public class Jogador extends ElementoDinamico {
 	private String nome;
@@ -12,6 +15,10 @@ public class Jogador extends ElementoDinamico {
 	private int pontosDeMovimento;
 	private boolean doente;
 	private boolean forte;
+	private Image imagem;
+	private String ultimaFruta = "";
+	public String frutaComida = "";
+	int acao = 0;
 	
 	@Override
 	public void mover(int direcao) {
@@ -43,6 +50,9 @@ public class Jogador extends ElementoDinamico {
 		}
 		pontosDeMovimento--;
 	}
+	public Image getImagem() {
+		return imagem;
+	}
 	public int calcularPontosDeVitoria() {
 		LinkedList<Fruta> maracujas = mochila.get("Maracuja");
 		if (maracujas == null) {
@@ -51,6 +61,9 @@ public class Jogador extends ElementoDinamico {
 		else {
 			return maracujas.size();
 		}
+	}
+	public Hashtable<String, LinkedList<Fruta>> getMochila() {
+		return mochila;
 	}
 	public int totalDeFrutas() {
 		Set<String> keySet = mochila.keySet();
@@ -87,31 +100,47 @@ public class Jogador extends ElementoDinamico {
 		else {
 			mochila.get(tipo).add(fruta);
 		}
-		System.out.println(nome + " catou " + tipo + (fruta.temBicho() ? "com bicho" : "" ));
+		System.out.println(nome + " catou " + tipo + (fruta.temBicho() ? " com bicho" : "" ) + " tem " + (capacidadeMochila - totalDeFrutas()) + " espaços");
+		acao = fruta.temBicho() ? 10 : 11;
+		frutaComida = fruta.getClass().getName().replaceFirst("modelo_jogo.", "");
+		ultimaFruta = fruta.getClass().getName();
 		return true;
+	}
+	public String getUltimaFruta() {
+		return ultimaFruta;
 	}
 	public boolean comerFruta(String tipo) {
 		LinkedList<Fruta> frutasDoTipo = mochila.get(tipo);
 		if (frutasDoTipo == null) {
 			System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
+			frutaComida = tipo;
+			acao = 12; 
 			return false;
 		}
 		if (frutasDoTipo.size() == 0) {
 			System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
+			frutaComida = tipo;
+			acao = 12;
 			return false;
 		}
 		if (pontosDeMovimento <= 0) {
 			System.out.println(nome + " não conseguiu comer " + tipo + " pois não tem pontos de movimento");
+			frutaComida = tipo;
+			acao = 13;
 			return false;
 		}
 		Fruta fruta = frutasDoTipo.pop();
 		boolean consumida = fruta.serConsumida(this);
 		if (consumida) {
 			System.out.println(nome + " comeu " + tipo);
+			frutaComida = tipo;
+			acao = 14;
 			pontosDeMovimento--;
 			return true;
 		}
 		System.out.println(nome + " não conseguiu comer " + tipo + " pois não é comestível");
+		frutaComida = tipo;
+		acao = 15;
 		frutasDoTipo.add(fruta);
 		return false;
 	}
@@ -140,7 +169,7 @@ public class Jogador extends ElementoDinamico {
 		return pontosDeMovimento;
 	}
 	public LinkedList<Fruta> serEmpurrado(Jogador empurrador) {
-		int forcaDefensor = calcularForca();;
+		int forcaDefensor = calcularForca();
 		int forcaAtacante = empurrador.calcularForca();
 		long empurrao = Math.round(Math.log(forcaAtacante+1)/Math.log(2)) - Math.round(Math.log(forcaDefensor+1)/Math.log(2));
 		long qtdTeto = Math.max(0, empurrao);
@@ -161,6 +190,9 @@ public class Jogador extends ElementoDinamico {
 				frutas.add(fruta);
 				j++;
 			}
+			if (lista.size() <= 0) {
+				System.out.println(getNome() + " tem uma lista de frutas do tamanho de: " + lista.size());
+			}
 			if(!i.hasNext()) {
 				i = keySet.iterator();
 			}
@@ -169,9 +201,13 @@ public class Jogador extends ElementoDinamico {
 		return frutas; 
 	}
 	
-	Jogador(String nome, int x, int y, int capacidadeMochila) {
+	public int getAcao() {
+		return acao;
+	}
+	Jogador(String nome, int x, int y, int capacidadeMochila, Image imagem) {
 		super(x, y);
 		this.nome = nome;
+		this.imagem = imagem;
 		this.capacidadeMochila = capacidadeMochila;
 		mochila = new Hashtable<String, LinkedList<Fruta>>();
 		pontosDeMovimento = 0;

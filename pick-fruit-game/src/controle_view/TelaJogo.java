@@ -1,5 +1,6 @@
 package controle_view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -15,6 +16,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import modelo_jogo.*;
 
@@ -28,9 +33,17 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	private Image imagemJogador;
 	private int larguraImagens;
 	private int alturaImagens;
+	private int dimensao;
+	private JLabel painelFalas;
+	private JTextArea areaDialogo;
+	private Image scoreJogador1, socreJogador2; // Imagem da grama
+	private ScorePlayers scorePlayers; // Score dos jogadores
+	
+	
 	
 	TelaJogo(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila, String[] nomes) {
 		mudarEstado = false;
+		this.dimensao = dimensao;
 		setBounds(0, 0, 986, 732);
 		setLayout(new GridBagLayout());
 		Terreno terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
@@ -40,6 +53,35 @@ public class TelaJogo extends EstadoView implements KeyListener {
         setFocusable(true); // Permite que o painel tenha foco para eventos de teclado
         addKeyListener(this); // Adiciona o KeyListener ao painel
         requestFocusInWindow(); // Solicita foco para o JPanel
+        
+        scorePlayers = new ScorePlayers(this, dimensao, jogo.getJogador(0), jogo.getJogador(1)); // Cria um novo score
+        
+        painelFalas = new JLabel("");
+        painelFalas.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        areaDialogo = new JTextArea(1,30);
+        areaDialogo.setWrapStyleWord(true);
+        areaDialogo.setLineWrap(true);
+        areaDialogo.setEditable(false);
+        areaDialogo.setFont(new Font("Arial", Font.PLAIN, 12));
+        
+        
+        JPanel painel = new JPanel(new BorderLayout());  // Define um painel com BorderLayout
+        painel.add(painelFalas, BorderLayout.NORTH);  // Label para nome do personagem na parte superior
+        painel.add(new JScrollPane(areaDialogo), BorderLayout.SOUTH);  // Área de diálogo no centro
+
+        // Configurações de layout para posicionar o painel de diálogo na parte inferior
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1; // Define o painel na "linha 1" (abaixo da linha 0)
+        gbc.weightx = 1;
+        gbc.weighty = 0;  // Deixa weighty como zero para evitar que o painel de diálogo ocupe espaço vertical demais
+        gbc.anchor = GridBagConstraints.SOUTH; // Coloca o painel na parte inferior
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(getHeight()-175, 10, 10, 10); // Margens para não ficar grudado nas bordas
+
+        add(painel, gbc); 
+        
 		try {
 			imagemGrama = new ImageIcon("res" + System.getProperty("file.separator") + "gramaPixelart(1).png").getImage();
         } catch (Exception e) {
@@ -98,6 +140,8 @@ public class TelaJogo extends EstadoView implements KeyListener {
 		});
 	}
 	
+	int acao = 0;
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -141,7 +185,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	                
 	                // Desenha o jogador se existir
 	                if (gramaAtual.getJogador() != null) {
-	                    g.drawImage(imagemJogador, gramaAtual.getJogador().getX() * larguraImagens + larguraImagens / 4, gramaAtual.getJogador().getY() * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
+	                    g.drawImage(gramaAtual.getJogador().getImagem(), gramaAtual.getJogador().getX() * larguraImagens + larguraImagens / 4, gramaAtual.getJogador().getY() * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
 	                }
 	            } else if (elementoCenario instanceof Pedra) {
 	                // Desenha o terreno com pedra
@@ -149,7 +193,18 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	                g.drawImage(imagemPedra, elementoCenario.getX() * larguraImagens, elementoCenario.getY() * alturaImagens, larguraImagens, alturaImagens, null);
 	            }
 	        }
+	        scorePlayers.desenharScore(g);
 	    }
+	    
+	    String vezDoJogador = "Vez do Jogador " + (jogo.getJogadorDaVez() + 1); // +1 para exibir como 1, 2, etc.
+	    String quantidadeMovimentos = "A quantidade de movimentos é: " + (jogo.getJogador(jogo.getJogadorDaVez()).movimentosRestantes());
+	    String vencedor =jogo.acao();
+	    
+	    painelFalas.setText("<html>" + vezDoJogador + "<br>" + quantidadeMovimentos + "</html>");
+
+	    areaDialogo.append(vencedor+ "\n");
+	    areaDialogo.setCaretPosition(areaDialogo.getDocument().getLength()); // Rola automaticamente para a última mensagem
+	     
 	    revalidate();  // Atualiza o layout
 		repaint();     // Para garantir que a pintura aconteça
 
@@ -171,15 +226,19 @@ public class TelaJogo extends EstadoView implements KeyListener {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			jogo.movimentarJogador(1);
+			acao = 1;
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			jogo.movimentarJogador(2);
+			acao = 2;
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			jogo.movimentarJogador(3);
+			acao = 3;
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			jogo.movimentarJogador(4);
+			acao = 4;
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			jogo.finalizarTurno();
