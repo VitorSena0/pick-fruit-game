@@ -197,14 +197,14 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	    }
 	    
 	    String vezDoJogador = "Vez do Jogador " + (jogo.getJogadorDaVez() + 1); // +1 para exibir como 1, 2, etc.
-	    String quantidadeMovimentos = "A quantidade de movimentos é: " + (jogo.getJogador(jogo.getJogadorDaVez()).movimentosRestantes());
+	    String quantidadeMovimentos = "pontos de movimento: " + (jogo.getJogador(jogo.getJogadorDaVez()).movimentosRestantes());
 	    String vencedor =jogo.acao();
 	    
-	    painelFalas.setText("<html>" + vezDoJogador + "<br>" + quantidadeMovimentos + "</html>");
+	    painelFalas.setText("<html>" + vezDoJogador + "<br>" + quantidadeMovimentos + "<br>" + "--Controles--" + "<br>" + "Movimentação: utilize os direcionais do teclado ou clique na célula para qual quer se mover" + "<br>" + "Comer: utilize os números de 2 a 7 para comer Coco, Abacate, Laranja, Acerola, Amora e Goiaba" + "</html>");
 
 	    areaDialogo.append(vencedor+ "\n");
 	    areaDialogo.setCaretPosition(areaDialogo.getDocument().getLength()); // Rola automaticamente para a última mensagem
-	     
+	    	    
 	    revalidate();  // Atualiza o layout
 		repaint();     // Para garantir que a pintura aconteça
 

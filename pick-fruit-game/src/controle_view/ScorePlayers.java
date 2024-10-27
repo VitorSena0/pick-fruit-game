@@ -46,19 +46,32 @@ public class ScorePlayers {
      * 
     */
     public void desenharScore(Graphics g){
-        g.drawImage(scoreJogador1, (int)(painelDesenho.getWidth()-150), 100, 50, 50, null);
-        g.drawImage(socreJogador2, (int)(painelDesenho.getWidth()-150), 180, 50, 50, null);
-        g.drawString("Pontuação: " + jogador1.totalDeFrutas(), (int)(painelDesenho.getWidth() - 100), 100);
-        g.drawString("Pontuação: " + jogador2.totalDeFrutas(), (int)(painelDesenho.getWidth() - 100), 180);
-        if(jogador1.totalDeFrutas() > 0){
-            ImageIcon frutaJogador1Icon = new ImageIcon("res" +System.getProperty("file.separator")+ jogador1.getUltimaFruta() + ".png");
-            this.frutaJogador1 = frutaJogador1Icon.getImage();
-            g.drawImage(frutaJogador1, (int)(painelDesenho.getWidth() - 100), 120, 50, 50, null);
+        g.drawImage(scoreJogador1, (int)(painelDesenho.getWidth()*0.8+10), 100, 50, 50, null);
+        g.drawImage(socreJogador2, (int)(painelDesenho.getWidth()*0.8+10), 180, 50, 50, null);
+        g.drawString("Pontuação: " + jogador1.calcularPontosDeVitoria() + " Mochila: " + jogador1.totalDeFrutas() + "/" + jogador1.getCapacidadeMochila(), (int)(painelDesenho.getWidth()*0.8+10), 90);
+        if (jogador1.estaDoente()) {
+        	g.drawString("Doente", (int)(painelDesenho.getWidth()*0.8+80), 110);
         }
-        if(jogador2.totalDeFrutas() > 0){
-            ImageIcon frutaJogador2Icon = new ImageIcon("res" + System.getProperty("file.separator") + jogador2.getUltimaFruta()+ ".png");
+        g.drawString("Pontuação: " + jogador2.calcularPontosDeVitoria() + " Mochila: " + jogador2.totalDeFrutas() + "/" + jogador2.getCapacidadeMochila(), (int)(painelDesenho.getWidth()*0.8+10), 170);
+        if (jogador2.estaDoente()) {
+        	g.drawString("Doente", (int)(painelDesenho.getWidth()*0.8+80), 190);
+        }
+        int larguraFrutas = (int) Math.max(10, ((painelDesenho.getWidth() - (painelDesenho.getWidth()*0.8 + 60)) / 8));
+        LinkedList<String> frutasJogador1 = jogador1.tiposDeFrutasNaMochila();
+        LinkedList<String> frutasJogador2 = jogador2.tiposDeFrutasNaMochila();
+        int offset = (int)(painelDesenho.getWidth()*0.8+60);
+        while(!frutasJogador1.isEmpty()){
+            ImageIcon frutaJogador1Icon = new ImageIcon("res" +System.getProperty("file.separator") + "modelo_jogo." + frutasJogador1.pop() + ".png");
+            this.frutaJogador1 = frutaJogador1Icon.getImage();
+            g.drawImage(frutaJogador1, offset, 125, larguraFrutas, 25, null);
+            offset += larguraFrutas;
+        }
+        offset = (int)(painelDesenho.getWidth()*0.8+60);
+        while(!frutasJogador2.isEmpty()){
+            ImageIcon frutaJogador2Icon = new ImageIcon("res" +System.getProperty("file.separator") + "modelo_jogo." + frutasJogador2.pop() + ".png");
             this.frutaJogador2 = frutaJogador2Icon.getImage();
-            g.drawImage(frutaJogador2, (int)(painelDesenho.getWidth() - 100), 200, 50, 50, null);
+            g.drawImage(frutaJogador2, offset, 205, larguraFrutas, 25, null);
+            offset += larguraFrutas;
         }
         
 

@@ -147,7 +147,8 @@ public class Jogo {
 			int i = gerador.nextInt(vizinhancasLivresSemFruta.keySet().size());
 			Arvore arvore = (Arvore) vizinhancasLivresSemFruta.keySet().toArray()[i];
 			Grama grama = vizinhancasLivresSemFruta.get(arvore);
-			grama.setFruta(new Maracuja(grama.getX(), grama.getX(), bichada));
+			grama.setFruta(new Maracuja(grama.getX(), grama.getY(), bichada));
+			System.out.println("Maracujá nasceu em " + grama.getX() + " " + grama.getY());
 			arvoreMaracujaAnterior = arvore;
 			terreno.nasceuFrutaOuro();
 			return;
@@ -158,7 +159,8 @@ public class Jogo {
 			int i = gerador.nextInt(vizinhancasLivresComFruta.keySet().size());
 			Arvore arvore = (Arvore) vizinhancasLivresComFruta.keySet().toArray()[i];
 			Grama grama = vizinhancasLivresComFruta.get(arvore);
-			grama.setFruta(new Maracuja(grama.getX(), grama.getX(), bichada));
+			grama.setFruta(new Maracuja(grama.getX(), grama.getY(), bichada));
+			System.out.println("Maracujá nasceu em " + grama.getX() + " " + grama.getY());
 			arvoreMaracujaAnterior = arvore;
 			terreno.nasceuFrutaOuro();
 			return;
@@ -319,6 +321,7 @@ public class Jogo {
 				}
 				Jogador jogadorEmpurrado = grama.getJogador();
 				LinkedList<Fruta> frutasDerrubadas = jogadorEmpurrado.serEmpurrado(jogadores[jogadorDaVez]);
+				System.out.println("jogador empurrado em " + jogadorEmpurrado.getX() + " " + jogadorEmpurrado.getY());
 				houveEmpurraoTurno = true;
 				System.out.println(jogadores[jogadorDaVez].getNome() + " Empurrou " + jogadorEmpurrado.getNome());
 				acao = 4;
@@ -379,9 +382,10 @@ public class Jogo {
 				if (frutasDerrubadas != null) {
 					while (i < totalDirecoesLivres && !frutasDerrubadas.isEmpty()) {
 						Fruta frutaDerrubada = frutasDerrubadas.pop();
+						System.out.println(frutaDerrubada.getClass().getSimpleName() + " em " + frutaDerrubada.getX() + " " + frutaDerrubada.getY());
 						frutaDerrubada.mover(direcoesLivres[i]);
 						Grama gramaDeDestino = (Grama) terreno.getElementoFloresta(frutaDerrubada.getX(), frutaDerrubada.getY());
-						System.out.println(frutaDerrubada.getClass().getSimpleName() + " derrubado");
+						System.out.println(frutaDerrubada.getClass().getSimpleName() + " derrubado em " + frutaDerrubada.getX() + " " + frutaDerrubada.getY());
 						gramaDeDestino.setFruta(frutaDerrubada);
 						i++;
 					}

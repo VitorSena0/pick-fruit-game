@@ -112,6 +112,7 @@ public class Terreno {
 			int y = posicao / dimensao;
 			boolean bichada = gerador.nextInt(100) < probabilidadeFrutaBichada;
 			frutas[indice_fruta] = new Maracuja(x, y, bichada);
+			System.out.println("Maracujá nasceu em " + frutas[indice_fruta].getX() + " " + frutas[indice_fruta].getY());
 			indice_fruta++;
 			indice_posicao_fruta = (indice_posicao_fruta + 1) % (fim + 1);
 		}

@@ -5,6 +5,7 @@ public abstract class Fruta extends ElementoDinamico {
 	public boolean temBicho() {
 		return bichada;
 	}
+	@Override
 	public void mover(int direcao) {
 		int dX = 0;
 		int dY = 0;

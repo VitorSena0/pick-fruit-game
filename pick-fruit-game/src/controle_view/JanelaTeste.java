@@ -15,7 +15,7 @@ public class JanelaTeste extends JFrame implements ActionListener {
 		relogioEstado = new Timer(100, this);
 		estadoAtual = new TelaInicial();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 886, 632);
+		setBounds(100, 100, 886, 732);
 		setVisible(true);
 		setContentPane(estadoAtual);
 		relogioEstado.start();

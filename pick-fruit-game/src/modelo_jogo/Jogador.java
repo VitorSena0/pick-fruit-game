@@ -46,6 +46,8 @@ public class Jogador extends ElementoDinamico {
 			LinkedList<Fruta> lista = mochila.get(tipo);
 			for (Fruta fruta : lista) {
 				fruta.mover(direcao);
+				if (fruta instanceof Maracuja)
+					System.out.println( "Maracujá em " + fruta.getX() + " " + fruta.getY());
 			}
 		}
 		pontosDeMovimento--;
@@ -61,9 +63,6 @@ public class Jogador extends ElementoDinamico {
 		else {
 			return maracujas.size();
 		}
-	}
-	public Hashtable<String, LinkedList<Fruta>> getMochila() {
-		return mochila;
 	}
 	public int totalDeFrutas() {
 		Set<String> keySet = mochila.keySet();
@@ -81,6 +80,19 @@ public class Jogador extends ElementoDinamico {
 		else {
 			return forcaBase;
 		}
+	}
+	public int getCapacidadeMochila() {
+		return capacidadeMochila;
+	}
+	public LinkedList<String> tiposDeFrutasNaMochila() {
+		LinkedList<String> tiposFrutas = new LinkedList<String>();
+		Set<String> keySet = mochila.keySet();
+		for (String tipo: keySet) {
+			if (mochila.get(tipo).size() > 0) {
+				tiposFrutas.add(tipo);
+			}
+		}
+		return tiposFrutas;
 	}
 	public boolean catarFruta(Fruta fruta) {
 		if (totalDeFrutas() >= capacidadeMochila) {
@@ -100,7 +112,8 @@ public class Jogador extends ElementoDinamico {
 		else {
 			mochila.get(tipo).add(fruta);
 		}
-		System.out.println(nome + " catou " + tipo + (fruta.temBicho() ? " com bicho" : "" ) + " tem " + (capacidadeMochila - totalDeFrutas()) + " espaços");
+		if (fruta instanceof Maracuja)
+			System.out.println(nome + " catou " + tipo + (fruta.temBicho() ? " com bicho" : "" ) + " em " + + fruta.getX() + " " + fruta.getY());
 		acao = fruta.temBicho() ? 10 : 11;
 		frutaComida = fruta.getClass().getName().replaceFirst("modelo_jogo.", "");
 		ultimaFruta = fruta.getClass().getName();
@@ -200,7 +213,6 @@ public class Jogador extends ElementoDinamico {
 		}
 		return frutas; 
 	}
-	
 	public int getAcao() {
 		return acao;
 	}
