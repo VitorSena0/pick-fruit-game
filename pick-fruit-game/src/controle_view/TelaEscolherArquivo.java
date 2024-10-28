@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.AccessDeniedException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import javax.swing.*;
 
@@ -144,15 +145,56 @@ public class TelaEscolherArquivo extends EstadoView {
                         parametrosCompostos.get("amora")[0] + parametrosCompostos.get("goiaba")[0] +
                         parametrosSimples.get("pedras");
                 int posicoes = parametrosSimples.get("dimensao") * parametrosSimples.get("dimensao");
-                if (parametrosCompostos.get("maracuja")[1] > parametrosCompostos.get("maracuja")[0]) {
+                int arvores = parametrosCompostos.get("laranja")[0] + parametrosCompostos.get("abacate")[0] +
+                        parametrosCompostos.get("coco")[0] + parametrosCompostos.get("acerola")[0] +
+                        parametrosCompostos.get("amora")[0] + parametrosCompostos.get("goiaba")[0];
+                int frutasNoChao = parametrosCompostos.get("laranja")[1] + parametrosCompostos.get("abacate")[1] +
+                        parametrosCompostos.get("coco")[1] + parametrosCompostos.get("acerola")[1] +
+                        parametrosCompostos.get("amora")[1] + parametrosCompostos.get("goiaba")[1] + 
+                        parametrosCompostos.get("maracuja")[1];
+                int[] listaCampos = {parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"),
+                        parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1],
+                        parametrosCompostos.get("laranja")[0], parametrosCompostos.get("laranja")[1],
+                        parametrosCompostos.get("abacate")[0], parametrosCompostos.get("abacate")[1],
+                        parametrosCompostos.get("coco")[0], parametrosCompostos.get("coco")[1],
+                        parametrosCompostos.get("acerola")[0], parametrosCompostos.get("acerola")[1],
+                        parametrosCompostos.get("amora")[0], parametrosCompostos.get("amora")[1],
+                        parametrosCompostos.get("goiaba")[0], parametrosCompostos.get("goiaba")[1],
+                        parametrosSimples.get("bichadas"), parametrosSimples.get("mochila")};
+                int gramaLivres = posicoes - elementos;
+				if (Arrays.stream(listaCampos).anyMatch(campo -> campo < 0 )){
+					erroMapeado = true;
+					throw new Exception("arquivo com configurações inválidas, todos os campos devem ser números inteiros positivos");
+				}
+				else if (parametrosSimples.get("dimensao") < 3) {
+					erroMapeado = true;
+					throw new Exception("arquivo com configurações inválidas, dimensão do terreno deve ser maior ou igual a 3");
+				}
+				else if (arvores < 1 && parametrosCompostos.get("maracuja")[0] - parametrosCompostos.get("maracuja")[1] > 0) {
+					erroMapeado = true;
+					throw new Exception("arquivo com configurações inválidas, deve haver pelo menos uma árvore para gerar os maracujás que não estão no chão");
+				}
+				else if (parametrosCompostos.get("maracuja")[0] + parametrosCompostos.get("maracuja")[1] < 1) {
+					erroMapeado = true;
+					throw new Exception("arquivo com configurações inválidas, deve haver pelo menos um maracujá no terreno");
+				}
+				else if (frutasNoChao > gramaLivres) {
+					erroMapeado = true;
+					throw new Exception("arquivo com configurações inválidas, existem mais frutas no chão do que células de gramas livre para ocupar");
+				}
+				else if (posicoes - parametrosSimples.get("pedras") < 3) {
+					erroMapeado = true;
+					throw new Exception("arquivo com configurações inválidas, devem haver pelo menos 3 células de grama para os jogadores se moverem");
+				}
+                else if (parametrosCompostos.get("maracuja")[1] > parametrosCompostos.get("maracuja")[0]) {
                 	erroMapeado = true;
-                    throw new Exception("arquivo com formato inválido");
+                    throw new Exception("arquivo com configurações inválidas, número de maracujás deve ser maior ou igual a maracujás no chão");
                 } else if (parametrosSimples.get("bichadas") < 0 || parametrosSimples.get("bichadas") > 100) {
                 	erroMapeado = true;
-                    throw new Exception("arquivo com formato inválido");
+                    throw new Exception("arquivo com configurações inválidas, probabilidade deve ser entre 0 e 100");
                 } else if (elementos >= posicoes) {
                 	erroMapeado = true;
-                    throw new Exception("arquivo com formato inválido");
+                    throw new Exception("arquivo com configurações inválidas, deve haver pelo menos uma célula de grama livre");
                 }
                 return new TelaJogo(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"),
                         parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1],

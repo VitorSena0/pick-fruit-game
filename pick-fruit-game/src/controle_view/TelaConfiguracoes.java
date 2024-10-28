@@ -354,6 +354,11 @@ public class TelaConfiguracoes extends EstadoView {
 					mensagemErro = "Erro: existem mais frutas no chão do que células de gramas livre para ocupar";
 					throw new Exception();
 				}
+				else if (posicoes - pedras < 3) {
+					erroMapeado = true;
+					mensagemErro = "Erro: devem haver pelo menos 3 células de grama para os jogadores se moverem";
+					throw new Exception();
+				}
 				else if (maracujasChao > maracujas) {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
