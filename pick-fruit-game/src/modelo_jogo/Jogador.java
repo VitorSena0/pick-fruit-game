@@ -47,8 +47,6 @@ public class Jogador extends ElementoDinamico {
 			LinkedList<Fruta> lista = mochila.get(tipo);
 			for (Fruta fruta : lista) {
 				fruta.mover(direcao);
-				if (fruta instanceof Maracuja)
-					System.out.println( "Maracujá em " + fruta.getX() + " " + fruta.getY());
 			}
 		}
 		pontosDeMovimento--;
@@ -94,7 +92,7 @@ public class Jogador extends ElementoDinamico {
 	}
 	public boolean catarFruta(Fruta fruta) {
 		if (totalDeFrutas() >= capacidadeMochila) {
-			System.out.println(nome + " não conseguiu catar fruta pois a mochila está cheia");
+			//System.out.println(nome + " não conseguiu catar fruta pois a mochila está cheia");
 			return false;
 		}
 		if (fruta.temBicho()) {
@@ -110,8 +108,6 @@ public class Jogador extends ElementoDinamico {
 		else {
 			mochila.get(tipo).add(fruta);
 		}
-		if (fruta instanceof Maracuja)
-			System.out.println(nome + " catou " + tipo + (fruta.temBicho() ? " com bicho" : "" ) + " em " + + fruta.getX() + " " + fruta.getY());
 		acao = fruta.temBicho() ? 10 : 11;
 		frutaComida = fruta.getClass().getName().replaceFirst("modelo_jogo.", "");
 		ultimaFruta = fruta.getClass().getName();
@@ -123,19 +119,19 @@ public class Jogador extends ElementoDinamico {
 	public boolean comerFruta(String tipo) {
 		LinkedList<Fruta> frutasDoTipo = mochila.get(tipo);
 		if (frutasDoTipo == null) {
-			System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
+			//System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
 			frutaComida = tipo;
 			acao = 12; 
 			return false;
 		}
 		if (frutasDoTipo.size() == 0) {
-			System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
+			//System.out.println(nome + " não conseguiu comer " + tipo + " pois não possui na mochila");
 			frutaComida = tipo;
 			acao = 12;
 			return false;
 		}
 		if (pontosDeMovimento <= 0) {
-			System.out.println(nome + " não conseguiu comer " + tipo + " pois não tem pontos de movimento");
+			//System.out.println(nome + " não conseguiu comer " + tipo + " pois não tem pontos de movimento");
 			frutaComida = tipo;
 			acao = 13;
 			return false;
@@ -143,13 +139,13 @@ public class Jogador extends ElementoDinamico {
 		Fruta fruta = frutasDoTipo.pop();
 		boolean consumida = fruta.serConsumida(this);
 		if (consumida) {
-			System.out.println(nome + " comeu " + tipo);
+			//System.out.println(nome + " comeu " + tipo);
 			frutaComida = tipo;
 			acao = 14;
 			pontosDeMovimento--;
 			return true;
 		}
-		System.out.println(nome + " não conseguiu comer " + tipo + " pois não é comestível");
+		//System.out.println(nome + " não conseguiu comer " + tipo + " pois não é comestível");
 		frutaComida = tipo;
 		acao = 15;
 		frutasDoTipo.add(fruta);
@@ -204,7 +200,7 @@ public class Jogador extends ElementoDinamico {
 				j++;
 			}
 			if (lista.size() <= 0) {
-				System.out.println(getNome() + " tem uma lista de frutas do tamanho de: " + lista.size());
+				//System.out.println(getNome() + " tem uma lista de frutas do tamanho de: " + lista.size());
 			}
 			i = (i + 1) % tiposFrutas.length;
 		}
