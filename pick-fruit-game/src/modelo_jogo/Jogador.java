@@ -1,9 +1,11 @@
 package modelo_jogo;
 
 import java.awt.Image;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.ImageIcon;
@@ -185,15 +187,14 @@ public class Jogador extends ElementoDinamico {
 		int totalFrutas = totalDeFrutas();
 		long frutasDerrubadas = Math.min(totalFrutas, qtdTeto);
 		Set<String> keySet = mochila.keySet();
-		Iterator<String> i = keySet.iterator();
-		if (!i.hasNext()) {
-			return null;
-		}
+		Object[] keyArray = keySet.toArray();
+		String[] tiposFrutas = Arrays.copyOf(keyArray, keyArray.length, String[].class);
+		Random gerador = new Random();
+		int i = gerador.nextInt(tiposFrutas.length);
 		LinkedList<Fruta> frutas = new LinkedList<Fruta>();
-		String tipo = i.next();
 		int j = 0; 
 		while (j < frutasDerrubadas) {
-			LinkedList<Fruta> lista = mochila.get(tipo);
+			LinkedList<Fruta> lista = mochila.get(tiposFrutas[i]);
 			if (lista.size() > 0) {
 				Fruta fruta = lista.pop();
 				frutas.add(fruta);
@@ -202,10 +203,7 @@ public class Jogador extends ElementoDinamico {
 			if (lista.size() <= 0) {
 				System.out.println(getNome() + " tem uma lista de frutas do tamanho de: " + lista.size());
 			}
-			if(!i.hasNext()) {
-				i = keySet.iterator();
-			}
-			tipo = i.next();
+			i = (i + 1) % tiposFrutas.length;
 		}
 		return frutas; 
 	}
