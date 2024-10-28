@@ -35,6 +35,9 @@ public class TelaConfiguracoes extends EstadoView {
 	private JTextField campoAmora;
 	private JTextField campoGoiabeiras;
 	private JTextField campoGoiabas;
+	private JTextField campoArquivo;
+	
+	private String caminho;
 	
 	private JTextArea mensagem;
 	
@@ -253,19 +256,30 @@ public class TelaConfiguracoes extends EstadoView {
 		campoMochila.setBounds(223, 316, 115, 19);
 		add(campoMochila);
 		
+		JLabel lblNewLabel_13_1 = new JLabel("Nome do terreno");
+		lblNewLabel_13_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_13_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_13_1.setBounds(10, 346, 203, 23);
+		add(lblNewLabel_13_1);
+		
+		campoArquivo = new JTextField();
+		campoArquivo.setColumns(10);
+		campoArquivo.setBounds(223, 346, 115, 19);
+		add(campoArquivo);
+		
 		mensagem = new JTextArea();
 		mensagem.setForeground(new Color(255, 0, 0));
 		mensagem.setWrapStyleWord(true);
 		mensagem.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		mensagem.setLineWrap(true);
-		mensagem.setBounds(10, 346, 219, 31);
+		mensagem.setBounds(10, 376, 219, 31);
 		mensagem.setEditable(false);
 		mensagem.setOpaque(false);
 		add(mensagem);
 		
 		botaoProximo = new JButton("Próximo");
 		botaoProximo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoProximo.setBounds(265, 376, 79, 21);
+		botaoProximo.setBounds(265, 406, 79, 21);
 		botaoProximo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -277,19 +291,20 @@ public class TelaConfiguracoes extends EstadoView {
 		
 		botaoSalvar = new JButton("Salvar Configurações");
 		botaoSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoSalvar.setBounds(104, 376, 146, 21);
+		botaoSalvar.setBounds(104, 406, 146, 21);
 		botaoSalvar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				mudarEstado = true;
 				botaoSelecionado = botao.SALVAR;
+				caminho = campoArquivo.getText();
 			}
 		});
 		add(botaoSalvar);
 		
 		botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoVoltar.setBounds(10, 376, 79, 21);
+		botaoVoltar.setBounds(10, 406, 79, 21);
 		botaoVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -528,19 +543,30 @@ public class TelaConfiguracoes extends EstadoView {
 		campoMochila.setBounds(223, 316, 115, 19);
 		add(campoMochila);
 		
+		JLabel lblNewLabel_13_1 = new JLabel("Nome do terreno");
+		lblNewLabel_13_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_13_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_13_1.setBounds(10, 346, 203, 23);
+		add(lblNewLabel_13_1);
+		
+		campoArquivo = new JTextField();
+		campoArquivo.setColumns(10);
+		campoArquivo.setBounds(223, 346, 115, 19);
+		add(campoArquivo);
+		
 		mensagem = new JTextArea();
 		mensagem.setForeground(new Color(255, 0, 0));
 		mensagem.setWrapStyleWord(true);
 		mensagem.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		mensagem.setLineWrap(true);
-		mensagem.setBounds(10, 346, 219, 31);
+		mensagem.setBounds(10, 376, 219, 31);
 		mensagem.setEditable(false);
 		mensagem.setOpaque(false);
 		add(mensagem);
 		
 		botaoProximo = new JButton("Próximo");
 		botaoProximo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoProximo.setBounds(265, 376, 79, 21);
+		botaoProximo.setBounds(265, 406, 79, 21);
 		botaoProximo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -552,19 +578,20 @@ public class TelaConfiguracoes extends EstadoView {
 		
 		botaoSalvar = new JButton("Salvar Configurações");
 		botaoSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoSalvar.setBounds(104, 376, 146, 21);
+		botaoSalvar.setBounds(104, 406, 146, 21);
 		botaoSalvar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				mudarEstado = true;
 				botaoSelecionado = botao.SALVAR;
+				caminho = campoArquivo.getText();
 			}
 		});
 		add(botaoSalvar);
 		
 		botaoVoltar = new JButton("Voltar");
 		botaoVoltar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		botaoVoltar.setBounds(10, 376, 79, 21);
+		botaoVoltar.setBounds(10, 406, 79, 21);
 		botaoVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -741,7 +768,7 @@ public class TelaConfiguracoes extends EstadoView {
 			    	  mensagemErro = "Erro: número de pedras e árvores muito grande, deve haver pelo menos uma célula de grama";
 			    	  throw new Exception();
 			      }
-				FileWriter arq = new FileWriter("terreno.txt");
+				FileWriter arq = new FileWriter(caminho + ".txt");
 			    PrintWriter gravarArq = new PrintWriter(arq);
 			    gravarArq.println("dimensao " + dimensao);
 			    gravarArq.println("pedras " + pedras);
@@ -756,7 +783,7 @@ public class TelaConfiguracoes extends EstadoView {
 			    gravarArq.println("mochila " + mochila);
 			    arq.close();
 			    mensagem.setForeground(new Color(0, 0, 0));
-			    mensagem.setText("Configurações salvas com sucesso em terreno.txt");
+			    mensagem.setText("Configurações salvas com sucesso em " + caminho + ".txt");
 			    return this;
 			}
 			catch (Exception e) {
