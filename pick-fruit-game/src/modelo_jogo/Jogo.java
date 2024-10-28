@@ -173,6 +173,9 @@ public class Jogo {
 		}
 	}
 	public void proximaRodada() {
+		if (acao != 2 && acao != 10 && acao != 11) {
+			acao = 0;
+		}
 		if (jogadorVencedor != null) {
 			System.out.println("Vitória");
 			acao = 1;
@@ -220,6 +223,9 @@ public class Jogo {
 		}
 	}
 	public void finalizarTurno() {
+		if (acao != 2 && acao != 10 && acao != 11) {
+			acao = 0;
+		}
 		if (jogadorVencedor != null) {
 			System.out.println("Vitória");
 			acao = 1;
@@ -239,7 +245,10 @@ public class Jogo {
 				if (fruto != null) {
 					System.out.println("Caiu fruta da árvore");
 					jogadores[jogadorDaVez].catarFruta(fruto);
-					jogadores[jogadorDaVez].zerarAcao();
+					acao = 10;
+				}
+				else {
+					acao = 11;
 				}
 			}
 		}
@@ -247,7 +256,6 @@ public class Jogo {
 		houveEmpurraoTurno = false;
 		if (jogadorDaVez >= jogadores.length) {
 			System.out.println("Fim da rodada");
-			acao = 3;
 			proximaRodada();
 			return;
 		}
@@ -269,13 +277,15 @@ public class Jogo {
 		}
 	}
 	public void movimentarJogador(int direcao) {
+		jogadores[jogadorDaVez].zerarAcao();
+		acao = 0;
 		if (jogadorVencedor != null) {
 			System.out.println("Vitória");
 			acao = 1;
 			return ;
 		}
 		if (direcao < 1 || direcao > 4) {
-			return ;
+			return;
 		}
 		if (jogadores[jogadorDaVez].movimentosRestantes() <= 0) {
 			System.out.println("Sem movimentos");
@@ -489,21 +499,22 @@ public class Jogo {
 	public String acao() {
 		String evento = "";
 		String atitude = "";
-		if(jogadores[jogadorDaVez].getAcao() == 10) {acao = 2;}
 		if(jogadores[jogadorDaVez].getAcao() == 11 ) {atitude =  jogadores[jogadorDaVez].getNome() + " pegou uma " + jogadores[jogadorDaVez].frutaComida; }
 		if(jogadores[jogadorDaVez].getAcao() == 12) {atitude = "Não existe essa fruta na sua mochia";}
 		if(jogadores[jogadorDaVez].getAcao() == 13) {atitude = "Você não tem pontos de moviemntos";}
 		if(jogadores[jogadorDaVez].getAcao() == 14) {atitude = "Você comeu a fruta " + jogadores[jogadorDaVez].frutaComida;}
 		if(jogadores[jogadorDaVez].getAcao() == 15) {atitude = "Você não pode comer essa fruta pois " + jogadores[jogadorDaVez].frutaComida + "não é comestivel";}
 		if(acao == 1) {evento = jogadores[jogadorVencedor].getNome() + " Venceu!!";}
-		if(acao == 2) {evento = jogadores[jogadorDaVez].getNome() + " ficou doente";}
-		if(acao == 3) {evento = "Fim da rodada";}
-		if(acao == 4) {evento = jogadores[jogadorDaVez].getNome() + " Empurrou o outro";}
-		if(acao == 5) {evento = "Impossível pular pedra (Borda)";}
-		if(acao == 6) {evento = "Impossível pular pedra (Sem movimentos)";}
-		if(acao == 7) {evento = "Impossível pular pedra (Pedras seguidas)";}
-		if(acao == 8) {evento = "Impossível pular pedra (Jogador)";}
-		if(acao == 9) {evento = "Pulou pedra";}
+		if(acao == 2) {evento = "Doença impossibilitou o movimento de " + jogadores[jogadorDaVez == 0 ? jogadores.length - 1 : jogadorDaVez - 1].getNome();}
+		if(acao == 3) {evento = "Fim da rodada.";}
+		if(acao == 4) {evento = jogadores[jogadorDaVez].getNome() + " empurrou outro jogador.";}
+		if(acao == 5) {evento = "Impossível pular pedra (Borda).";}
+		if(acao == 6) {evento = "Impossível pular pedra (Sem movimentos).";}
+		if(acao == 7) {evento = "Impossível pular pedra (Pedras seguidas).";}
+		if(acao == 8) {evento = "Impossível pular pedra (Jogador).";}
+		if(acao == 9) {evento = "Pulou pedra.";}
+		if(acao == 10) {evento = "Caiu fruta da árvore.";}
+		if(acao == 11) {evento = "Árvore ainda sem frutos para dar.";}
 		return evento + " " + atitude;
 	}
 	public Integer getJogadorVencedor() {

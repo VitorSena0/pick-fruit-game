@@ -186,12 +186,15 @@ public class Jogador extends ElementoDinamico {
 		long qtdTeto = Math.max(0, empurrao);
 		int totalFrutas = totalDeFrutas();
 		long frutasDerrubadas = Math.min(totalFrutas, qtdTeto);
+		LinkedList<Fruta> frutas = new LinkedList<Fruta>();
+		if (frutasDerrubadas == 0) {
+			return frutas;
+		}
 		Set<String> keySet = mochila.keySet();
 		Object[] keyArray = keySet.toArray();
 		String[] tiposFrutas = Arrays.copyOf(keyArray, keyArray.length, String[].class);
 		Random gerador = new Random();
 		int i = gerador.nextInt(tiposFrutas.length);
-		LinkedList<Fruta> frutas = new LinkedList<Fruta>();
 		int j = 0; 
 		while (j < frutasDerrubadas) {
 			LinkedList<Fruta> lista = mochila.get(tiposFrutas[i]);

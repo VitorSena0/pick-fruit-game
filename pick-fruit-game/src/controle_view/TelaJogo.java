@@ -34,6 +34,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	private int larguraImagens;
 	private int alturaImagens;
 	private int dimensao;
+	int acao;
 	private JLabel painelFalas;
 	private JTextArea areaDialogo;
 	private Image scoreJogador1, socreJogador2; // Imagem da grama
@@ -44,6 +45,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	TelaJogo(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila, String[] nomes) {
 		mudarEstado = false;
 		this.dimensao = dimensao;
+		acao = 0;
 		setBounds(0, 0, 986, 732);
 		setLayout(new GridBagLayout());
 		Terreno terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
@@ -64,7 +66,6 @@ public class TelaJogo extends EstadoView implements KeyListener {
         areaDialogo.setLineWrap(true);
         areaDialogo.setEditable(false);
         areaDialogo.setFont(new Font("Arial", Font.PLAIN, 12));
-        
         
         JPanel painel = new JPanel(new BorderLayout());  // Define um painel com BorderLayout
         painel.add(painelFalas, BorderLayout.NORTH);  // Label para nome do personagem na parte superior
@@ -140,12 +141,10 @@ public class TelaJogo extends EstadoView implements KeyListener {
 		});
 	}
 	
-	int acao = 0;
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	    
 	    // Calcula dinamicamente o tamanho de cada célula com base no tamanho da janela
 	    larguraImagens = (int)((getWidth() / jogo.getDimensao())*0.8);
 	    alturaImagens = (int)((getHeight() / jogo.getDimensao())*0.8);
@@ -203,6 +202,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	    
 	    painelFalas.setText("<html>" + vezDoJogador + "<br>" + quantidadeMovimentos + "<br>" + "--Controles--" + "<br>" + "Movimentação: utilize os direcionais do teclado ou clique na célula para qual quer se mover, aperte enter para avançar o turno" + "<br>" + "Comer: utilize os números de 2 a 7 para comer Coco, Abacate, Laranja, Acerola, Amora e Goiaba" + "</html>");
 
+	    
 	    areaDialogo.append(vencedor+ "\n");
 	    areaDialogo.setCaretPosition(areaDialogo.getDocument().getLength()); // Rola automaticamente para a última mensagem
 	    if (jogo.getJogadorVencedor() != null) {
