@@ -212,6 +212,9 @@ public class Jogador extends ElementoDinamico {
 	public int getAcao() {
 		return acao;
 	}
+	public void zerarAcao() {
+		acao = 0;
+	}
 	Jogador(String nome, int x, int y, int capacidadeMochila) {
 		super(x, y);
 		this.nome = nome;

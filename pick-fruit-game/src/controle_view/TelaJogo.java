@@ -201,7 +201,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	    String quantidadeMovimentos = "pontos de movimento: " + (jogo.getJogador(jogo.getJogadorDaVez()).movimentosRestantes());
 	    String vencedor = jogo.acao();
 	    
-	    painelFalas.setText("<html>" + vezDoJogador + "<br>" + quantidadeMovimentos + "<br>" + "--Controles--" + "<br>" + "Movimentação: utilize os direcionais do teclado ou clique na célula para qual quer se mover" + "<br>" + "Comer: utilize os números de 2 a 7 para comer Coco, Abacate, Laranja, Acerola, Amora e Goiaba" + "</html>");
+	    painelFalas.setText("<html>" + vezDoJogador + "<br>" + quantidadeMovimentos + "<br>" + "--Controles--" + "<br>" + "Movimentação: utilize os direcionais do teclado ou clique na célula para qual quer se mover, aperte enter para avançar o turno" + "<br>" + "Comer: utilize os números de 2 a 7 para comer Coco, Abacate, Laranja, Acerola, Amora e Goiaba" + "</html>");
 
 	    areaDialogo.append(vencedor+ "\n");
 	    areaDialogo.setCaretPosition(areaDialogo.getDocument().getLength()); // Rola automaticamente para a última mensagem

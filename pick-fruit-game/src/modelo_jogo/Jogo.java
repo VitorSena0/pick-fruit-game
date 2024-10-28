@@ -181,6 +181,7 @@ public class Jogo {
 		rodada++;
 		jogadorDaVez = 0;
 		rolarDados();
+		jogadores[jogadorDaVez].zerarAcao();
 		for (int i = 0; i < jogadores.length; i++) {
 			if (jogadores[i].calcularPontosDeVitoria() >= Math.floor(terreno.getTotalFrutasOuro()/2) + 1) {
 				jogadorVencedor = i;
@@ -238,6 +239,7 @@ public class Jogo {
 				if (fruto != null) {
 					System.out.println("Caiu fruta da árvore");
 					jogadores[jogadorDaVez].catarFruta(fruto);
+					jogadores[jogadorDaVez].zerarAcao();
 				}
 			}
 		}
@@ -249,6 +251,7 @@ public class Jogo {
 			proximaRodada();
 			return;
 		}
+		jogadores[jogadorDaVez].zerarAcao();
 		if (rodada % 2 == 0) {
 			gerarFrutaOuro();
 		}
