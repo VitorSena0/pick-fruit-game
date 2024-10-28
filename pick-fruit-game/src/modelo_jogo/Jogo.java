@@ -469,8 +469,7 @@ public class Jogo {
 		Random gerador = new Random();
 		for (int i = 0; i < numeroJogadores; i++) {
 			Grama gramaOcupada = gramas.remove(gerador.nextInt(gramas.size()));
-			Image imagem = new ImageIcon("res" + System.getProperty("file.separator") + "player" + (i+1) + "Pixelart.png").getImage();
-			jogadores[i] = new Jogador(nomes[i], gramaOcupada.getX(), gramaOcupada.getY(), capacidadeMochila, imagem );
+			jogadores[i] = new Jogador(nomes[i], gramaOcupada.getX(), gramaOcupada.getY(), capacidadeMochila);
 			gramaOcupada.setJogador(jogadores[i]);
 		}
 		for (int i = 0; i < dados.length; i++) {

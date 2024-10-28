@@ -9,20 +9,25 @@ import java.nio.file.AccessDeniedException;
 import java.util.LinkedHashMap;
 import javax.swing.*;
 
-public class EscolherArquivo extends EstadoView {
+public class TelaEscolherArquivo extends EstadoView {
     private enum botao {
         VOLTAR,
         PROXIMO
     }
     private botao botaoSelecionado;
-    private JTextField textField;
+    private JTextField campoTextoArquivo;
+    private JTextField campoTextoNome1;
+    private JTextField campoTextoNome2;
     private JButton botaoProximo;
     private JButton botaoVoltar;
     private JTextArea msgErro;
     private String caminho;
+    private String[] nomes;
 
-    EscolherArquivo() {
-        setBounds(313, 233, 239, 139);
+    TelaEscolherArquivo() {
+        nomes = new String[2];
+    	
+    	setBounds(313, 233, 239, 139);
         setLayout(new GridBagLayout()); // Utilizando GridBagLayout para centralização
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento entre os componentes
@@ -37,10 +42,28 @@ public class EscolherArquivo extends EstadoView {
         gbc.gridwidth = 2;
         add(lblNewLabel_3, gbc);
 
-        textField = new JTextField();
-        textField.setColumns(10);
+        campoTextoArquivo = new JTextField();
+        campoTextoArquivo.setColumns(10);
         gbc.gridy = 1;
-        add(textField, gbc);
+        add(campoTextoArquivo, gbc);
+        
+        JLabel lblNewLabel_4 = new JLabel("Digite os nomes dos jogadores");
+        lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 12));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        add(lblNewLabel_4, gbc);
+        
+        campoTextoNome1 = new JTextField();
+        campoTextoNome1.setColumns(10);
+        gbc.gridy = 3;
+        add(campoTextoNome1, gbc);
+        
+        campoTextoNome2 = new JTextField();
+        campoTextoNome2.setColumns(10);
+        gbc.gridy = 4;
+        add(campoTextoNome2, gbc);
 
         msgErro = new JTextArea();
         msgErro.setForeground(new Color(255, 0, 0));
@@ -49,20 +72,23 @@ public class EscolherArquivo extends EstadoView {
         msgErro.setLineWrap(true);
         msgErro.setEditable(false);
         msgErro.setOpaque(false);
-        gbc.gridy = 2;
+        gbc.gridy = 5;
+        gbc.gridx = 0;
         add(msgErro, gbc);
 
         botaoProximo = new JButton("Próximo");
         botaoProximo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        gbc.gridy = 3;
+        gbc.gridy = 6;
         gbc.gridwidth = 1;
         gbc.gridx = 1;
         botaoProximo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!textField.getText().isEmpty()) {
+                if (!campoTextoArquivo.getText().isEmpty()) {
                     mudarEstado = true;
-                    caminho = textField.getText();
+                    caminho = campoTextoArquivo.getText();
+                    nomes[0] = campoTextoNome1.getText();
+                    nomes[1] = campoTextoNome2.getText();
                     botaoSelecionado = botao.PROXIMO;
                 }
             }
@@ -85,7 +111,16 @@ public class EscolherArquivo extends EstadoView {
     @Override
     public EstadoView proximoEstado() {
         if (mudarEstado && botaoSelecionado == botao.PROXIMO) {
-            try {
+            boolean erroMapeado = false;
+        	try {
+        		if (nomes[0].isEmpty() || nomes[1].isEmpty()) {
+        			erroMapeado = true;
+        			throw new Exception("é necessário inserir os nomes dos jogadores");
+        		}
+        		else if (nomes[0].equals(nomes[1])) {
+        			erroMapeado = true;
+        			throw new Exception("os nomes dos jogadores precisam ser diferentes");
+        		}
                 FileReader arq = new FileReader(caminho);
                 BufferedReader lerArq = new BufferedReader(arq);
                 LinkedHashMap<String, Integer> parametrosSimples = new LinkedHashMap<>(4);
@@ -98,6 +133,7 @@ public class EscolherArquivo extends EstadoView {
                     } else if (tupla.length == 2) {
                         parametrosSimples.put(tupla[0], Integer.parseInt(tupla[1]));
                     } else {
+                    	erroMapeado = true;
                         throw new Exception("arquivo com formato inválido");
                     }
                     linha = lerArq.readLine();
@@ -109,13 +145,15 @@ public class EscolherArquivo extends EstadoView {
                         parametrosSimples.get("pedras");
                 int posicoes = parametrosSimples.get("dimensao") * parametrosSimples.get("dimensao");
                 if (parametrosCompostos.get("maracuja")[1] > parametrosCompostos.get("maracuja")[0]) {
+                	erroMapeado = true;
                     throw new Exception("arquivo com formato inválido");
                 } else if (parametrosSimples.get("bichadas") < 0 || parametrosSimples.get("bichadas") > 100) {
+                	erroMapeado = true;
                     throw new Exception("arquivo com formato inválido");
                 } else if (elementos >= posicoes) {
+                	erroMapeado = true;
                     throw new Exception("arquivo com formato inválido");
                 }
-                String[] nomes = {"Jogador 1", "Jogador 2"};
                 return new TelaJogo(parametrosSimples.get("dimensao"), parametrosSimples.get("pedras"),
                         parametrosCompostos.get("maracuja")[0], parametrosCompostos.get("maracuja")[1],
                         parametrosCompostos.get("laranja")[0], parametrosCompostos.get("laranja")[1],
@@ -129,9 +167,14 @@ public class EscolherArquivo extends EstadoView {
                 mudarEstado = false;
                 if (e.getClass().equals(FileNotFoundException.class)) {
                     msgErro.setText("Erro: arquivo não encontrado");
-                } else if (e.getClass().equals(AccessDeniedException.class)) {
+                }
+                else if (e.getClass().equals(AccessDeniedException.class)) {
                     msgErro.setText("Erro: acesso ao arquivo negado");
-                } else {
+                }
+                else if (erroMapeado) {
+                	msgErro.setText("Erro: " + e.getMessage());
+                }
+                else {
                     msgErro.setText("Erro: arquivo com formato provavelmente invalido");
                 }
                 return this;

@@ -15,7 +15,6 @@ public class Jogador extends ElementoDinamico {
 	private int pontosDeMovimento;
 	private boolean doente;
 	private boolean forte;
-	private Image imagem;
 	private String ultimaFruta = "";
 	public String frutaComida = "";
 	int acao = 0;
@@ -51,9 +50,6 @@ public class Jogador extends ElementoDinamico {
 			}
 		}
 		pontosDeMovimento--;
-	}
-	public Image getImagem() {
-		return imagem;
 	}
 	public int calcularPontosDeVitoria() {
 		LinkedList<Fruta> maracujas = mochila.get("Maracuja");
@@ -216,10 +212,9 @@ public class Jogador extends ElementoDinamico {
 	public int getAcao() {
 		return acao;
 	}
-	Jogador(String nome, int x, int y, int capacidadeMochila, Image imagem) {
+	Jogador(String nome, int x, int y, int capacidadeMochila) {
 		super(x, y);
 		this.nome = nome;
-		this.imagem = imagem;
 		this.capacidadeMochila = capacidadeMochila;
 		mochila = new Hashtable<String, LinkedList<Fruta>>();
 		pontosDeMovimento = 0;

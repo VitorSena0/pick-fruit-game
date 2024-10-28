@@ -182,23 +182,24 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	                	Image frutaImage = new ImageIcon("res" + System.getProperty("file.separator") + nomefruta).getImage();
 	                    g.drawImage(frutaImage, elementoCenario.getX() * larguraImagens + larguraImagens / 4, elementoCenario.getY() * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
 	                }
-	                
-	                // Desenha o jogador se existir
-	                if (gramaAtual.getJogador() != null) {
-	                    g.drawImage(gramaAtual.getJogador().getImagem(), gramaAtual.getJogador().getX() * larguraImagens + larguraImagens / 4, gramaAtual.getJogador().getY() * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
-	                }
-	            } else if (elementoCenario instanceof Pedra) {
+	            }
+                else if (elementoCenario instanceof Pedra) {
 	                // Desenha o terreno com pedra
 	                g.drawImage(imagemTerra, elementoCenario.getX() * larguraImagens, elementoCenario.getY() * alturaImagens, larguraImagens, alturaImagens, null);
 	                g.drawImage(imagemPedra, elementoCenario.getX() * larguraImagens, elementoCenario.getY() * alturaImagens, larguraImagens, alturaImagens, null);
 	            }
+	            }
 	        }
 	        scorePlayers.desenharScore(g);
+	    
+	    for (int i = 0; i < 2; i++) {
+	    	Image imagem = new ImageIcon("res" + System.getProperty("file.separator") + "player" + (i+1) + "Pixelart.png").getImage();
+	    	g.drawImage(imagem, jogo.getJogador(i).getX() * larguraImagens + larguraImagens / 4, jogo.getJogador(i).getY() * alturaImagens + alturaImagens / 4, larguraImagens / 2, alturaImagens / 2, null);
 	    }
 	    
-	    String vezDoJogador = "Vez do Jogador " + (jogo.getJogadorDaVez() + 1); // +1 para exibir como 1, 2, etc.
+	    String vezDoJogador = "Vez de " + jogo.getJogador(jogo.getJogadorDaVez()).getNome(); // +1 para exibir como 1, 2, etc.
 	    String quantidadeMovimentos = "pontos de movimento: " + (jogo.getJogador(jogo.getJogadorDaVez()).movimentosRestantes());
-	    String vencedor =jogo.acao();
+	    String vencedor = jogo.acao();
 	    
 	    painelFalas.setText("<html>" + vezDoJogador + "<br>" + quantidadeMovimentos + "<br>" + "--Controles--" + "<br>" + "Movimentação: utilize os direcionais do teclado ou clique na célula para qual quer se mover" + "<br>" + "Comer: utilize os números de 2 a 7 para comer Coco, Abacate, Laranja, Acerola, Amora e Goiaba" + "</html>");
 

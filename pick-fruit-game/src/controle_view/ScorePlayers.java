@@ -46,15 +46,17 @@ public class ScorePlayers {
      * 
     */
     public void desenharScore(Graphics g){
-        g.drawImage(scoreJogador1, (int)(painelDesenho.getWidth()*0.8+10), 100, 50, 50, null);
-        g.drawImage(socreJogador2, (int)(painelDesenho.getWidth()*0.8+10), 180, 50, 50, null);
+        g.drawString(jogador1.getNome(), (int)(painelDesenho.getWidth()*0.8+10), 75);
+        g.drawString(jogador2.getNome(), (int)(painelDesenho.getWidth()*0.8+10), 185);
+    	g.drawImage(scoreJogador1, (int)(painelDesenho.getWidth()*0.8+10), 100, 50, 50, null);
+        g.drawImage(socreJogador2, (int)(painelDesenho.getWidth()*0.8+10), 205, 50, 50, null);
         g.drawString("Pontuação: " + jogador1.calcularPontosDeVitoria() + " Mochila: " + jogador1.totalDeFrutas() + "/" + jogador1.getCapacidadeMochila(), (int)(painelDesenho.getWidth()*0.8+10), 90);
         if (jogador1.estaDoente()) {
         	g.drawString("Doente", (int)(painelDesenho.getWidth()*0.8+80), 110);
         }
-        g.drawString("Pontuação: " + jogador2.calcularPontosDeVitoria() + " Mochila: " + jogador2.totalDeFrutas() + "/" + jogador2.getCapacidadeMochila(), (int)(painelDesenho.getWidth()*0.8+10), 170);
+        g.drawString("Pontuação: " + jogador2.calcularPontosDeVitoria() + " Mochila: " + jogador2.totalDeFrutas() + "/" + jogador2.getCapacidadeMochila(), (int)(painelDesenho.getWidth()*0.8+10), 200);
         if (jogador2.estaDoente()) {
-        	g.drawString("Doente", (int)(painelDesenho.getWidth()*0.8+80), 190);
+        	g.drawString("Doente", (int)(painelDesenho.getWidth()*0.8+80), 215);
         }
         int larguraFrutas = (int) Math.max(10, ((painelDesenho.getWidth() - (painelDesenho.getWidth()*0.8 + 60)) / 8));
         LinkedList<String> frutasJogador1 = jogador1.tiposDeFrutasNaMochila();
@@ -70,7 +72,7 @@ public class ScorePlayers {
         while(!frutasJogador2.isEmpty()){
             ImageIcon frutaJogador2Icon = new ImageIcon("res" +System.getProperty("file.separator") + "modelo_jogo." + frutasJogador2.pop() + ".png");
             this.frutaJogador2 = frutaJogador2Icon.getImage();
-            g.drawImage(frutaJogador2, offset, 205, larguraFrutas, 25, null);
+            g.drawImage(frutaJogador2, offset, 230, larguraFrutas, 25, null);
             offset += larguraFrutas;
         }
         

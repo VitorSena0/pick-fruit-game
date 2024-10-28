@@ -82,7 +82,7 @@ public class TelaSelecao extends EstadoView {
 			return new TelaInicial();
 		}
 		else if(mudarEstado && botaoSelecionado == botao.PROXIMO && opcaoSelecionada == opcao.ARQUIVO) {
-			return new EscolherArquivo();
+			return new TelaEscolherArquivo();
 		}
 		else if(mudarEstado && botaoSelecionado == botao.PROXIMO && opcaoSelecionada == opcao.CONFIGURACOES) {
 			return new TelaConfiguracoes();
