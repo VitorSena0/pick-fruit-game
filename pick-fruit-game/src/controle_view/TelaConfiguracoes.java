@@ -5,7 +5,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
+
 import javax.swing.*;
+
+import modelo_jogo.Maracuja;
 
 public class TelaConfiguracoes extends EstadoView {
 	private enum botao {
@@ -321,7 +325,36 @@ public class TelaConfiguracoes extends EstadoView {
 				int elementos = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras + pedras;
 				int posicoes = dimensao*dimensao;
 				int mochila = Integer.parseInt(campoMochila.getText());
-				if (maracujasChao > maracujas) {
+				int arvores = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras;
+				int frutasNoChao = laranjas + abacates + cocos + amoras + acerolas + goiabas + maracujasChao;
+				int listaCampos[] = {dimensao, pedras, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, maracujas, maracujasChao, pBichadas, mochila};
+				int gramaLivres = posicoes - elementos;
+				if (Arrays.stream(listaCampos).anyMatch(campo -> campo < 0 )){
+					erroMapeado = true;
+					mensagemErro = "Erro: todos os campos devem ser números inteiros positivos";
+					throw new Exception();
+				}
+				else if (dimensao < 3) {
+					erroMapeado = true;
+					mensagemErro = "Erro: dimensão do terreno deve ser maior ou igual a 3";
+					throw new Exception();
+				}
+				else if (arvores < 1 && maracujas - maracujasChao > 0) {
+					erroMapeado = true;
+					mensagemErro = "Erro: deve haver pelo menos uma árvore para gerar os maracujás que não estão no chão";
+					throw new Exception();
+				}
+				else if (maracujas + maracujasChao < 1) {
+					erroMapeado = true;
+					mensagemErro = "Erro: deve haver pelo menos um maracujá no terreno";
+					throw new Exception();
+				}
+				else if (frutasNoChao > gramaLivres) {
+					erroMapeado = true;
+					mensagemErro = "Erro: existem mais frutas no chão do que células de gramas livre para ocupar";
+					throw new Exception();
+				}
+				else if (maracujasChao > maracujas) {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
 			    	  throw new Exception();
@@ -379,6 +412,35 @@ public class TelaConfiguracoes extends EstadoView {
 				int mochila = Integer.parseInt(campoMochila.getText());
 				int elementos = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras + pedras;
 				int posicoes = dimensao*dimensao;
+				int arvores = laranjeiras + abacateiros + coqueiros + amoeira + pesDeAcerola + goiabeiras;
+				int frutasNoChao = laranjas + abacates + cocos + amoras + acerolas + goiabas + maracujasChao;
+				int listaCampos[] = {dimensao, pedras, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeira, amoras, goiabeiras, goiabas, maracujas, maracujasChao, pBichadas, mochila};
+				int gramaLivres = posicoes - elementos;
+				if (Arrays.stream(listaCampos).anyMatch(campo -> campo < 0 )){
+					erroMapeado = true;
+					mensagemErro = "Erro: todos os campos devem ser números inteiros positivos";
+					throw new Exception();
+				}
+				else if (dimensao < 3) {
+					erroMapeado = true;
+					mensagemErro = "Erro: dimensão do terreno deve ser maior ou igual a 3";
+					throw new Exception();
+				}
+				else if (arvores < 1 && maracujas - maracujasChao > 0) {
+					erroMapeado = true;
+					mensagemErro = "Erro: deve haver pelo menos uma árvore para gerar os maracujás que não estão no chão";
+					throw new Exception();
+				}
+				else if (maracujas + maracujasChao < 1) {
+					erroMapeado = true;
+					mensagemErro = "Erro: deve haver pelo menos um maracujá no terreno";
+					throw new Exception();
+				}
+				else if (frutasNoChao > gramaLivres) {
+					erroMapeado = true;
+					mensagemErro = "Erro: existem mais frutas no chão do que células de gramas livre para ocupar";
+					throw new Exception();
+				}
 				if (maracujasChao > maracujas) {
 			    	  erroMapeado = true;
 			    	  mensagemErro = "Erro: Número total de maracujás deve ser maior que número de maracujás no chão";
