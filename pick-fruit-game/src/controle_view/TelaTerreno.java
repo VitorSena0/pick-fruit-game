@@ -26,10 +26,29 @@ public class TelaTerreno extends EstadoView {
 	private Image imagemJogador;
 	private int larguraImagens;
 	private int alturaImagens;
+	private int dimensao; private int pedras; private int maracujas; private int maracujas_chao; private int laranjeiras; private int laranjas; private int abacateiros; private int abacates; private int coqueiros; private int cocos; private int pesDeAcerola; private int acerolas; private int amoeiras; private int amoras; private int goiabeiras; private int goiabas; private int probabidade_bichadas; private int mochila;
 	GridBagConstraints gbc;
 	private String[] nomes = {"Jogador 1", "Jogador 2"};
 	
 	TelaTerreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila) {
+		this.dimensao = dimensao;
+		this.pedras = pedras;
+		this.maracujas = maracujas;
+		this.maracujas_chao = maracujas_chao;
+		this.laranjeiras = laranjeiras;
+		this.laranjas = laranjas;
+		this.abacates = abacates;
+		this.abacateiros = abacateiros;
+		this.coqueiros = coqueiros;
+		this.cocos = cocos;
+		this.pesDeAcerola = pesDeAcerola;
+		this.acerolas = acerolas;
+		this.amoeiras = amoeiras;
+		this.amoras = amoras;
+		this.goiabeiras = goiabeiras;
+		this.goiabas = goiabas;
+		this.probabidade_bichadas = probabidade_bichadas;
+		this.mochila = mochila;
 		mudarEstado = false;
 		setBounds(0, 0, 986, 732);
 		setLayout(new GridBagLayout());
@@ -153,7 +172,7 @@ public class TelaTerreno extends EstadoView {
 	@Override
 	public EstadoView proximoEstado() {
 		if(mudarEstado) {
-			 return new TelaConfiguracoes();
+			 return new TelaConfiguracoes( dimensao,  pedras,  maracujas,  maracujas_chao,  laranjeiras,  laranjas,  abacateiros,  abacates,  coqueiros,  cocos,  pesDeAcerola,  acerolas,  amoeiras,  amoras,  goiabeiras,  goiabas,  probabidade_bichadas,  mochila);
 		}
 		return this;
 	}
