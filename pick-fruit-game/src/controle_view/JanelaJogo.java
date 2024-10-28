@@ -7,10 +7,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.*;
-public class JanelaTeste extends JFrame implements ActionListener {
+public class JanelaJogo extends JFrame implements ActionListener {
 	private Timer relogioEstado;
 	public EstadoView estadoAtual;
-	public JanelaTeste() {
+	public JanelaJogo() {
 		super();
 		relogioEstado = new Timer(100, this);
 		estadoAtual = new TelaInicial();

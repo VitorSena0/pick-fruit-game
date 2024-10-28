@@ -633,7 +633,7 @@ public class TelaConfiguracoes extends EstadoView {
 				int gramaLivres = posicoes - elementos;
 				if (Arrays.stream(listaCampos).anyMatch(campo -> campo < 0 )){
 					erroMapeado = true;
-					mensagemErro = "Erro: todos os campos devem ser números inteiros positivos";
+					mensagemErro = "Erro: todos os campos exceto nome devem ser números inteiros positivos";
 					throw new Exception();
 				}
 				else if (dimensao < 3) {
@@ -682,7 +682,7 @@ public class TelaConfiguracoes extends EstadoView {
 				mudarEstado = false;
 				mensagem.setForeground(new Color(255, 0, 0));
 				if (e.getClass().equals(NumberFormatException.class)) {
-					mensagem.setText("Erro: parâmetro inválido, todos os parâmetros devem ser números inteiros");
+					mensagem.setText("Erro: parâmetro inválido, todos os parâmetros exceto nome devem ser números inteiros");
 				}
 				else if (erroMapeado) {
 					mensagem.setText(mensagemErro);
@@ -725,7 +725,7 @@ public class TelaConfiguracoes extends EstadoView {
 				int gramaLivres = posicoes - elementos;
 				if (Arrays.stream(listaCampos).anyMatch(campo -> campo < 0 )){
 					erroMapeado = true;
-					mensagemErro = "Erro: todos os campos devem ser números inteiros positivos";
+					mensagemErro = "Erro: todos os campos exceto nome devem ser números inteiros positivos";
 					throw new Exception();
 				}
 				else if (dimensao < 3) {
@@ -790,7 +790,7 @@ public class TelaConfiguracoes extends EstadoView {
 				mudarEstado = false;
 				mensagem.setForeground(new Color(255, 0, 0));
 				if (e.getClass().equals(NumberFormatException.class)) {
-					mensagem.setText("Erro: parâmetro inválido, todos os parâmetros devem ser números inteiros");
+					mensagem.setText("Erro: parâmetro inválido, todos os parâmetros exceto nome devem ser números inteiros");
 				}
 				else if (erroMapeado) {
 					mensagem.setText(mensagemErro);
