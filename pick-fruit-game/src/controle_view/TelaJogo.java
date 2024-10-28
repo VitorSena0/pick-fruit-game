@@ -205,7 +205,9 @@ public class TelaJogo extends EstadoView implements KeyListener {
 
 	    areaDialogo.append(vencedor+ "\n");
 	    areaDialogo.setCaretPosition(areaDialogo.getDocument().getLength()); // Rola automaticamente para a última mensagem
-	    	    
+	    if (jogo.getJogadorVencedor() != null) {
+	    	mudarEstado = true;
+	    }
 	    revalidate();  // Atualiza o layout
 		repaint();     // Para garantir que a pintura aconteça
 
@@ -213,6 +215,10 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	
 	@Override
 	public EstadoView proximoEstado() {
+		if (mudarEstado) {
+			String caminhoImgVencedor = "res" + System.getProperty("file.separator") + "player" + (jogo.getJogadorVencedor()+1) + "Pixelart.png";
+			return new TelaVitoria(caminhoImgVencedor, jogo.getJogador(jogo.getJogadorVencedor()).getNome());
+		}
 		return this;
 	}
 
