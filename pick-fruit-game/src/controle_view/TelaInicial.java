@@ -4,8 +4,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+/**
+ * TelaInicial representa a tela inicial do jogo, onde o usuário clica para iniciar
+ * e acessar o menu de seleção. Esta tela exibe o título do jogo e uma mensagem de 
+ * instrução para o usuário.
+ */
 public class TelaInicial extends EstadoView {
-	
+
+    /**
+     * Construtor da classe TelaInicial que inicializa e configura os componentes gráficos
+     * da interface, incluindo o título e a instrução para o usuário clicar na tela para iniciar.
+     */
 	TelaInicial() {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setBounds(0, 0, 572, 895);
@@ -34,6 +43,13 @@ public class TelaInicial extends EstadoView {
 			}
 		});
 	}
+
+	  /**
+     * Determina o próximo estado da aplicação após o clique do usuário.
+     *
+     * @return Uma nova instância de TelaSelecao se mudarEstado for verdadeiro,
+     * caso contrário, retorna a própria instância de TelaInicial.
+     */
 	@Override
 	public EstadoView proximoEstado() {
 		if (mudarEstado) {

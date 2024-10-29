@@ -6,12 +6,18 @@ import java.awt.event.MouseEvent;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
-
 import javax.swing.*;
-
-import modelo_jogo.Maracuja;
-
+/**
+ * TelaConfiguracoes representa uma interface gráfica para definir as configurações iniciais do terreno
+ * do jogo. Permite ao usuário configurar os valores das dimensões do terreno, a quantidade de objetos e 
+ * árvores, a capacidade da mochila, e outros parâmetros. Fornece opções para salvar as configurações ou
+ * avançar para a próxima tela.
+ */
 public class TelaConfiguracoes extends EstadoView {
+    
+    /**
+     * Enum que define os botões de ação da tela.
+     */
 	private enum botao {
 		VOLTAR,
 		SALVAR,
@@ -46,6 +52,31 @@ public class TelaConfiguracoes extends EstadoView {
 	private JButton botaoVoltar;
 	private JButton botaoSalvar;
 	private JButton botaoProximo;
+
+	   /**
+     * Construtor que define as configurações iniciais da tela, posicionando e estilizando
+     * os campos de texto, labels e botões para a interface de configuração do terreno.
+     *
+     * @param dimensao Dimensão do terreno a ser configurado.
+     * @param pedras Quantidade de pedras a ser configurada.
+     * @param maracujas Quantidade de maracujas a ser configurada.
+     * @param maracujas_chao Quantidade de maracujas no chão a ser configurada.
+     * @param laranjeiras Quantidade de laranjeiras a ser configurada.
+     * @param laranjas Quantidade de laranjas a ser configurada.
+     * @param abacateiros Quantidade de abacateiros a ser configurada.
+     * @param abacates Quantidade de abacates a ser configurada.
+     * @param coqueiros Quantidade de coqueiros a ser configurada.
+     * @param cocos Quantidade de cocos a ser configurada.
+     * @param pesDeAcerola Quantidade de pés de acerola a ser configurada.
+     * @param acerolas Quantidade de acerolas a ser configurada.
+     * @param amoeiras Quantidade de ameixas a ser configurada.
+     * @param amoras Quantidade de amoras a ser configurada.
+     * @param goiabeiras Quantidade de goiabeiras a ser configurada.
+     * @param goiabas Quantidade de goiabas a ser configurada.
+     * @param probabidade_bichadas Probabilidade de frutas bichadas a ser configurada.
+     * @param mochila Capacidade da mochila a ser configurada.
+     */
+
 	TelaConfiguracoes(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila) {
 		setBounds(255, 10, 348, 595);
 		setLayout(null);
@@ -333,6 +364,11 @@ public class TelaConfiguracoes extends EstadoView {
 		campoGoiabeiras.setText(Integer.toString(goiabeiras));
 		campoGoiabas.setText(Integer.toString(goiabas));
 	}
+	    
+    /**
+     * Construtor que define as configurações iniciais da tela, posicionando e estilizando
+     * os campos de texto, labels e botões para a interface de configuração do terreno.
+     */
 	TelaConfiguracoes() {
 		setBounds(255, 10, 348, 595);
 		setLayout(null);
@@ -601,6 +637,13 @@ public class TelaConfiguracoes extends EstadoView {
 		});
 		add(botaoVoltar);
 	}
+
+	 /**
+     * Avança para o próximo estado de tela. Verifica e valida os parâmetros inseridos pelo usuário,
+     * e exibe mensagens de erro caso alguma validação falhe.
+     * 
+     * @return Retorna a próxima tela do jogo, ou a própria tela de configurações se houver erro.
+     */
 	@Override
 	public EstadoView proximoEstado() {
 		if (mudarEstado && botaoSelecionado == botao.PROXIMO) {

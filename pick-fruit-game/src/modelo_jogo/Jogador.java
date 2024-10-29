@@ -10,6 +10,9 @@ import java.util.Set;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Representa um jogador no jogo, que pode se mover, coletar e comer frutas, e interagir com outros jogadores.
+ */
 public class Jogador extends ElementoDinamico {
 	private String nome;
 	private Hashtable<String, LinkedList<Fruta>> mochila;
@@ -21,6 +24,11 @@ public class Jogador extends ElementoDinamico {
 	public String frutaComida = "";
 	int acao = 0;
 	
+	/**
+	 * Move o jogador na direção especificada, se ele ainda tiver pontos de movimento.
+	 * 
+	 * @param direcao Direção para onde mover (1 para cima, 2 para esquerda, 3 para direita, 4 para baixo).
+	 */
 	@Override
 	public void mover(int direcao) {
 		if (pontosDeMovimento <= 0) {
@@ -51,6 +59,12 @@ public class Jogador extends ElementoDinamico {
 		}
 		pontosDeMovimento--;
 	}
+
+	/**
+	 * Calcula e retorna os pontos de vitória do jogador.
+	 * 
+	 * @return Número de pontos de vitória baseado na quantidade de frutas "Maracujá".
+	 */
 	public int calcularPontosDeVitoria() {
 		LinkedList<Fruta> maracujas = mochila.get("Maracuja");
 		if (maracujas == null) {
@@ -60,6 +74,12 @@ public class Jogador extends ElementoDinamico {
 			return maracujas.size();
 		}
 	}
+
+	/**
+	 * Calcula e retorna o total de frutas na mochila do jogador.
+	 * 
+	 * @return Número total de frutas na mochila.
+	 */
 	public int totalDeFrutas() {
 		Set<String> keySet = mochila.keySet();
 		int soma = 0;
@@ -68,6 +88,12 @@ public class Jogador extends ElementoDinamico {
 		}
 		return soma;
 	}
+
+	/**
+	 * Calcula a força atual do jogador, considerando o efeito de poder "forte".
+	 * 
+	 * @return O valor de força do jogador.
+	 */
 	public int calcularForca() {
 		int forcaBase = totalDeFrutas();
 		if (forte) {
@@ -77,9 +103,21 @@ public class Jogador extends ElementoDinamico {
 			return forcaBase;
 		}
 	}
+
+	/**
+	 * Retorna a capacidade máxima da mochila do jogador.
+	 * 
+	 * @return Capacidade máxima da mochila.
+	 */
 	public int getCapacidadeMochila() {
 		return capacidadeMochila;
 	}
+
+	/**
+	 * Retorna uma lista dos tipos de frutas atualmente na mochila do jogador.
+	 * 
+	 * @return Lista dos tipos de frutas na mochila.
+	 */
 	public LinkedList<String> tiposDeFrutasNaMochila() {
 		LinkedList<String> tiposFrutas = new LinkedList<String>();
 		Set<String> keySet = mochila.keySet();
@@ -90,6 +128,14 @@ public class Jogador extends ElementoDinamico {
 		}
 		return tiposFrutas;
 	}
+
+
+	/**
+	 * Permite ao jogador coletar uma fruta, se houver espaço na mochila.
+	 * 
+	 * @param fruta Fruta a ser coletada.
+	 * @return {@code true} se a fruta foi coletada com sucesso; {@code false} caso contrário.
+	 */
 	public boolean catarFruta(Fruta fruta) {
 		if (totalDeFrutas() >= capacidadeMochila) {
 			//System.out.println(nome + " não conseguiu catar fruta pois a mochila está cheia");
@@ -116,6 +162,14 @@ public class Jogador extends ElementoDinamico {
 	public String getUltimaFruta() {
 		return ultimaFruta;
 	}
+
+
+	/**
+	 * Permite ao jogador comer uma fruta de um tipo específico, se disponível.
+	 * 
+	 * @param tipo Tipo de fruta a ser comida.
+	 * @return {@code true} se a fruta foi comida com sucesso; {@code false} caso contrário.
+	 */
 	public boolean comerFruta(String tipo) {
 		LinkedList<Fruta> frutasDoTipo = mochila.get(tipo);
 		if (frutasDoTipo == null) {
@@ -151,9 +205,21 @@ public class Jogador extends ElementoDinamico {
 		frutasDoTipo.add(fruta);
 		return false;
 	}
+
+	/**
+	 * Define o estado de saúde do jogador como doente ou saudável.
+	 * 
+	 * @param doente {@code true} se o jogador está doente; {@code false} se saudável.
+	 */
 	public void setDoente(boolean doente) {
 		this.doente = doente;
 	}
+
+	/**
+	 * Define o estado de força do jogador como forte ou normal.
+	 * 
+	 * @param forte {@code true} se o jogador está forte; {@code false} caso contrário.
+	 */
 	public void setForte(boolean forte) {
 		this.forte = forte;
 	}
@@ -166,15 +232,35 @@ public class Jogador extends ElementoDinamico {
 	public String getNome() {
 		return nome;
 	}
+
+	/**
+	 * Verifica se o jogador está doente.
+	 * 
+	 * @return {@code true} se o jogador está doente; {@code false} caso contrário.
+	 */
 	public boolean estaDoente() {
 		return doente;
 	}
+
+	/**
+	 * Verifica se o jogador está forte.
+	 * 
+	 * @return {@code true} se o jogador está forte; {@code false} caso contrário.
+	 */
 	public boolean estaForte() {
 		return forte;
 	}
 	public int movimentosRestantes() {
 		return pontosDeMovimento;
 	}
+
+	/**
+	 * Realiza a ação de ser empurrado por outro jogador, calculando a quantidade
+	 * de frutas derrubadas e as removendo da mochila.
+	 * 
+	 * @param empurrador Jogador que está empurrando.
+	 * @return Lista de frutas derrubadas pela ação de empurrão.
+	 */
 	public LinkedList<Fruta> serEmpurrado(Jogador empurrador) {
 		int forcaDefensor = calcularForca();
 		int forcaAtacante = empurrador.calcularForca();
@@ -212,6 +298,15 @@ public class Jogador extends ElementoDinamico {
 	public void zerarAcao() {
 		acao = 0;
 	}
+
+	/**
+	 * Construtor da classe Jogador.
+	 * 
+	 * @param nome Nome do jogador.
+	 * @param x Posição inicial X do jogador.
+	 * @param y Posição inicial Y do jogador.
+	 * @param capacidadeMochila Capacidade máxima da mochila do jogador.
+	 */
 	Jogador(String nome, int x, int y, int capacidadeMochila) {
 		super(x, y);
 		this.nome = nome;

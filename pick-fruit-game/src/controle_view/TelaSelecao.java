@@ -3,7 +3,14 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
+
+/**
+ * TelaSelecao representa a tela de seleção inicial do jogo, permitindo que os usuários
+ * escolham como carregar o jogo. Ela fornece opções para os jogadores selecionarem
+ * o modo de jogo desejado.
+ */
 public class TelaSelecao extends EstadoView {
+	
 	private enum opcao {
 		ARQUIVO,
 		CONFIGURACOES
@@ -18,6 +25,11 @@ public class TelaSelecao extends EstadoView {
 	private JButton botaoVoltar;
 	private JRadioButton opcaoArquivo;
 	private JRadioButton opcaoConfiguracoes;
+
+	 /**
+     * Construtor que inicializa a tela de seleção, criando os componentes visuais
+     * necessários e configurando os eventos de interação do usuário.
+     */
 	TelaSelecao() {
 		mudarEstado = false;
 		

@@ -1,15 +1,23 @@
 package controle_view;
-import java.awt.AWTEvent;
-import java.awt.ActiveEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 import javax.swing.*;
+
+/**
+ * A classe JanelaJogo representa a janela principal do jogo, que gerencia
+ * a interface gráfica e o estado atual do jogo.
+ * Ela é responsável por iniciar a janela e atualizar o estado do jogo
+ * em intervalos regulares usando um Timer.
+ */
+
 public class JanelaJogo extends JFrame implements ActionListener {
 	private Timer relogioEstado;
 	public EstadoView estadoAtual;
+
+	/**
+     * Construtor padrão da classe JanelaJogo.
+     * Inicializa a janela, define o estado inicial e inicia o timer.
+     */
 	public JanelaJogo() {
 		super();
 		relogioEstado = new Timer(100, this);
@@ -20,6 +28,13 @@ public class JanelaJogo extends JFrame implements ActionListener {
 		setContentPane(estadoAtual);
 		relogioEstado.start();
 	}
+
+	 /**
+     * Método chamado a cada vez que o timer é acionado.
+     * Atualiza o estado da janela se necessário.
+     *
+     * @param event O evento de ação que foi disparado pelo timer.
+     */
 	public void actionPerformed(ActionEvent event) {
 		if (estadoAtual.getMudarEstado()) {
 			remove(estadoAtual);

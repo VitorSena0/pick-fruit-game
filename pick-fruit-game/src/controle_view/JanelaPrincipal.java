@@ -36,6 +36,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JMenu;
 
+/**
+ * A classe JanelaPrincipal representa a janela principal de uma aplicação de interface gráfica
+ * onde o usuário pode configurar o terreno para um jogo.
+ * Ela define a estrutura básica da janela, incluindo botões, campos de texto e rótulos para interação.
+ * 
+ */
+
 public class JanelaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -46,8 +53,11 @@ public class JanelaPrincipal extends JFrame {
 	private JTextField textField_3;
 
 	/**
-	 * Launch the application.
-	 */
+     * Método principal que inicia a aplicação.
+     * Cria uma nova instância de JanelaPrincipal e exibe-a.
+     * 
+     * @param args argumentos da linha de comando (não utilizados).
+     */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,9 +71,11 @@ public class JanelaPrincipal extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	 /**
+     * Construtor da JanelaPrincipal que define os componentes gráficos e suas posições na janela.
+     * Configura o painel de conteúdo, botões, rótulos e campos de texto, além de eventos de clique para
+     * interação com o usuário.
+     */
 	public JanelaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 886, 632);

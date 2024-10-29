@@ -1,16 +1,33 @@
 package controle_view;
 import java.awt.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import java.io.*;
-public class PainelDesenho extends JPanel{
-	private Image imagem;
-	private int coordenadaX;
-	private int coordenadaY;
-	private int largura;
-	private int altura;
-	
+
+/**
+ * A classe PainelDesenho é uma extensão de {@link JPanel} e é utilizada para exibir uma imagem em uma área específica da interface.
+ * Ela permite definir atributos como coordenadas, dimensões e o caminho da imagem que será exibida no painel.
+ * 
+ * @version 1.0
+ */
+public class PainelDesenho extends JPanel {
+
+    /** Imagem que será desenhada no painel. */
+    private Image imagem;
+
+    /** Coordenada X do painel. */
+    private int coordenadaX;
+
+    /** Coordenada Y do painel. */
+    private int coordenadaY;
+
+    /** Largura do painel. */
+    private int largura;
+
+    /** Altura do painel. */
+    private int altura;
+
+    /**
+     * Construtor padrão que inicializa o painel com valores padrão e sem imagem.
+     */
 	public PainelDesenho() {
 		imagem = null;
 		coordenadaX = 0;
@@ -20,7 +37,16 @@ public class PainelDesenho extends JPanel{
 		setBounds(coordenadaX, coordenadaY, this.largura, this.altura);
 		setVisible(true);
 	}
-	
+
+	 /**
+     * Construtor que inicializa o painel com coordenadas, dimensões e caminho da imagem especificados.
+     * 
+     * @param x Coordenada X do painel.
+     * @param y Coordenada Y do painel.
+     * @param largura Largura do painel.
+     * @param altura Altura do painel.
+     * @param caminho Caminho da imagem a ser exibida.
+     */
 	public PainelDesenho(int x, int y, int largura, int altura, String caminho) {
 		coordenadaX = (x >= 0) ? x : coordenadaX;
 		coordenadaY = (y >= 0) ? y : coordenadaY;
@@ -59,6 +85,16 @@ public class PainelDesenho extends JPanel{
         }
 		repaint();
 	}
+
+	/**
+     * Define os atributos do painel, incluindo coordenadas, dimensões e caminho da imagem.
+     * 
+     * @param x Coordenada X do painel.
+     * @param y Coordenada Y do painel.
+     * @param largura Largura do painel.
+     * @param altura Altura do painel.
+     * @param caminho Caminho da imagem a ser exibida.
+     */
 	public void setAtributos(int x, int y, int largura, int altura, String caminho) {
 		coordenadaX = (x >= 0) ? x : coordenadaX;
 		coordenadaY = (y >= 0) ? y : coordenadaY;

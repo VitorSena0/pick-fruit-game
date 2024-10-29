@@ -9,8 +9,15 @@ import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import javax.swing.*;
-
+   /**
+ * TelaEscolherArquivo representa uma interface gráfica onde o usuário pode inserir o caminho
+ * de um arquivo de configuração e os nomes dos jogadores. A classe processa o arquivo para
+ * extrair parâmetros do jogo e valida os valores inseridos.
+ */
 public class TelaEscolherArquivo extends EstadoView {
+     /**
+     * Enumeração dos botões de ação da tela.
+     */
     private enum botao {
         VOLTAR,
         PROXIMO
@@ -25,6 +32,10 @@ public class TelaEscolherArquivo extends EstadoView {
     private String caminho;
     private String[] nomes;
 
+    /**
+     * Construtor que inicializa a interface de seleção de arquivo e nomes dos jogadores,
+     * utilizando GridBagLayout para posicionar e centralizar os componentes.
+     */
     TelaEscolherArquivo() {
         nomes = new String[2];
     	
@@ -109,6 +120,13 @@ public class TelaEscolherArquivo extends EstadoView {
         add(botaoVoltar, gbc);
     }
 
+     /**
+     * Método que define o próximo estado da tela. Valida o conteúdo do arquivo de configuração
+     * e os nomes dos jogadores, retornando uma nova instância de TelaJogo ou TelaSelecao dependendo
+     * da ação escolhida pelo usuário e dos valores validados.
+     *
+     * @return o próximo estado de tela do jogo ou a própria tela atual se ocorrer algum erro.
+     */
     @Override
     public EstadoView proximoEstado() {
         if (mudarEstado && botaoSelecionado == botao.PROXIMO) {

@@ -8,6 +8,10 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Classe principal do jogo que gerencia o terreno, os jogadores, as rodadas,
+ * e as ações de cada jogador durante o turno.
+ */
 public class Jogo {
 	private Terreno terreno;
 	private Jogador[] jogadores;
@@ -19,27 +23,78 @@ public class Jogo {
 	private int[] dados;
 	private int acao = 0;
 	
+	/**
+	 * Retorna o elemento estático do terreno na posição especificada.
+	 * 
+	 * @param x Coordenada X do elemento.
+	 * @param y Coordenada Y do elemento.
+	 * @return Elemento estático na posição (x, y) no terreno.
+	 */
 	public ElementoEstatico getElementoTerreno(int x, int y) {
 		return terreno.getElementoFloresta(x, y);
 	}
+
+	
+	/**
+	 * Retorna a dimensão do terreno do jogo.
+	 * 
+	 * @return Dimensão do terreno.
+	 */
 	public int getDimensao() {
 		return terreno.getDimensao();
 	}
+	
+	/**
+	 * Retorna o jogador no índice especificado.
+	 * 
+	 * @param i Índice do jogador.
+	 * @return Jogador na posição i.
+	 */
 	public Jogador getJogador(int i) {
 		return jogadores[i];
 	}
+	
+	/**
+	 * Retorna o número da rodada atual do jogo.
+	 * 
+	 * @return Número da rodada atual.
+	 */
 	public int getRodada() {
 		return rodada;
 	}
+	
+	/**
+	 * Retorna o valor do dado no índice especificado.
+	 * 
+	 * @param i Índice do dado.
+	 * @return Valor do dado na posição i.
+	 */
 	public int getDado(int i) {
 		return dados[i];
 	}
+	
+	/**
+	 * Retorna o índice do jogador da vez.
+	 * 
+	 * @return Índice do jogador da vez.
+	 */
 	public int getJogadorDaVez() {
 		return jogadorDaVez;
 	}
+	
+	/**
+	 * Verifica se houve empurrão durante o turno atual.
+	 * 
+	 * @return {@code true} se houve empurrão, caso contrário {@code false}.
+	 */
 	public boolean houveEmpurrao() {
 		return houveEmpurraoTurno;
 	}
+	
+	/**
+	 * Gera uma fruta de ouro em uma posição aleatória no terreno,
+	 * levando em consideração as regras de posição e disponibilidade.
+	 */
 	public void gerarFrutaOuro() {
 		if (terreno.getFrutasOuroParaNascer() <= 0) {
 			return;
@@ -166,12 +221,21 @@ public class Jogo {
 			return;
 		}
 	}
+
+	/**
+	 * Rola os dados para definir os movimentos dos jogadores na rodada.
+	 */
 	public void rolarDados() {
 		Random gerador = new Random();
 		for (int i = 0; i < dados.length; i++) {
 			dados[i] = gerador.nextInt(1, 7);
 		}
 	}
+
+	/**
+	 * Avança para a próxima rodada, define o jogador da vez e verifica
+	 * condições de vitória.
+	 */
 	public void proximaRodada() {
 		if (acao != 2 && acao != 10 && acao != 11) {
 			acao = 0;
@@ -222,6 +286,11 @@ public class Jogo {
 			finalizarTurno();
 		}
 	}
+
+	/**
+	 * Finaliza o turno do jogador atual e avança para o próximo jogador
+	 * ou rodada, se aplicável.
+	 */
 	public void finalizarTurno() {
 		if (acao != 2 && acao != 10 && acao != 11) {
 			acao = 0;
@@ -270,12 +339,25 @@ public class Jogo {
 			finalizarTurno();
 		}
 	}
+
+	/**
+	 * Permite que o jogador da vez consuma uma fruta do tipo especificado.
+	 * 
+	 * @param tipo Tipo da fruta a ser consumida.
+	 */
 	public void jogadorConsumirFruta(String tipo) {
 		jogadores[jogadorDaVez].comerFruta(tipo);
 		if (jogadores[jogadorDaVez].movimentosRestantes() <= 0) {
 			finalizarTurno();
 		}
 	}
+
+	/**
+	 * Move o jogador na direção especificada, se possível, e
+	 * realiza ações baseadas no tipo de terreno alcançado.
+	 * 
+	 * @param direcao Direção do movimento (1 para cima, 2 para esquerda, 3 para direita, 4 para baixo).
+	 */
 	public void movimentarJogador(int direcao) {
 		jogadores[jogadorDaVez].zerarAcao();
 		acao = 0;

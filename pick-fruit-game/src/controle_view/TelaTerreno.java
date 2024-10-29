@@ -14,6 +14,13 @@ import java.io.File;
 import javax.swing.*;
 
 import modelo_jogo.*;
+
+/**
+ * TelaTerreno é uma interface gráfica que representa o terreno do jogo.
+ * Esta classe é responsável por renderizar o terreno, que consiste em elementos como grama, árvores, frutas e pedras.
+ * Além disso, fornece um botão para voltar à tela anterior e atualiza a visualização dos elementos conforme necessário.
+ */
+
 public class TelaTerreno extends EstadoView {
 	private Terreno terreno;
 	private Jogo jogo;
@@ -29,6 +36,29 @@ public class TelaTerreno extends EstadoView {
 	private int dimensao; private int pedras; private int maracujas; private int maracujas_chao; private int laranjeiras; private int laranjas; private int abacateiros; private int abacates; private int coqueiros; private int cocos; private int pesDeAcerola; private int acerolas; private int amoeiras; private int amoras; private int goiabeiras; private int goiabas; private int probabidade_bichadas; private int mochila;
 	GridBagConstraints gbc;
 	private String[] nomes = {"Jogador 1", "Jogador 2"};
+
+	 /**
+     * Construtor que inicializa a tela do terreno com as dimensões e elementos configurados.
+     *
+     * @param dimensao Dimensão do terreno.
+     * @param pedras Quantidade de pedras no terreno.
+     * @param maracujas Quantidade de maracujas no terreno.
+     * @param maracujas_chao Quantidade de maracujas no chão.
+     * @param laranjeiras Quantidade de laranjeiras no terreno.
+     * @param laranjas Quantidade de laranjas no terreno.
+     * @param abacateiros Quantidade de abacateiros no terreno.
+     * @param abacates Quantidade de abacates no terreno.
+     * @param coqueiros Quantidade de coqueiros no terreno.
+     * @param cocos Quantidade de cocos no terreno.
+     * @param pesDeAcerola Quantidade de pés de acerola no terreno.
+     * @param acerolas Quantidade de acerolas no terreno.
+     * @param amoeiras Quantidade de amoeiras no terreno.
+     * @param amoras Quantidade de amoras no terreno.
+     * @param goiabeiras Quantidade de goiabeiras no terreno.
+     * @param goiabas Quantidade de goiabas no terreno.
+     * @param probabidade_bichadas Probabilidade de frutas bichadas no terreno.
+     * @param mochila Capacidade da mochila.
+     */
 	
 	TelaTerreno(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila) {
 		this.dimensao = dimensao;

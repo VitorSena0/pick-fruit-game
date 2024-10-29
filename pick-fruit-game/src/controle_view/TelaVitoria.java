@@ -5,7 +5,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+/**
+ * TelaVitoria representa a tela exibida quando um jogador vence o jogo.
+ * Esta tela mostra o nome do vencedor, uma mensagem de vitória e uma
+ * imagem associada ao vencedor. O usuário pode clicar na tela para voltar à
+ * tela inicial.
+ */
+
 public class TelaVitoria extends EstadoView {
+
+	 /**
+     * Construtor que inicializa a tela de vitória, configurando os
+     * componentes visuais e a lógica de interação do usuário.
+     *
+     * @param imgVencedor O caminho da imagem que representa o vencedor.
+     * @param nomeVencedor O nome do jogador vencedor.
+     */
 	
 	TelaVitoria(String imgVencedor, String nomeVencedor) {
 		setBorder(new EmptyBorder(5, 5, 5, 5));

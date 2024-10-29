@@ -8,21 +8,22 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
 import modelo_jogo.*;
 
+/**
+ * TelaJogo representa o ambiente onde o jogo ocorre, incluindo a interface para a movimentação
+ * dos jogadores, elementos do terreno, e pontuação. A tela permite que o jogador interaja com
+ * o ambiente usando o teclado e o mouse.
+ */
 public class TelaJogo extends EstadoView implements KeyListener {
 	private Jogo jogo;
 	private Image imagemGrama;
@@ -40,8 +41,30 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	private Image scoreJogador1, socreJogador2; // Imagem da grama
 	private ScorePlayers scorePlayers; // Score dos jogadores
 	
-	
-	
+	/**
+     * Construtor que inicializa o jogo e os elementos visuais da interface, configurando as imagens
+     * e os eventos para interação do usuário.
+     * 
+     * @param dimensao dimensões do terreno do jogo
+     * @param pedras quantidade de pedras no terreno
+     * @param maracujas quantidade de maracujás nas árvores
+     * @param maracujas_chao quantidade de maracujás no chão
+     * @param laranjeiras quantidade de árvores de laranjeiras
+     * @param laranjas quantidade de laranjas nas árvores
+     * @param abacateiros quantidade de árvores de abacateiros
+     * @param abacates quantidade de abacates nas árvores
+     * @param coqueiros quantidade de coqueiros
+     * @param cocos quantidade de cocos nos coqueiros
+     * @param pesDeAcerola quantidade de pés de acerola
+     * @param acerolas quantidade de acerolas nos pés
+     * @param amoeiras quantidade de amoreiras
+     * @param amoras quantidade de amoras nas árvores
+     * @param goiabeiras quantidade de goiabeiras
+     * @param goiabas quantidade de goiabas nas goiabeiras
+     * @param probabidade_bichadas probabilidade de frutas bichadas
+     * @param mochila capacidade da mochila do jogador
+     * @param nomes nomes dos jogadores
+     */
 	TelaJogo(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila, String[] nomes) {
 		mudarEstado = false;
 		this.dimensao = dimensao;
