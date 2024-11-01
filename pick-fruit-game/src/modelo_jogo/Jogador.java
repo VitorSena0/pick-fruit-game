@@ -1,14 +1,11 @@
 package modelo_jogo;
 
-import java.awt.Image;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
 
 /**
  * Representa um jogador no jogo, que pode se mover, coletar e comer frutas, e interagir com outros jogadores.

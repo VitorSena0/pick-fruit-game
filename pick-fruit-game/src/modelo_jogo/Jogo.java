@@ -1,12 +1,10 @@
 package modelo_jogo;
 
-import java.awt.Image;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.swing.ImageIcon;
 
 /**
  * Classe principal do jogo que gerencia o terreno, os jogadores, as rodadas,

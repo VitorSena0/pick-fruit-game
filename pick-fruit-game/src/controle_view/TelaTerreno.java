@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 import javax.swing.*;
 
@@ -82,10 +81,10 @@ public class TelaTerreno extends EstadoView {
 		mudarEstado = false;
 		setBounds(0, 0, 986, 732);
 		setLayout(new GridBagLayout());
-		larguraImagens = getWidth()/dimensao;
-		alturaImagens = getHeight()/dimensao;
-		terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
-		jogo = new Jogo(terreno, 2 ,mochila, 2, nomes);
+		this.larguraImagens = getWidth()/dimensao;
+		this.alturaImagens = getHeight()/dimensao;
+		this.terreno = new Terreno(dimensao, pedras, maracujas, maracujas_chao, laranjeiras, laranjas, abacateiros, abacates, coqueiros, cocos, pesDeAcerola, acerolas, amoeiras, amoras, goiabeiras, goiabas, probabidade_bichadas);
+		this.jogo = new Jogo(terreno, 2 ,mochila, 2, nomes);
 		gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento entre os componentes
 	     

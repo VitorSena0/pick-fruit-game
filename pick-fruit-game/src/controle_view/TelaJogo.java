@@ -34,11 +34,9 @@ public class TelaJogo extends EstadoView implements KeyListener {
 	private Image imagemJogador;
 	private int larguraImagens;
 	private int alturaImagens;
-	private int dimensao;
 	int acao;
 	private JLabel painelFalas;
 	private JTextArea areaDialogo;
-	private Image scoreJogador1, socreJogador2; // Imagem da grama
 	private ScorePlayers scorePlayers; // Score dos jogadores
 	
 	/**
@@ -67,7 +65,6 @@ public class TelaJogo extends EstadoView implements KeyListener {
      */
 	TelaJogo(int dimensao, int pedras, int maracujas, int maracujas_chao, int laranjeiras, int laranjas, int abacateiros, int abacates, int coqueiros, int cocos, int pesDeAcerola, int acerolas, int amoeiras, int amoras, int goiabeiras, int goiabas, int probabidade_bichadas, int mochila, String[] nomes) {
 		mudarEstado = false;
-		this.dimensao = dimensao;
 		acao = 0;
 		setBounds(0, 0, 986, 732);
 		setLayout(new GridBagLayout());
@@ -79,7 +76,7 @@ public class TelaJogo extends EstadoView implements KeyListener {
         addKeyListener(this); // Adiciona o KeyListener ao painel
         requestFocusInWindow(); // Solicita foco para o JPanel
         
-        scorePlayers = new ScorePlayers(this, dimensao, jogo.getJogador(0), jogo.getJogador(1)); // Cria um novo score
+        scorePlayers = new ScorePlayers(this,jogo.getJogador(0), jogo.getJogador(1)); // Cria um novo score
         
         painelFalas = new JLabel("");
         painelFalas.setFont(new Font("Arial", Font.BOLD, 14));
@@ -107,34 +104,34 @@ public class TelaJogo extends EstadoView implements KeyListener {
         add(painel, gbc); 
         
 		try {
-			imagemGrama = new ImageIcon("res" + System.getProperty("file.separator") + "gramaPixelart(1).png").getImage();
+			this.imagemGrama = new ImageIcon("res" + System.getProperty("file.separator") + "gramaPixelart(1).png").getImage();
         } catch (Exception e) {
-            imagemGrama = null;
+            this.imagemGrama = null;
         }
 		try {
-            imagemPedra = new ImageIcon("res" + System.getProperty("file.separator") + "rochaPixelArt.png").getImage();
+            this.imagemPedra = new ImageIcon("res" + System.getProperty("file.separator") + "rochaPixelArt.png").getImage();
         } catch (Exception e) {
-            imagemPedra = null;
+            this.imagemPedra = null;
         }
 		try {
-            imagemArvore = new ImageIcon("res" + System.getProperty("file.separator") + "arvorePixelart.png").getImage();
+            this.imagemArvore = new ImageIcon("res" + System.getProperty("file.separator") + "arvorePixelart.png").getImage();
         } catch (Exception e) {
-            imagemArvore = null;
+            this.imagemArvore = null;
         }
 		try {
-            imagemTerra = new ImageIcon("res" + System.getProperty("file.separator") + "terraPixelArt.png").getImage();
+            this.imagemTerra = new ImageIcon("res" + System.getProperty("file.separator") + "terraPixelArt.png").getImage();
         } catch (Exception e) {
-            imagemTerra = null;
+            this.imagemTerra = null;
         }
 		try {
-            imagemFruta = new ImageIcon("res" + System.getProperty("file.separator") + "frutaPixelart.png").getImage();
+            this.imagemFruta = new ImageIcon("res" + System.getProperty("file.separator") + "frutaPixelart.png").getImage();
         } catch (Exception e) {
-            imagemFruta = null;
+            this.imagemFruta = null;
         }
 		try {
-            imagemJogador= new ImageIcon("res" + System.getProperty("file.separator") + "player1Pixelart.png").getImage();
+            this.imagemJogador= new ImageIcon("res" + System.getProperty("file.separator") + "player1Pixelart.png").getImage();
         } catch (Exception e) {
-            imagemJogador = null;
+            this.imagemJogador = null;
         }
 		revalidate();  // Atualiza o layout
 		repaint();     // Para garantir que a pintura aconteça

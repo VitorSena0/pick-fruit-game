@@ -1,15 +1,8 @@
 package controle_view;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.LinkedList;
-import java.util.Random;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
-import modelo_jogo.Fruta;
 import modelo_jogo.Jogador;
 
 import java.awt.Graphics;
@@ -18,24 +11,21 @@ import java.awt.Graphics;
 public class ScorePlayers {
     private Image scoreJogador1, socreJogador2, frutaJogador1, frutaJogador2;
     private Jogador jogador1, jogador2;
-    private int dimensao;
     private JPanel painelDesenho;
     /**
      * Construtor da classe {@code ScorePlayers}. Inicializa a interface gráfica dos dados.
      * @param painelDesenho
-     * @param dimensao
      * @param jogador1
      * @param jogador2
      * 
      * 
     */
-    ScorePlayers(JPanel painelDesenho, int dimensao, Jogador jogador1, Jogador jogador2) {
+    ScorePlayers(JPanel painelDesenho, Jogador jogador1, Jogador jogador2) {
         ImageIcon scoreJogador1Icon = new ImageIcon("res" + System.getProperty("file.separator") + "player1Capacete.png");
         ImageIcon scoreJogador2Icon = new ImageIcon("res" + System.getProperty("file.separator") + "player2Capacete.png");
         this.scoreJogador1 = scoreJogador1Icon.getImage();
         this.socreJogador2 = scoreJogador2Icon.getImage();
         this.painelDesenho = painelDesenho;
-        this.dimensao = dimensao;        
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
     }

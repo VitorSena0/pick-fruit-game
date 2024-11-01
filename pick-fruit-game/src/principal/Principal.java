@@ -1,8 +1,6 @@
 package principal;
 import controle_view.*;
 import java.awt.EventQueue;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * A classe Principal é o ponto de entrada da aplicação, responsável por inicializar e exibir a janela principal

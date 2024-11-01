@@ -6,35 +6,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
-import java.awt.Image;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.SwingConstants;
-import java.awt.FlowLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.io.File;
 import javax.swing.JRadioButton;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
 
 import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JMenu;
 
 /**
  * A classe JanelaPrincipal representa a janela principal de uma aplicação de interface gráfica
